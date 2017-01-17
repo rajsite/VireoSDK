@@ -162,6 +162,24 @@
         Module.eggShell.setOccurrence = publicAPI.eggShell.setOccurrence = function (occurrence) {
             Occurrence_Set(occurrence);
         };
+
+        Object.keys(Module.eggShell).forEach(function (methodName) {
+            var orig = Module.eggShell[methodName];
+            Module.eggShell[methodName] = function () {
+                var ret = orig.apply(this, arguments);
+                console.info('eggshell function:', methodName);
+                return ret;
+            };
+        });
+
+        Object.keys(publicAPI.eggShell).forEach(function (methodName) {
+            var orig = publicAPI.eggShell[methodName];
+            publicAPI.eggShell[methodName] = function () {
+                var ret = orig.apply(this, arguments);
+                console.info('eggshell function:', methodName);
+                return ret;
+            };
+        });
     };
 
     return assignEggShell;

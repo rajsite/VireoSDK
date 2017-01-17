@@ -1,0 +1,202 @@
+[32m16 01 2017 18:30:58.418:INFO [karma]: [39mKarma v1.3.0 server started at http://localhost:9876/
+[32m16 01 2017 18:30:58.421:INFO [launcher]: [39mLaunching browser Firefox with concurrency 1
+[32m16 01 2017 18:30:58.428:INFO [launcher]: [39mStarting browser Firefox
+[32m16 01 2017 18:31:00.433:INFO [Firefox 49.0.0 (Windows 7 0.0.0)]: [39mConnected on socket /#yTVzlUPhJVGTZItuAAAA with id 23954719
+Firefox 49.0.0 (Windows 7 0.0.0) LOG: 'pre-main prep time: 5 ms'
+Firefox 49.0.0 (Windows 7 0.0.0) LOG: 'pre-main prep time: 5 ms'
+Firefox 49.0.0 (Windows 7 0.0.0) LOG: 'NO_DYNAMIC_EXECUTION was set, using slow cwrap implementation'
+Firefox 49.0.0 (Windows 7 0.0.0) LOG: 'NO_DYNAMIC_EXECUTION was set, using slow cwrap implementation'
+Firefox 49.0.0 (Windows 7 0.0.0) LOG: 'pre-main prep time: 2 ms'
+Firefox 49.0.0 (Windows 7 0.0.0) LOG: 'pre-main prep time: 2 ms'
+Firefox 49.0.0 (Windows 7 0.0.0) LOG: 'NO_DYNAMIC_EXECUTION was set, using slow cwrap implementation'
+Firefox 49.0.0 (Windows 7 0.0.0) LOG: 'NO_DYNAMIC_EXECUTION was set, using slow cwrap implementation'
+INFO: 'eggshell function:', 'reboot'
+INFO: 'eggshell function:', 'reboot'
+INFO: 'eggshell function:', 'setPrintFunction'
+INFO: 'eggshell function:', 'setPrintFunction'
+INFO: 'eggshell function:', 'setPrintErrorFunction'
+INFO: 'eggshell function:', 'setPrintErrorFunction'
+INFO: 'eggshell function:', 'loadVia'
+INFO: 'eggshell function:', 'loadVia'
+INFO: 'eggshell function:', 'writeJSON'
+INFO: 'eggshell function:', 'writeJSON'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'setOccurrence'
+INFO: 'eggshell function:', 'setOccurrence'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'readJSON'
+INFO: 'eggshell function:', 'readJSON'
+INFO: 'eggshell function:', 'readJSON'
+INFO: 'eggshell function:', 'readJSON'
+INFO: 'eggshell function:', 'readJSON'
+INFO: 'eggshell function:', 'readJSON'
+.
+INFO: 'eggshell function:', 'reboot'
+INFO: 'eggshell function:', 'reboot'
+INFO: 'eggshell function:', 'setPrintFunction'
+INFO: 'eggshell function:', 'setPrintFunction'
+INFO: 'eggshell function:', 'setPrintErrorFunction'
+INFO: 'eggshell function:', 'setPrintErrorFunction'
+INFO: 'eggshell function:', 'loadVia'
+INFO: 'eggshell function:', 'loadVia'
+INFO: 'eggshell function:', 'writeJSON'
+INFO: 'eggshell function:', 'writeJSON'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'setOccurrence'
+INFO: 'eggshell function:', 'setOccurrence'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'readJSON'
+INFO: 'eggshell function:', 'readJSON'
+INFO: 'eggshell function:', 'readJSON'
+INFO: 'eggshell function:', 'readJSON'
+INFO: 'eggshell function:', 'readJSON'
+INFO: 'eggshell function:', 'readJSON'
+.
+INFO: 'eggshell function:', 'reboot'
+INFO: 'eggshell function:', 'reboot'
+INFO: 'eggshell function:', 'setPrintFunction'
+INFO: 'eggshell function:', 'setPrintFunction'
+INFO: 'eggshell function:', 'setPrintErrorFunction'
+INFO: 'eggshell function:', 'setPrintErrorFunction'
+INFO: 'eggshell function:', 'loadVia'
+INFO: 'eggshell function:', 'loadVia'
+INFO: 'eggshell function:', 'writeJSON'
+INFO: 'eggshell function:', 'writeJSON'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'setOccurrence'
+INFO: 'eggshell function:', 'setOccurrence'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'readJSON'
+INFO: 'eggshell function:', 'readJSON'
+INFO: 'eggshell function:', 'readJSON'
+INFO: 'eggshell function:', 'readJSON'
+.
+INFO: 'eggshell function:', 'reboot'
+INFO: 'eggshell function:', 'reboot'
+INFO: 'eggshell function:', 'setPrintFunction'
+INFO: 'eggshell function:', 'setPrintFunction'
+INFO: 'eggshell function:', 'setPrintErrorFunction'
+INFO: 'eggshell function:', 'setPrintErrorFunction'
+INFO: 'eggshell function:', 'loadVia'
+INFO: 'eggshell function:', 'loadVia'
+INFO: 'eggshell function:', 'writeJSON'
+INFO: 'eggshell function:', 'writeJSON'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'dataReadString'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'dataWriteString'
+INFO: 'eggshell function:', 'setOccurrence'
+INFO: 'eggshell function:', 'setOccurrence'
+INFO: 'eggshell function:', 'executeSlices'
+INFO: 'eggshell function:', 'executeSlices'
+Firefox 49.0.0 (Windows 7 0.0.0) ERROR
+  uncaught exception: abort(5) at jsStackTrace@dist/vireo.js:1148:13
+  stackTrace@dist/vireo.js:1165:22
+  abort@dist/vireo.js:127869:44
+  nullFunc_ii@dist/vireo.js:6181:464
+  b5@dist/vireo.js:126969:13
+  __ZN5Vireo14TypedArrayCore16ResizeDimensionsEiPib [Vireo::TypedArrayCore::ResizeDimensions(int, int*, bool)]@dist/vireo.js:94684:9
+  __ZN5Vireo14TypedArrayCore8Resize1DEi [Vireo::TypedArrayCore::Resize1D(int)]@dist/vireo.js:6570:8
+  _EggShell_ReadValueString@dist/vireo.js:17078:4
+  applyVireoEmscriptenModule/asm._EggShell_ReadValueString@dist/vireo.js:127542:8
+  ccallFunc@dist/vireo.js:458:15
+  cwrap/<@dist/vireo.js:482:14
+  assignEggShell/publicAPI.eggShell.readJSON@source/io/module_eggShell.js:114:20
+  assignEggShell/</publicAPI.eggShell[methodName]@source/io/module_eggShell.js:178:27
+  createVIPathParser/<@test-it/karma/utilities/testHelpers.vireoRunner.js:83:31
+  @test-it/karma/http/httpget.js:141:20
+  runExecuteSlicesAsync@test-it/karma/utilities/testHelpers.vireoRunner.js:73:21
+  
+Firefox 49.0.0 (Windows 7 0.0.0) ERROR
+  uncaught exception: abort(5) at jsStackTrace@dist/vireo.js:1148:13
+  stackTrace@dist/vireo.js:1165:22
+  abort@dist/vireo.js:127869:44
+  nullFunc_ii@dist/vireo.js:6181:464
+  b5@dist/vireo.js:126969:13
+  __ZN5Vireo14TypedArrayCore16ResizeDimensionsEiPib [Vireo::TypedArrayCore::ResizeDimensions(int, int*, bool)]@dist/vireo.js:94684:9
+  __ZN5Vireo14TypedArrayCore8Resize1DEi [Vireo::TypedArrayCore::Resize1D(int)]@dist/vireo.js:6570:8
+  _EggShell_ReadValueString@dist/vireo.js:17078:4
+  applyVireoEmscriptenModule/asm._EggShell_ReadValueString@dist/vireo.js:127542:8
+  ccallFunc@dist/vireo.js:458:15
+  cwrap/<@dist/vireo.js:482:14
+  assignEggShell/publicAPI.eggShell.readJSON@source/io/module_eggShell.js:114:20
+  assignEggShell/</publicAPI.eggShell[methodName]@source/io/module_eggShell.js:178:27
+  createVIPathParser/<@test-it/karma/utilities/testHelpers.vireoRunner.js:83:31
+  @test-it/karma/http/httpget.js:141:20
+  runExecuteSlicesAsync@test-it/karma/utilities/testHelpers.vireoRunner.js:73:21
+  
+Firefox 49.0.0 (Windows 7 0.0.0): Executed 3 of 255 ERROR (0.606 secs / 0.62 secs)

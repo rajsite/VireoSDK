@@ -1,4 +1,4 @@
-describe('Performing a GET test', function () {
+fdescribe('Performing a GET test', function () {
     'use strict';
     // Reference aliases
     var Vireo = window.NationalInstruments.Vireo.Vireo;
@@ -11,13 +11,13 @@ describe('Performing a GET test', function () {
     httpBinHelpers.makeTestPendingIfHttpBinOffline();
 
     // Sharing Vireo instances across tests make them run soooo much faster
-    // var vireo = new Vireo();
+    var vireo = new Vireo();
 
     // TODO mraj using the same vireo instance causes an abort when one http call results in a none 200 response code
-    var vireo;
+    // var vireo;
 
     beforeEach(function () {
-        vireo = new Vireo();
+        // vireo = new Vireo();
     });
 
     it('with a simple 200 response', function (done) {
