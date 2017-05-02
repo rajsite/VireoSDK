@@ -1,4 +1,5 @@
 node_modules/*
+Documents/Playground/node_modules/*
 dist/*
 make-it/objs/*
 env/*

@@ -1,0 +1,14 @@
+{
+  "name": "vireo-playground",
+  "version": "1.0.0",
+  "description": "A playground for experimenting with the Vireo in the web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
