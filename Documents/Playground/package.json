@@ -9,6 +9,7 @@
   "author": "",
   "license": "SEE LICENSE IN LICENSE.txt",
   "dependencies": {
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "codemirror": "^5.25.2"
   }
 }
