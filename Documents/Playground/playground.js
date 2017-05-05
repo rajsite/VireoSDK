@@ -1,3 +1,4 @@
+/*
 var editor2;
 NationalInstruments.Vireo.core.print = function(text){ editor2.insert(text + "\n") };
 var v_state = document.getElementById("in_state")
@@ -13,8 +14,6 @@ esh.pause = false;
 var theCanvas = document.getElementById("theCanvas");
 var ctx = theCanvas.getContext("2d");
 var editor1 = ace.edit("VireoSource");
-
-
 
 esh.loadVia(editor1.getValue());
 esh.execCount = 0
@@ -54,14 +53,13 @@ $("#fp4").on('change', function(){LVDoubleControl("#fp4", "_v3_DeltaT");} );
 $("#fp5").on('change', function(){LVDoubleControl("#fp5", "_v6_milliseconds%20to%20wait");} );
 
 
-/*
-BuildFPTab();
-function  BuildFPTab()
-{
-$("#FpTable").html.insert(' <input type="range" id="fpValue1" step= 0.01 min=0.0 max=1.0 value=0.5 style="width:500px;padding:9px"/>' +
-    '<input type="range" id="fpValue2" step= 0.01 min=0.0 max=50.0 value=5.0 style="width:500px;padding:9px"/>');
-}
-*/
+// BuildFPTab();
+// function  BuildFPTab()
+// {
+// $("#FpTable").html.insert(' <input type="range" id="fpValue1" step= 0.01 min=0.0 max=1.0 value=0.5 style="width:500px;padding:9px"/>' +
+//     '<input type="range" id="fpValue2" step= 0.01 min=0.0 max=50.0 value=5.0 style="width:500px;padding:9px"/>');
+// }
+
 
 function LVDoubleControl(v, varName)
 {
@@ -155,3 +153,4 @@ function LoadSample(sampleName)
 {
 $.get(sampleName, function(data) { editor1.setValue(data); editor1.gotoLine(0,0,false); }, "text")  .fail(function() { alert( "error" );})
 }
+*/
