@@ -8,11 +8,11 @@ env:
 addons:
   sauce_connect:
     no_ssl_bump_domains: 127.0.0.1
-#  apt:
-#    sources:
-#    - ubuntu-toolchain-r-test
-#    packages:
-#    - g++-4.9
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.9
 #    - doxygen
 cache:
   directories:
@@ -37,7 +37,7 @@ install:
 - source emscripten-sdk/emsdk_env.sh
 - cat ~/.emscripten
 - emcc -v
-#- gcc -v
+- gcc -v
 before_script:
 - nohup npm run httpbin &
 - while ! nc -q 1 127.0.0.1 64526 </dev/null; do sleep 2; done
