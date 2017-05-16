@@ -85,7 +85,7 @@ describe('Performing a PUT request', function () {
         });
     });
 
-    it('errors connecting to a secure context form an insecure context to test network errors', function (done) {
+    xit('errors connecting to a secure context form an insecure context to test network errors', function (done) {
         var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, httpPutMethodViaUrl);
         var viPathParser = vireoRunner.createVIPathParser(vireo, 'MyVI');
         var viPathWriter = vireoRunner.createVIPathWriter(vireo, 'MyVI');
@@ -274,7 +274,7 @@ describe('Performing a PUT request', function () {
         });
     });
 
-    it('validating an unusual 4XX response code', function (done) {
+    xit('validating an unusual 4XX response code', function (done) {
         var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, httpPutMethodViaUrl);
         var viPathParser = vireoRunner.createVIPathParser(vireo, 'MyVI');
         var viPathWriter = vireoRunner.createVIPathWriter(vireo, 'MyVI');
