@@ -84,9 +84,16 @@
             // To use Sauce Labs locally set the SAUCE_SERNAME and SAUCE_ACCESS_KEY environment variables
             SauceLabs_IE11: {
                 base: 'SauceLabs',
-                browserName: 'internet explorer',
-                platform: 'Windows 8.1',
+                browserName: 'Internet Explorer',
+                platform: 'Windows 10',
                 version: '11',
+                timeZone: 'Chicago'
+            },
+            SauceLabs_EDGE: {
+                base: 'SauceLabs',
+                browserName: 'Edge',
+                platform: 'Windows 10',
+                version: '14',
                 timeZone: 'Chicago'
             }
         },
