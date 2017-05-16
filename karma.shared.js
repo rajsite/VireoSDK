@@ -86,7 +86,8 @@
                 base: 'SauceLabs',
                 browserName: 'internet explorer',
                 platform: 'Windows 8.1',
-                version: '11'
+                version: '11',
+                timeZone: 'Chicago'
             }
         },
 
