@@ -27,7 +27,7 @@ before_install:
 - python -V
 - pip -V
 - firefox -v
-- doxygen --version
+#- doxygen --version
 install:
 - npm install
 - pip install --user -r requirements.txt
@@ -37,7 +37,7 @@ install:
 - source emscripten-sdk/emsdk_env.sh
 - cat ~/.emscripten
 - emcc -v
-- gcc -v
+#- gcc -v
 before_script:
 - nohup npm run httpbin &
 - while ! nc -q 1 127.0.0.1 64526 </dev/null; do sleep 2; done
