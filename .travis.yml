@@ -48,7 +48,7 @@ before_script:
 script:
 - make testjs
 - make testnative
-- npm run karma -- --browsers PhantomJS,Firefox
+- npm run karma -- --browsers PhantomJS,Firefox,SauceLabs_IE11
 - npm run karma-longrun -- --browsers Firefox
 before_deploy:
 - npm run doxygen
