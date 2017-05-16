@@ -1,6 +1,12 @@
 dist: trusty
 sudo: false
+env:
+  global:
+  # Following two are Sauce Connect username and key
+  - secure: hpCPKVVVAWbXNMjtgO5JCxln3EBUWCUua9kJxu1iNBJc39Qqxye47AnlnCcofOmNOPi9CXqKEDxe1sOrn3oP9zSX4WhTRwpC3XWeQ39BONbox3USuaqEzjgVa0+5HO20nXJ5MhkHOSzROCbwjybH85HNHQ8E02uGsVweLGKx6eN5v2zKiIMa3jIVYrWgm6A+Bogqf6+bYdu87J3a/1xBHmrLYKZ/WQ3JIyxGO4bsaxpn2gEK9wjTDu+ruaonVzi+S3kQutfoh6RCcBrjLmgVe4dxmDFK2EBRZGUp5RY/MUXlZ1fi5Vv+h5k5p9HOkH+hDHcMh5/JuhoG/qUPZeGViYP+GlcTrgomXcLLdz3f5ZbKBwz2m9ZYXrk0hy+p61IBTA+zAlI+OBXjTN62JA27qbbWnu4SLA58FAdwGeoIfdUgFGRKsK0IdmuwYxiv6arhQJGnh+ohPgQV2vvNwjWcJaVk2IrnfNLw5kJ+L0t+CNg0wWSfkaO4zT0xprq8sSrup6FJdSzVLQpbA7KyRINLyba5kBSyWndCCtu1hVkgSZ29lmDxMvxqB784YG6N4Jj2qu+n3Y0r9qdmVMTPrLsOhJb5v7WiXTL/08NSIEeRd9oJKe58JqRZO/HsGKNrjEdRU/NeMUjyUIHCHiNxVPRzlNNk+nP4ve75l2vI84Knijo=
+  - secure: UPR5lX1vgqYOrL7RrNxLx2RysBPyNPFAZaANH3woXBPCi7jsaLtMGIdIrM+YE2ZSQaP1dXhHto32zunM6bH5wQ9XeL4wRHMmdsJze5QFvG6PyfHiuEcpvMoBs6TuWwmzWXY87xIW6+LtJOz6KhtbrjsLhtVle8n0GEg+NXeRq4mXZ9oc3V+TtFHzt1BC1s4q2DqQmeLNzre9gIzVQBtTCPVVfJLG1O3IoJ4lrIg/wmrQvIrWJ2mDUyGksYhwwsBoLfVQpptNqNEDLdNFlkSlDZDJL9LU9wL3/aCaKbCzWszGuPqTCdWZf+TZU8AMflbyvancPTAs1e8X8mkQJk7OH3g3WXTZBX9VLwXKYdKeVTz0K6gRuob+XigMBR4L7dAtia0i/1NKIL5CJre5r5hIAyl2Sy6RkmNtRPAK9lAP5+X83uoidWz4g9/BAED7nXCKCHQ8yuMusH1qu6STxFToSMH4uS26nLluICN58tKkiNiYPAFr1tpEFINcjfFL2k3MWPAmhUp/Bw7r60FPwvXf1bNaoQ3aImmFfrl0L6cc7mrX5a9Szzj3HEHAE7DDaiPb3B4VGMsBNQci723yZgeCssSDJUmxYYR/OjQ3p5UHPVSug/allpoJKM7WK9mLvrbiCpnFGEiOwhW86ACstT/95bTqO5JO04kGZJAWQxlOStM=
 addons:
+  sauce_connect: true
   apt:
     sources:
     - ubuntu-toolchain-r-test
@@ -9,8 +15,8 @@ addons:
     - doxygen
 cache:
   directories:
-    - node_modules
-    - emscripten-sdk
+  - node_modules
+  - emscripten-sdk
 before_install:
 - export DISPLAY=:99.0
 - export TZ=CST6CDT
@@ -47,24 +53,24 @@ script:
 before_deploy:
 - npm run doxygen
 deploy:
-  - provider: npm
-    skip_cleanup: true
-    email: webapps.ops@ni.com
-    api_key:
-        secure: I68ZjWDNHfycyjfItlPZLotfXc4R4wRmSxl/jXJ3D29SsW0E7tr7QYVwrDRwbGbRdG9OGmWoLHzw7b27He04qtS8Vaw4OhmoYqibNRDnWOhvdrcWa5L/2Hcaw1LxMclOepsGxzMktOp2pJR22L7od1iPi7KocPV5NgsHtp/fcC6K2Mqnh63Hiq5jgZvXVTF0JHanLpu3W52Yl5iEpQ9UomKS/8ZLdWW5Z/QzQvWNqS3V/54Q5rJBMIQOv4yDeF57HtYkXqI3IJIErdbIQyldq4r6LbwQ2gOhu7DvNi/yZ2ZB0n5eo1nA8bDgTlRvFBi1tWr4qAvc/8O0kOEBkwwQjnJFcR6acWixskKbLpy3djodUkdXVq7AcWo4gVhKO+hRiUZc5P4F6xfGJSXuzmog+xHhVdaCjgYRli8Lp3m4lK2nUo3BW0pSbqvKcUVZZ03kVy0Ikr0rK1fFC3JYF+clB6jmeTb5vWTg6vks9sXPzRFf1fr5GxUjig+dEmV72R1RYvmdqII11+7sVJyuJHynUIa8MvEiR72t83KY2IHggbjw+hh+Nk+kOM31jZTrh9TUCTQ48HCCbjoOAey46vZ5yTaIqG3PM1R0jska8GqyW8H2xDQHWm6IIROcteY2AD53hMRBWvhDz1sNY87X2Y6kvua16BCtluJcS/+fYxvOlaY=
-    on:
-      tags: true
-      repo: ni/VireoSDK
-  - provider: pages
-    skip_cleanup: true
-    local_dir: gh-pages/
-    email: vireobot@users.noreply.github.com
-    name: Vireo Bot
-    github_token:
-      secure: PJD/9XrPDUATO1O5SZXSosi0maiSFh4YblSOGhbcNacJmuWGYTpRSdXS+uEGI7vtegFrfl7Yo2AoyVZ4shKArjwbVSjUOyBPphXJfRV/8nV7I90d+mvJ8xR4F/2CED1ddHAbnsHVzluXCus8L1Mr6CVrO2qURlZ6SG6BR0jn6hfOR93VzEotmHbF32Pm+MpQWMcDOch1lUkEy4+u96LcfhA6qlQEVH6/MJs3o+sDqe4LlAY6SGKAq6rzwG3w5ZmGQENN+1cXYy7fQz2gNzro3UW59RoWzYECl7DApkM00LbhHu/i0xtDhrZpJV8sdCb2dgbe2HreT2egKdwT02uhotg9Z/mgEf2Com5B8hZlXSf8RbiGmaRHm/s1xv7jmjbDbrStnoPwH7zH8W9DTq2l8EpeueWyNhbx0q6inmi2ZgWgHpo9bk2Cb7gPXKV50WWjzq8ldzCbbBvKP11jKZhsADu0tDuakZpLLiNeDQN0a1/qkOl9AFSrqYe5imaVxAdM6andvH94sume5X5taBppDG9Apu0sfiM6fqrsph1fJM+cjIuwOXDI2OlQIZeQtHSEH7uj1B0FraZ/rLBY28tmlLQw9IbulmlhBrhwyehVZNP/3F0pDvy2FQrkLG30kkBu9fenREZI4w2Hy6l1HmblMhcSzABRJG3LhJKBjR9FzPQ=
-    on: 
-      tags: true
-      repo: ni/VireoSDK
+- provider: npm
+  skip_cleanup: true
+  email: webapps.ops@ni.com
+  api_key:
+    secure: I68ZjWDNHfycyjfItlPZLotfXc4R4wRmSxl/jXJ3D29SsW0E7tr7QYVwrDRwbGbRdG9OGmWoLHzw7b27He04qtS8Vaw4OhmoYqibNRDnWOhvdrcWa5L/2Hcaw1LxMclOepsGxzMktOp2pJR22L7od1iPi7KocPV5NgsHtp/fcC6K2Mqnh63Hiq5jgZvXVTF0JHanLpu3W52Yl5iEpQ9UomKS/8ZLdWW5Z/QzQvWNqS3V/54Q5rJBMIQOv4yDeF57HtYkXqI3IJIErdbIQyldq4r6LbwQ2gOhu7DvNi/yZ2ZB0n5eo1nA8bDgTlRvFBi1tWr4qAvc/8O0kOEBkwwQjnJFcR6acWixskKbLpy3djodUkdXVq7AcWo4gVhKO+hRiUZc5P4F6xfGJSXuzmog+xHhVdaCjgYRli8Lp3m4lK2nUo3BW0pSbqvKcUVZZ03kVy0Ikr0rK1fFC3JYF+clB6jmeTb5vWTg6vks9sXPzRFf1fr5GxUjig+dEmV72R1RYvmdqII11+7sVJyuJHynUIa8MvEiR72t83KY2IHggbjw+hh+Nk+kOM31jZTrh9TUCTQ48HCCbjoOAey46vZ5yTaIqG3PM1R0jska8GqyW8H2xDQHWm6IIROcteY2AD53hMRBWvhDz1sNY87X2Y6kvua16BCtluJcS/+fYxvOlaY=
+  on:
+    tags: true
+    repo: ni/VireoSDK
+- provider: pages
+  skip_cleanup: true
+  local_dir: gh-pages/
+  email: vireobot@users.noreply.github.com
+  name: Vireo Bot
+  github_token:
+    secure: PJD/9XrPDUATO1O5SZXSosi0maiSFh4YblSOGhbcNacJmuWGYTpRSdXS+uEGI7vtegFrfl7Yo2AoyVZ4shKArjwbVSjUOyBPphXJfRV/8nV7I90d+mvJ8xR4F/2CED1ddHAbnsHVzluXCus8L1Mr6CVrO2qURlZ6SG6BR0jn6hfOR93VzEotmHbF32Pm+MpQWMcDOch1lUkEy4+u96LcfhA6qlQEVH6/MJs3o+sDqe4LlAY6SGKAq6rzwG3w5ZmGQENN+1cXYy7fQz2gNzro3UW59RoWzYECl7DApkM00LbhHu/i0xtDhrZpJV8sdCb2dgbe2HreT2egKdwT02uhotg9Z/mgEf2Com5B8hZlXSf8RbiGmaRHm/s1xv7jmjbDbrStnoPwH7zH8W9DTq2l8EpeueWyNhbx0q6inmi2ZgWgHpo9bk2Cb7gPXKV50WWjzq8ldzCbbBvKP11jKZhsADu0tDuakZpLLiNeDQN0a1/qkOl9AFSrqYe5imaVxAdM6andvH94sume5X5taBppDG9Apu0sfiM6fqrsph1fJM+cjIuwOXDI2OlQIZeQtHSEH7uj1B0FraZ/rLBY28tmlLQw9IbulmlhBrhwyehVZNP/3F0pDvy2FQrkLG30kkBu9fenREZI4w2Hy6l1HmblMhcSzABRJG3LhJKBjR9FzPQ=
+  on:
+    tags: true
+    repo: ni/VireoSDK
 after_script:
 - jobs -l
 - kill $!

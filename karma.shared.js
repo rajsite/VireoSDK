@@ -79,6 +79,12 @@
             PhantomJS_Debug: {
                 base: 'PhantomJS',
                 debug: true
+            },
+            SauceLabs_IE11: {
+                base: 'SauceLabs',
+                browserName: 'internet explorer',
+                platform: 'Windows 8.1',
+                version: '11'
             }
         },
 
@@ -97,4 +103,10 @@
         // how many browser should be started simultaneous
         concurrency: 1
     };
+
+    if (process.env.SAUCE_USERNAME !== undefined && process.env.SAUCE_ACCESS_KEY) {
+        module.exports.sauceLabs = {
+            tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
+        };
+    }
 }());
