@@ -7,12 +7,12 @@ env:
   - secure: UPR5lX1vgqYOrL7RrNxLx2RysBPyNPFAZaANH3woXBPCi7jsaLtMGIdIrM+YE2ZSQaP1dXhHto32zunM6bH5wQ9XeL4wRHMmdsJze5QFvG6PyfHiuEcpvMoBs6TuWwmzWXY87xIW6+LtJOz6KhtbrjsLhtVle8n0GEg+NXeRq4mXZ9oc3V+TtFHzt1BC1s4q2DqQmeLNzre9gIzVQBtTCPVVfJLG1O3IoJ4lrIg/wmrQvIrWJ2mDUyGksYhwwsBoLfVQpptNqNEDLdNFlkSlDZDJL9LU9wL3/aCaKbCzWszGuPqTCdWZf+TZU8AMflbyvancPTAs1e8X8mkQJk7OH3g3WXTZBX9VLwXKYdKeVTz0K6gRuob+XigMBR4L7dAtia0i/1NKIL5CJre5r5hIAyl2Sy6RkmNtRPAK9lAP5+X83uoidWz4g9/BAED7nXCKCHQ8yuMusH1qu6STxFToSMH4uS26nLluICN58tKkiNiYPAFr1tpEFINcjfFL2k3MWPAmhUp/Bw7r60FPwvXf1bNaoQ3aImmFfrl0L6cc7mrX5a9Szzj3HEHAE7DDaiPb3B4VGMsBNQci723yZgeCssSDJUmxYYR/OjQ3p5UHPVSug/allpoJKM7WK9mLvrbiCpnFGEiOwhW86ACstT/95bTqO5JO04kGZJAWQxlOStM=
 addons:
   sauce_connect: true
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - g++-4.9
-    - doxygen
+#  apt:
+#    sources:
+#    - ubuntu-toolchain-r-test
+#    packages:
+#    - g++-4.9
+#    - doxygen
 cache:
   directories:
   - node_modules
@@ -41,15 +41,17 @@ before_script:
 - nohup npm run httpbin &
 - while ! nc -q 1 127.0.0.1 64526 </dev/null; do sleep 2; done
 - curl http://127.0.0.1:64526/get?show_env=1
-- make lint
-- npm run lint
-- make
-- make unittest
+#- make lint
+#- npm run lint
+#- make
+- make vjs
+#- make unittest
 script:
-- make testjs
-- make testnative
-- npm run karma -- --browsers PhantomJS,Firefox,SauceLabs_IE11
-- npm run karma-longrun -- --browsers Firefox
+#- make testjs
+#- make testnative
+#- npm run karma -- --browsers PhantomJS,Firefox,SauceLabs_IE11
+- npm run karma -- --browsers SauceLabs_IE11
+#- npm run karma-longrun -- --browsers Firefox
 before_deploy:
 - npm run doxygen
 deploy:
@@ -73,6 +75,6 @@ deploy:
     repo: ni/VireoSDK
 after_script:
 - jobs -l
-- kill $!
-- wait
+# - kill $! # Seems to correctly kill the http server
+# - wait # Seems to wait for all processes and hangs
 - cat ./nohup.out
