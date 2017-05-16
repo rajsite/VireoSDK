@@ -80,6 +80,8 @@
                 base: 'PhantomJS',
                 debug: true
             },
+
+            // To use Sauce Labs locally set the SAUCE_SERNAME and SAUCE_ACCESS_KEY environment variables
             SauceLabs_IE11: {
                 base: 'SauceLabs',
                 browserName: 'internet explorer',
@@ -104,9 +106,10 @@
         concurrency: 1
     };
 
-    if (process.env.SAUCE_USERNAME !== undefined && process.env.SAUCE_ACCESS_KEY) {
+    if (process.env.TRAVIS !== undefined) {
         module.exports.sauceLabs = {
-            tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
+            tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
+            startConnect: false
         };
     }
 }());
