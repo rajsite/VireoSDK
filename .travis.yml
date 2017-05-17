@@ -39,8 +39,8 @@ install:
 - gcc -v
 before_script:
 - nohup npm run httpbin &
-- while ! nc -q 1 127.0.0.1 64526 </dev/null; do sleep 2; done
-- curl http://127.0.0.1:64526/get?show_env=1
+- while ! nc -q 1 127.0.0.1 3000 </dev/null; do sleep 2; done
+- curl http://127.0.0.1:3000/get?show_env=1
 #- make lint
 #- npm run lint
 #- make

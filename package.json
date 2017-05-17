@@ -41,7 +41,7 @@
     "karma-phantomjs-debug": "karma start --single-run --browsers PhantomJS_Debug",
     "prehttpbin-install": "python -V && pip -V && virtualenv --version",
     "httpbin-install": "pip install --require-virtualenv -r requirements.txt",
-    "httpbin": "python -m httpbin.core --port 64526",
+    "httpbin": "python -m httpbin.core --port 3000",
     "httpbin-win": "start cmd /c \"env\\Scripts\\activate && npm run httpbin\"",
     "doxygen": "cd source && doxygen",
     "postdoxygen": "shx cp \"Documents/DocumentsRoot/.*\" \"Documents/DocumentsRoot/*\" gh-pages"

@@ -5,7 +5,7 @@
     var convertToAbsoluteUrl = function (relativePath) {
         // For some reason resolving localhost on Windows 7 can be slow, so use home ip directly
         // Also some processes were on port 5000 so switched to higher port
-        return 'http://127.0.0.1:64526/' + relativePath;
+        return 'http://127.0.0.1:3000/' + relativePath;
     };
 
     var serverOnline;
