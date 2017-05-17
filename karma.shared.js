@@ -91,7 +91,7 @@
             },
             SauceLabs_EDGE: {
                 base: 'SauceLabs',
-                browserName: 'Edge',
+                browserName: 'microsoftedge',
                 platform: 'Windows 10',
                 version: '14',
                 timeZone: 'Chicago'
