@@ -24,6 +24,8 @@
     };
 
     var preloadAbsoluteUrls = function (absoluteUrls, done) {
+        var start = Performance.now();
+
         var filesToLoad = absoluteUrls.filter(fileNotLoaded).map(function (absoluteUrl) {
             var urlCacheAvoid = absoluteUrl + '?' + new Date().getTime();
             return fetch(urlCacheAvoid).then(function (response) {
@@ -37,7 +39,10 @@
             });
         });
 
-        window.Promise.all(filesToLoad).then(done).catch(function (message) {
+        window.Promise.all(filesToLoad).then(function () {
+            var end = Performance.now();
+            console.debug('Time to preload all files: ', end - start);
+        }).then(done).catch(function (message) {
             done.fail('Failed because of the following reason: ' + message);
         });
     };
