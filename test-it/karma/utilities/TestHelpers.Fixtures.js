@@ -24,7 +24,7 @@
     };
 
     var preloadAbsoluteUrls = function (absoluteUrls, done) {
-        var start = window.performance.now();
+        var startTime = window.performance.now();
 
         var filesToLoad = absoluteUrls.filter(fileNotLoaded).map(function (absoluteUrl) {
             var urlCacheAvoid = absoluteUrl + '?' + new Date().getTime();
@@ -40,8 +40,10 @@
         });
 
         window.Promise.all(filesToLoad).then(function () {
-            var end = window.performance.now();
-            console.debug('Time to preload all files: ', end - start);
+            var loadTime = window.performance.now() - startTime;
+            if (loadTime > 2000) {
+                console.warn('Preload of files took longer that 2000ms', 'actual time', loadTime, 'files', filesToLoad);
+            }
         }).then(done).catch(function (message) {
             done.fail('Failed because of the following reason: ' + message);
         });
