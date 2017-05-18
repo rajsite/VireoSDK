@@ -301,6 +301,7 @@ describe('Performing a GET request', function () {
             expect(viPathParser('error.status')).toBeFalse();
             expect(viPathParser('error.code')).toBe(0);
             expect(viPathParser('error.source')).toBeEmptyString();
+            console.debug('hello');
             done();
         });
     });
