@@ -78,3 +78,4 @@ after_script:
 # - kill $! # Seems to correctly kill the http server
 # - wait # Seems to wait for all processes and hangs
 - cat ./nohup.out
+- cat /home/travis/sauce-connect.log
