@@ -130,6 +130,7 @@
 
     if (process.env.TRAVIS !== undefined) {
         module.exports.sauceLabs = {
+            testName: 'Travis Build ' + process.env.TRAVIS_JOB_NUMBER,
             recordVideo: true,
             recordScreenshots: true,
             tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
