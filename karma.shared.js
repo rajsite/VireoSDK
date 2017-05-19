@@ -104,7 +104,14 @@
 
         // How long will Karma wait for a message from a browser before disconnecting from it (in ms).
         // default: 10000
-        browserNoActivityTimeout: 60000,
+        // browserNoActivityTimeout: 60000,
+
+        // Sauce Labs recommended timeout settings
+        // https://support.saucelabs.com/hc/en-us/articles/225104707-Karma-Tests-Disconnect-Particularly-When-Running-Tests-on-Safari
+        browserDisconnectTimeout: 10000, // default 2000
+        browserDisconnectTolerance: 1, // default 0
+        browserNoActivityTimeout: 4 * 60 * 1000, // default 10000
+        captureTimeout: 4 * 60 * 1000, // default 60000
 
         // Enable or disable failure on running empty test-suites. If disabled the program will return exit-code 0 and display a warning.
         failOnEmptyTestSuite: false,
