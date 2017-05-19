@@ -96,12 +96,11 @@
                 version: '14',
                 timeZone: 'Chicago'
             },
-            SauceLabs_SAFARI_MACOS: {
+            SauceLabs_SAFARI_IOS: {
                 base: 'SauceLabs',
-                browserName: 'Safari',
-                platform: 'MacOS El Capitan 10.11',
-                version: '10',
-                timeZone: 'Chicago'
+                browserName: 'iphone',
+                platform: 'OS X 10.9',
+                version: '7.1'
             }
         },
 
