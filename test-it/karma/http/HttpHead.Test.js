@@ -37,7 +37,7 @@ describe('Performing a HEAD request', function () {
         vireo = new Vireo();
     });
 
-    it('with a simple 200 response', function (done) {
+    xit('with a simple 200 response', function (done) {
         var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, httpHeadMethodViaUrl);
         var viPathParser = vireoRunner.createVIPathParser(vireo, 'MyVI');
         var viPathWriter = vireoRunner.createVIPathWriter(vireo, 'MyVI');
@@ -127,7 +127,7 @@ describe('Performing a HEAD request', function () {
         });
     });
 
-    it('validating a simple 200 response', function (done) {
+    xit('validating a simple 200 response', function (done) {
         var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, httpHeadMethodViaUrl);
         var viPathParser = vireoRunner.createVIPathParser(vireo, 'MyVI');
         var viPathWriter = vireoRunner.createVIPathWriter(vireo, 'MyVI');
@@ -229,7 +229,7 @@ describe('Performing a HEAD request', function () {
         });
     });
 
-    it('validating a response with UTF8 data', function (done) {
+    xit('validating a response with UTF8 data', function (done) {
         var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, httpHeadMethodViaUrl);
         var viPathParser = vireoRunner.createVIPathParser(vireo, 'MyVI');
         var viPathWriter = vireoRunner.createVIPathWriter(vireo, 'MyVI');
@@ -263,7 +263,7 @@ describe('Performing a HEAD request', function () {
         });
     });
 
-    it('with open, head, close and a simple 200 response', function (done) {
+    xit('with open, head, close and a simple 200 response', function (done) {
         var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, httpHeadOpenMethodCloseViaUrl);
         var viPathParser = vireoRunner.createVIPathParser(vireo, 'MyVI');
         var viPathWriter = vireoRunner.createVIPathWriter(vireo, 'MyVI');
@@ -284,7 +284,7 @@ describe('Performing a HEAD request', function () {
         });
     });
 
-    it('with open, head, close and validates a 200 response', function (done) {
+    xit('with open, head, close and validates a 200 response', function (done) {
         var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, httpHeadOpenMethodCloseViaUrl);
         var viPathParser = vireoRunner.createVIPathParser(vireo, 'MyVI');
         var viPathWriter = vireoRunner.createVIPathWriter(vireo, 'MyVI');
@@ -345,7 +345,7 @@ describe('Performing a HEAD request', function () {
             done();
         });
     });
-    it('with open, add header, head, close and validates a 200 response', function (done) {
+    xit('with open, add header, head, close and validates a 200 response', function (done) {
         var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, httpHeadOpenAddMethodCloseViaUrl);
         var viPathParser = vireoRunner.createVIPathParser(vireo, 'MyVI');
         var viPathWriter = vireoRunner.createVIPathWriter(vireo, 'MyVI');
@@ -382,7 +382,7 @@ describe('Performing a HEAD request', function () {
         });
     });
 
-    it('in parallel and validates a 200 response', function (done) {
+    xit('in parallel and validates a 200 response', function (done) {
         var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, httpHeadParallelViaUrl);
         var viPathParser = vireoRunner.createVIPathParser(vireo, 'MyVI');
         var viPathWriter = vireoRunner.createVIPathWriter(vireo, 'MyVI');
