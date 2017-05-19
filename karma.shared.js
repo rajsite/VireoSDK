@@ -98,9 +98,10 @@
             },
             SauceLabs_SAFARI_IOS: {
                 base: 'SauceLabs',
-                browserName: 'iphone',
-                platform: 'OS X 10.9',
-                version: '7.1'
+                browserName: 'Safari',
+                deviceName: 'iPad Air 2 Simulator',
+                platformVersion: '10.3',
+                platformName: 'iOS'
             }
         },
 
