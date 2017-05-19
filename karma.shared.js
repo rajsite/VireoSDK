@@ -99,7 +99,7 @@
             SauceLabs_SAFARI_MACOS: {
                 base: 'SauceLabs',
                 browserName: 'Safari',
-                platform: 'macOS Sierra',
+                platform: 'MacOS El Capitan 10.11',
                 version: '10',
                 timeZone: 'Chicago'
             }
