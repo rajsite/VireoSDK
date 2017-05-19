@@ -34,7 +34,9 @@ describe('The Vireo VTR test suite', function () {
         // To disable a test add a key for the test name set to true, ie:
         // {'AwesomeDisabledTest': true}
         var focusTests = {};
-        var disabledTests = {};
+        var disabledTests = {
+            QueueRefnumGetStatus: true // disable intermittent test
+        };
 
         viaTestConfigs.forEach(function (viaTestConfig) {
             /* eslint no-restricted-globals: 'off' */
