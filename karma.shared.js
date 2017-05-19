@@ -101,7 +101,8 @@
                 browserName: 'Safari',
                 deviceName: 'iPad Air 2 Simulator',
                 platformVersion: '10.3',
-                platformName: 'iOS'
+                platformName: 'iOS',
+                timeZone: 'Chicago'
             }
         },
 

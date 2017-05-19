@@ -377,7 +377,7 @@ describe('Performing a GET request', function () {
         });
     });
 
-    it('with open, add header, get, close and validates a 200 response', function (done) {
+    xit('with open, add header, get, close and validates a 200 response', function (done) {
         var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, httpGetOpenAddMethodCloseViaUrl);
         var viPathParser = vireoRunner.createVIPathParser(vireo, 'MyVI');
         var viPathWriter = vireoRunner.createVIPathWriter(vireo, 'MyVI');
