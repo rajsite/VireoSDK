@@ -95,6 +95,13 @@
                 platform: 'Windows 10',
                 version: '14',
                 timeZone: 'Chicago'
+            },
+            SauceLabs_SAFARI_MACOS: {
+                base: 'SauceLabs',
+                browserName: 'Safari',
+                platform: 'macOS Sierra',
+                version: '10',
+                timeZone: 'Chicago'
             }
         },
 
