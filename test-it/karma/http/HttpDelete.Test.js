@@ -85,7 +85,7 @@ describe('Performing a DELETE request', function () {
         });
     });
 
-    xit('errors connecting to a secure context form an insecure context to test network errors', function (done) {
+    it('errors connecting to a secure context form an insecure context to test network errors', function (done) {
         var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, httpDeleteMethodViaUrl);
         var viPathParser = vireoRunner.createVIPathParser(vireo, 'MyVI');
         var viPathWriter = vireoRunner.createVIPathWriter(vireo, 'MyVI');
@@ -178,7 +178,7 @@ describe('Performing a DELETE request', function () {
         });
     });
 
-    xit('validating an unusual 4XX response code', function (done) {
+    it('validating an unusual 4XX response code', function (done) {
         var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, httpDeleteMethodViaUrl);
         var viPathParser = vireoRunner.createVIPathParser(vireo, 'MyVI');
         var viPathWriter = vireoRunner.createVIPathWriter(vireo, 'MyVI');

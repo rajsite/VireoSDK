@@ -37,7 +37,7 @@ describe('Performing a HEAD request', function () {
         vireo = new Vireo();
     });
 
-    xit('with a simple 200 response', function (done) {
+    it('with a simple 200 response', function (done) {
         var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, httpHeadMethodViaUrl);
         var viPathParser = vireoRunner.createVIPathParser(vireo, 'MyVI');
         var viPathWriter = vireoRunner.createVIPathWriter(vireo, 'MyVI');
