@@ -66,5 +66,33 @@
         });
     };
 
+    Vireo.requestInstance = function (callback) {
+        var toRet = {};
+
+        var Module = {};
+
+        // Functions that must be on Module prior to construction
+        var ttyout = [];
+        Module.stdout = function (val) {
+            if (val === null || val === 0x0A) {
+                Module.print(Module.coreHelpers.sizedUtf8ArrayToJSString(ttyout, 0, ttyout.length));
+                ttyout = [];
+            } else {
+                ttyout.push(val);
+            }
+        };
+
+        Module.onRuntimeInitialized = function () {
+            moduleBuilders.forEach(function (currBuilder) {
+                currBuilder(Module, toRet);
+            });
+
+            callback(toRet);
+        };
+
+        // Module.noInitialRun = true;
+        createVireoCore(Module);
+    };
+
     return Vireo;
 }));

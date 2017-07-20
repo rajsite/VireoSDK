@@ -23,9 +23,11 @@
     };
 
     var createAndRun = function (Vireo, viaCode) {
-        eggShell = new Vireo().eggShell;
-        eggShell.loadVia(viaCode);
-        setTimeout(continueUntilDone, 0);
+        Vireo.requestInstance(function (vireo) {
+            eggShell = vireo.eggShell;
+            eggShell.loadVia(viaCode);
+            setTimeout(continueUntilDone, 0);
+        });
     };
 
     var runTest = function () {
