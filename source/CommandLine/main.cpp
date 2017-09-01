@@ -75,6 +75,7 @@ int VIREO_MAIN(int argc, const char * argv[])
                     while (gShells._keepRunning) {
                         RunExec();  // deletes TypeManagers on exit
                     }
+                    system("pause");
     #endif
                 }
             }

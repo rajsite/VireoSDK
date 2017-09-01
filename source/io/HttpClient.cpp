@@ -271,50 +271,32 @@ VIREO_FUNCTION_SIGNATURE3(HttpClientListHeaders, UInt32, StringRef, ErrorCluster
 // NOTE: occurrence is inserted by the Vireo Compiler
 VIREO_FUNCTION_SIGNATURE9(HttpClientGet, UInt32, StringRef, StringRef, Int32, StringRef, StringRef, UInt32, ErrorCluster, OccurrenceRef)
 {
-#if kVireoOS_emscripten
-    // TODO(rajsite): these checks are too aggressive. Should allow unwired values for optional terminals and avoid checking types inserted by Vireo
-    // Timeout(3) null value is handled by js and occurrence(8) handled by vireo
-    if (!_ParamPointer(0) || !_ParamPointer(1) || !_ParamPointer(2) || !_ParamPointer(4) || !_ParamPointer(5) || !_ParamPointer(6) || !_ParamPointer(7)) {
-        THREAD_EXEC()->LogEvent(EventLog::kHardDataError, HTTP_REQUIRED_INPUTS_MESSAGE);
-        return THREAD_EXEC()->Stop();
-    }
-
     OccurrenceCore *pOcc = _Param(8)->ObjBegin();
     VIClump* clump = THREAD_CLUMP();
     Observer* pObserver = clump->GetObservationStates(2);
     if (!pObserver) {
         if (!_Param(7).status) {
-            // This is the initial call, call the js function
-            jsHttpClientMethod(
-                kGet,
-                _Param(0),
-                _Param(1),
-                _Param(2),
-                null,
-                _ParamPointer(3),
-                _Param(4),
-                _Param(5),
-                _ParamPointer(6),
-                &_Param(7).status,
-                &_Param(7).code,
-                _Param(7).source,
-                _Param(8));
-            pObserver = clump->ReserveObservationStatesWithTimeout(2, 0);
+            const unsigned char errorMessage[] = "<APPEND>\r\nA network error has occurred. Possible reasons for this error include Cross-Origin Resource Sharing (CORS) configuration issues between the client and the target server or that the client cannot reach the target server. Due to browser security restrictions, detailed information about the cause of the network error cannot be provided. You may find specific details about the cause of the network error in the browser development tools console or in the LabVIEW output window.";
+            _Param(7).source->CopyFrom(strlen((char *)errorMessage), errorMessage);
+
+            // This timeout doesn't seem to actually work
+            pObserver = clump->ReserveObservationStatesWithTimeout(2, 100000);
             pOcc->InsertObserver(pObserver + 1, pOcc->Count() + 1);
             return clump->WaitOnObservableObject(_this);
-        } else {
+        }
+        else {
             return _NextInstruction();
         }
-    } else {
+    }
+    else {
         // re-entering the instruction and the operation is done or it timed out.
         // the clump should continue.
         AddCallChainToSourceIfErrorPresent(_ParamPointer(7), "HttpClientGet");
         clump->ClearObservationStates();
         return _NextInstruction();
     }
-#else
     GenerateNotSupportedOnPlatformError(_ParamPointer(7), "HttpClientGet");
-#endif
+
     return _NextInstruction();
 }
 
