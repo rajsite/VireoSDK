@@ -14,6 +14,7 @@ SDG
 #include "StringUtilities.h"
 #include "TDCodecVia.h"
 #include "VirtualInstrument.h"
+#include "CEntryPoints.h"
 
 #if defined (VIREO_TYPE_HttpClient)
 namespace Vireo {
@@ -276,8 +277,9 @@ VIREO_FUNCTION_SIGNATURE9(HttpClientGet, UInt32, StringRef, StringRef, Int32, St
     Observer* pObserver = clump->GetObservationStates(2);
     if (!pObserver) {
         if (!_Param(7).status) {
-            const unsigned char errorMessage[] = "<APPEND>\r\nA network error has occurred. Possible reasons for this error include Cross-Origin Resource Sharing (CORS) configuration issues between the client and the target server or that the client cannot reach the target server. Due to browser security restrictions, detailed information about the cause of the network error cannot be provided. You may find specific details about the cause of the network error in the browser development tools console or in the LabVIEW output window.";
-            _Param(7).source->CopyFrom(strlen((char *)errorMessage), errorMessage);
+            const unsigned char myErrorMessage[] = "<APPEND>\r\nA network error has occurred. Possible reasons for this error include Cross-Origin Resource Sharing (CORS) configuration issues between the client and the target server or that the client cannot reach the target server. Due to browser security restrictions, detailed information about the cause of the network error cannot be provided. You may find specific details about the cause of the network error in the browser development tools console or in the LabVIEW output window.";
+            TypeManagerRef tm = clump->TheTypeManager();
+            Data_WriteString(tm,_Param(7).source, myErrorMessage, strlen((char *)myErrorMessage));
 
             // This timeout doesn't seem to actually work
             pObserver = clump->ReserveObservationStatesWithTimeout(2, 100000);
