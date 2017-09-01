@@ -10,6 +10,7 @@ SDG
 #include "ExecutionContext.h"
 #include "TDCodecVia.h"
 #include "UnitTest.h"
+#include "CEntryPoints.h"
 
 #if kVireoOS_emscripten
     #include <emscripten.h>
@@ -123,5 +124,9 @@ void Vireo::RunExec() {
         emscripten_cancel_main_loop();
 #endif
     }
+    gPlatform.IO.Print("-------------\n");
+    const char * result = EggShell_ReadValueString(tm, "%3AWeb%20Server%3AInteractive%3AApplication%3AMain%2Egviweb", "dataItem_ErrorOut.source", "JSON");
+    gPlatform.IO.Print(result);
+    gPlatform.IO.Print("\n-------------\n");
 }
 
