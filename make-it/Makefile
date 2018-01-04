@@ -29,7 +29,9 @@ DEPS = $(OBJS:%.o=%.d)
 
 CFLAGS += $(EXTRACFLAGS)
 ifeq ($(OS),Windows_NT)
-    CCFLAGS += -D WIN32
+    CC=cl
+    CFLAGS += -D WIN32
+    CFLAGS += -I$(INCDIR)
     ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
       #  plat stuff
     endif
