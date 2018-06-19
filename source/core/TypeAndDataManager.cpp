@@ -601,6 +601,8 @@ const SubString TypeCommon::TypeString = SubString(tsStringType);
 const SubString TypeCommon::TypeTimestamp = SubString("Timestamp");
 const SubString TypeCommon::TypeComplexSingle = SubString("ComplexSingle");
 const SubString TypeCommon::TypeComplexDouble = SubString("ComplexDouble");
+const SubString TypeCommon::TypePath = SubString("NIPath");
+const SubString TypeCommon::TypeAnalogWaveform = SubString("AnalogWaveform");
 const SubString TypeCommon::TypeStaticTypeAndData = SubString("StaticTypeAndData");
 
 TypeCommon::TypeCommon(TypeManagerRef typeManager)
@@ -871,6 +873,34 @@ Boolean TypeCommon::IsNumeric()
     return false;
 }
 //------------------------------------------------------------
+Boolean TypeCommon::IsInteger() 
+{
+    TypeRef t = this;
+    while (t) {
+        if (t->Name().Compare(&TypeInt8) || t->Name().Compare(&TypeInt16) || t->Name().Compare(&TypeInt32)
+            || t->Name().Compare(&TypeInt64) || t->Name().Compare(&TypeUInt8)
+            || t->Name().Compare(&TypeUInt16) || t->Name().Compare(&TypeUInt32)
+            || t->Name().Compare(&TypeUInt64)) {
+            return true;
+        }
+        t = t->BaseType();
+    }
+    return false;
+}
+//------------------------------------------------------------
+Boolean TypeCommon::IsSignedInteger()
+{
+    TypeRef t = this;
+    while (t) {
+        if (t->Name().Compare(&TypeInt8) || t->Name().Compare(&TypeInt16) || t->Name().Compare(&TypeInt32)
+            || t->Name().Compare(&TypeInt64)) {
+            return true;
+        }
+        t = t->BaseType();
+    }
+    return false;
+}
+//------------------------------------------------------------
 Boolean TypeCommon::IsInteger64()
 {
     TypeRef t = this;
@@ -907,7 +937,6 @@ Boolean TypeCommon::IsBoolean()
     }
     return false;
 }
-
 //------------------------------------------------------------
 Boolean TypeCommon::IsString()
 {
@@ -920,7 +949,18 @@ Boolean TypeCommon::IsString()
     }
     return false;
 }
-
+//------------------------------------------------------------
+Boolean TypeCommon::IsPath()
+{
+    TypeRef t = this;
+    while (t) {
+        if (t->Name().Compare(&TypePath)) {
+            return true;
+        }
+        t = t->BaseType();
+    }
+    return false;
+}
 //------------------------------------------------------------
 Boolean TypeCommon::IsTimestamp()
 {
@@ -945,7 +985,20 @@ Boolean TypeCommon::IsComplex()
     }
     return false;
 }
-
+//------------------------------------------------------------
+Boolean TypeCommon::IsAnalogWaveform()
+{
+    TypeRef t = this;
+    while (t) {
+        SubString typeName = t->Name();
+        SubString analogTypess(TypeAnalogWaveform);
+        if (typeName.FindFirstMatch(&analogTypess, 0, false) == 0) {
+            return true;
+        }
+        t = t->BaseType();
+    }
+    return false;
+}
 //------------------------------------------------------------
 Boolean TypeCommon::IsIntrinsicClusterDataType(SubString *foundTypeName) {
     TypeRef t = this;
