@@ -533,7 +533,7 @@
 
             if (httpClient === undefined) {
                 newErrorSource = Module.coreHelpers.createSourceFromMessage(ERRORS.mgArgErr.MESSAGE);
-                Module.coreHelpers.mergeErrors(true, ERRORS.mgArgErr.CODE, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
+                Module.coreHelpers.mergeErrorsDeprecated(true, ERRORS.mgArgErr.CODE, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
             }
 
             return httpClient;
@@ -550,32 +550,53 @@
 
         // NOTE: All of the Module.js* functions  in this file should be called from Vireo only if there is not an existing error
         // unless otherwise stated in the function below
-        Module.httpClient.jsHttpClientOpen = function (cookieFilePointer, usernamePointer, passwordPointer, verifyServerInt32, handlePointer, errorStatusPointer, errorCodePointer, errorSourcePointer) {
+        Module.httpClient.jsHttpClientOpen = function (
+            cookieFileTypeRef, cookieFileDataRef,
+            usernameTypeRef, usernameDataRef,
+            passwordTypeRef, passwordDataRef,
+            verifyServerTypeRef, verifyServerDataRef,
+            handleTypeRef, handleDataRef,
+            errorTypeRef, errorDataRef) {
+            var cookieFileValueRef = Module.eggShell.createValueRef(cookieFileTypeRef, cookieFileDataRef);
+            var usernameValueRef = Module.eggShell.createValueRef(usernameTypeRef, usernameDataRef);
+            var passwordValueRef = Module.eggShell.createValueRef(passwordTypeRef, passwordDataRef);
+            var verifyServerValueRef = Module.eggShell.createValueRef(verifyServerTypeRef, verifyServerDataRef);
+            var handleValueRef = Module.eggShell.createValueRef(handleTypeRef, handleDataRef);
+            var errorValueRef = Module.eggShell.createValueRef(errorTypeRef, errorDataRef);
+
             var setDefaultOutputs = function () {
-                Module.eggShell.dataWriteUInt32(handlePointer, DEFAULT_INVALID_HANDLE);
+                Module.eggShell.writeDouble(handleValueRef, DEFAULT_INVALID_HANDLE);
             };
 
-            var newErrorSource;
-            var cookieFile = Module.eggShell.dataReadString(cookieFilePointer);
+            var newError;
+            var cookieFile = Module.eggShell.readString(cookieFileValueRef);
             if (cookieFile !== '') {
-                newErrorSource = Module.coreHelpers.createSourceFromMessage(ERRORS.kNIHttpWebVICookieFileUnsupported.MESSAGE);
-                Module.coreHelpers.mergeErrors(true, ERRORS.kNIHttpWebVICookieFileUnsupported.CODE, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
+                newError = {
+                    status: true,
+                    code: ERRORS.kNIHttpWebVICookieFileUnsupported.CODE,
+                    source: Module.coreHelpers.createSourceFromMessage(ERRORS.kNIHttpWebVICookieFileUnsupported.MESSAGE)
+                };
+                Module.coreHelpers.mergeErrors(errorValueRef, newError);
                 setDefaultOutputs();
                 return;
             }
 
-            var verifyServer = verifyServerInt32 !== FALSE;
+            var verifyServer = Module.eggShell.readDouble(verifyServerValueRef) !== FALSE;
             if (verifyServer !== true) {
-                newErrorSource = Module.coreHelpers.createSourceFromMessage(ERRORS.kNIHttpWebVIVerifyServerUnsupported.MESSAGE);
-                Module.coreHelpers.mergeErrors(true, ERRORS.kNIHttpWebVIVerifyServerUnsupported.CODE, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
+                newError = {
+                    status: true,
+                    code: ERRORS.kNIHttpWebVIVerifyServerUnsupported.CODE,
+                    source: Module.coreHelpers.createSourceFromMessage(ERRORS.kNIHttpWebVIVerifyServerUnsupported.MESSAGE)
+                };
+                Module.coreHelpers.mergeErrors(errorValueRef, newError);
                 setDefaultOutputs();
                 return;
             }
 
-            var username = Module.eggShell.dataReadString(usernamePointer);
-            var password = Module.eggShell.dataReadString(passwordPointer);
+            var username = Module.eggShell.readString(usernameValueRef);
+            var password = Module.eggShell.readString(passwordValueRef);
             var newHandle = httpClientManager.create(username, password);
-            Module.eggShell.dataWriteUInt32(handlePointer, newHandle);
+            Module.eggShell.writeDouble(handleValueRef, newHandle);
         };
 
         Module.httpClient.jsHttpClientClose = function (handle, errorStatusPointer, errorCodePointer, errorSourcePointer) {
@@ -585,7 +606,7 @@
 
             if (handleExists === false) {
                 newErrorSource = Module.coreHelpers.createSourceFromMessage(ERRORS.InvalidRefnum.MESSAGE);
-                Module.coreHelpers.mergeErrors(true, ERRORS.InvalidRefnum.CODE, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
+                Module.coreHelpers.mergeErrorsDeprecated(true, ERRORS.InvalidRefnum.CODE, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
                 // Do not return if an error is written, need to still destroy any existing handles
             }
 
@@ -630,7 +651,7 @@
             var value = httpClient.getHeaderValue(header);
             if (value === undefined) {
                 newErrorSource = Module.coreHelpers.createSourceFromMessage(ERRORS.kNIHttpResultRequestHeaderDoesNotExist.MESSAGE + '\nheader:' + header);
-                Module.coreHelpers.mergeErrors(true, ERRORS.kNIHttpResultRequestHeaderDoesNotExist.CODE, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
+                Module.coreHelpers.mergeErrorsDeprecated(true, ERRORS.kNIHttpResultRequestHeaderDoesNotExist.CODE, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
                 setDefaultOutputs();
                 return;
             }
@@ -701,7 +722,7 @@
 
                 if (outputFile !== '') {
                     newErrorSource = Module.coreHelpers.createSourceFromMessage(ERRORS.kNIHttpWebVIOutputFileUnsupported.MESSAGE);
-                    Module.coreHelpers.mergeErrors(true, ERRORS.kNIHttpWebVIOutputFileUnsupported.CODE, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
+                    Module.coreHelpers.mergeErrorsDeprecated(true, ERRORS.kNIHttpWebVIOutputFileUnsupported.CODE, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
                     setDefaultOutputs();
                     return;
                 }
@@ -771,7 +792,7 @@
                 var newErrorCode = responseData.labviewCode;
                 errorMessage = Module.coreHelpers.formatMessageWithException(responseData.errorMessage, responseData.requestException);
                 var newErrorSource = Module.coreHelpers.createSourceFromMessage(errorMessage);
-                Module.coreHelpers.mergeErrors(newErrorStatus, newErrorCode, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
+                Module.coreHelpers.mergeErrorsDeprecated(newErrorStatus, newErrorCode, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
                 Module.eggShell.setOccurrenceAsync(occurrencePointer);
             });
         };

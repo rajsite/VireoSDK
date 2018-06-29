@@ -80,7 +80,7 @@
                 newErrorCode = ERRORS.kNIObjectReferenceIsInvalid.CODE;
                 newErrorSource = Module.coreHelpers.formatMessageWithException(ERRORS.kNIObjectReferenceIsInvalid.MESSAGE, ex);
                 newErrorSource = Module.coreHelpers.createSourceFromMessage(newErrorSource);
-                Module.coreHelpers.mergeErrors(newErrorStatus, newErrorCode, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
+                Module.coreHelpers.mergeErrorsDeprecated(newErrorStatus, newErrorCode, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
                 return;
             }
         };
@@ -113,7 +113,7 @@
                 newErrorCode = ERRORS.kNIObjectReferenceIsInvalid.CODE;
                 newErrorSource = Module.coreHelpers.formatMessageWithException(ERRORS.kNIObjectReferenceIsInvalid.MESSAGE, ex);
                 newErrorSource = Module.coreHelpers.createSourceFromMessage(newErrorSource);
-                Module.coreHelpers.mergeErrors(newErrorStatus, newErrorCode, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
+                Module.coreHelpers.mergeErrorsDeprecated(newErrorStatus, newErrorCode, newErrorSource, errorStatusPointer, errorCodePointer, errorSourcePointer);
                 return;
             }
         };

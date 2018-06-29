@@ -303,13 +303,58 @@
             return currentFPS;
         };
 
-        var writeNewError = function (newErrorStatus, newErrorCode, newErrorSource, existingErrorStatusPointer, existingErrorCodePointer, exisitingErrorSourcePointer) {
+        // TODO(mraj) figure out why this doesn't work
+        // var writeNewError = function (errorValueRefObject, newError) {
+        //     Module.eggShell.writeDouble(errorValueRefObject.status, newError.status === false ? 0 : 1);
+        //     Module.eggShell.writeDouble(errorValueRefObject.code, newError.code);
+        //     Module.eggShell.writeString(errorValueRefObject.source, newError.source);
+        // };
+
+        Module.coreHelpers.mergeErrors = function (errorValueRef, newError) {
+            // Follows behavior of merge errors function: https://zone.ni.com/reference/en-XX/help/371361N-01/glang/merge_errors_function/
+
+            var errorValueRefObject = Module.eggShell.readValueRefObject(errorValueRef);
+            var existingErrorStatus = Module.eggShell.readDouble(errorValueRefObject.status) !== 0;
+            var isExistingError = existingErrorStatus;
+            var isNewError = newError.status;
+
+            if (isExistingError) {
+                return;
+            }
+
+            if (isNewError) {
+                Module.eggShell.writeJSON(errorValueRef, JSON.stringify(newError));
+                // writeNewError(errorValueRefObject, newError);
+                return;
+            }
+
+            var existingErrorCode = Module.eggShell.readDouble(errorValueRefObject.code);
+            var isExistingWarning = existingErrorCode !== CODES.NO_ERROR;
+            var isNewWarning = newError.code !== CODES.NO_ERROR;
+            if (isExistingWarning) {
+                return;
+            }
+
+            if (isNewWarning) {
+                Module.eggShell.writeJSON(errorValueRef, JSON.stringify(newError));
+                // writeNewError(errorValueRefObject, newError);
+                return;
+            }
+
+            // If no error or warning then pass through
+            // Note: merge errors function ignores newErrorSource if no newError or newWarning so replicated here
+            return;
+        };
+
+        // **DEPRECATED**
+        var writeNewErrorDeprecated = function (newErrorStatus, newErrorCode, newErrorSource, existingErrorStatusPointer, existingErrorCodePointer, exisitingErrorSourcePointer) {
             Module.eggShell.dataWriteBoolean(existingErrorStatusPointer, newErrorStatus);
             Module.eggShell.dataWriteInt32(existingErrorCodePointer, newErrorCode);
             Module.eggShell.dataWriteString(exisitingErrorSourcePointer, newErrorSource);
         };
 
-        Module.coreHelpers.mergeErrors = function (newErrorStatus, newErrorCode, newErrorSource, existingErrorStatusPointer, existingErrorCodePointer, exisitingErrorSourcePointer) {
+        // **DEPRECATED**
+        Module.coreHelpers.mergeErrorsDeprecated = function (newErrorStatus, newErrorCode, newErrorSource, existingErrorStatusPointer, existingErrorCodePointer, exisitingErrorSourcePointer) {
             // Follows behavior of merge errors function: https://zone.ni.com/reference/en-XX/help/371361N-01/glang/merge_errors_function/
 
             var existingErrorStatus = Module.eggShell.dataReadBoolean(existingErrorStatusPointer);
@@ -321,7 +366,7 @@
             }
 
             if (isNewError) {
-                writeNewError(newErrorStatus, newErrorCode, newErrorSource, existingErrorStatusPointer, existingErrorCodePointer, exisitingErrorSourcePointer);
+                writeNewErrorDeprecated(newErrorStatus, newErrorCode, newErrorSource, existingErrorStatusPointer, existingErrorCodePointer, exisitingErrorSourcePointer);
                 return;
             }
 
@@ -333,7 +378,7 @@
             }
 
             if (isNewWarning) {
-                writeNewError(newErrorStatus, newErrorCode, newErrorSource, existingErrorStatusPointer, existingErrorCodePointer, exisitingErrorSourcePointer);
+                writeNewErrorDeprecated(newErrorStatus, newErrorCode, newErrorSource, existingErrorStatusPointer, existingErrorCodePointer, exisitingErrorSourcePointer);
                 return;
             }
 

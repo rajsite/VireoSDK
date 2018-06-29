@@ -30,7 +30,13 @@ enum HttpClientMethodId {
 #define HTTP_REQUIRED_INPUTS_MESSAGE "All inputs and outputs must be provided for HTTP functions"
 
 extern "C" {
-    extern void jsHttpClientOpen(StringRef, StringRef, StringRef, UInt32, UInt32 *, Boolean *, Int32 *, StringRef);
+    extern void jsHttpClientOpen(
+        TypeRef, StringRef*,
+        TypeRef, StringRef*,
+        TypeRef, StringRef*,
+        TypeRef, UInt32*,
+        TypeRef, UInt32*,
+        TypeRef, ErrorCluster*);
     extern void jsHttpClientClose(UInt32, Boolean *, Int32 *, StringRef);
     extern void jsHttpClientAddHeader(UInt32, StringRef, StringRef, Boolean *, Int32 *, StringRef);
     extern void jsHttpClientRemoveHeader(UInt32, StringRef, Boolean *, Int32 *, StringRef);
@@ -87,17 +93,16 @@ VIREO_FUNCTION_SIGNATURE6(HttpClientOpen, StringRef, StringRef, StringRef, UInt3
         THREAD_EXEC()->LogEvent(EventLog::kHardDataError, HTTP_REQUIRED_INPUTS_MESSAGE);
         return THREAD_EXEC()->Stop();
     }
-
+    TypeRef typeRefUInt32 = TypeManagerScope::Current()->FindType("UInt32");
+    TypeRef typeRefErrorCluster = TypeManagerScope::Current()->FindType("ErrorCluster");
     if (!_Param(5).status) {
         jsHttpClientOpen(
-            _Param(0),
-            _Param(1),
-            _Param(2),
-            _Param(3),
-            _ParamPointer(4),
-            &_Param(5).status,
-            &_Param(5).code,
-            _Param(5).source);
+            _Param(0)->Type(), _ParamPointer(0), 
+            _Param(1)->Type(), _ParamPointer(1),
+            _Param(2)->Type(), _ParamPointer(2),
+            typeRefUInt32, _ParamPointer(3),
+            typeRefUInt32, _ParamPointer(4),
+            typeRefErrorCluster, _ParamPointer(5));
         AddCallChainToSourceIfErrorPresent(_ParamPointer(5), "HttpClientOpen");
     }
 #else

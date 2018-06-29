@@ -254,11 +254,7 @@ void GetCallChainArray(StringRefArray1D* callChain)
 //------------------------------------------------------------
 void AppendCallChainString(StringRef stringRef)
 {
-    ExecutionContextRef exec = THREAD_EXEC();
-    VIClump* runningQueueElt = exec->_runningQueueElt;
-    VirtualInstrument* vi = runningQueueElt->OwningVI();
-    TypeManagerRef typeManager = vi->TheTypeManager();
-    TypeRef itemType = typeManager->FindType(tsStringArrayType);
+    TypeRef itemType = TypeManagerScope::Current()->FindType(tsStringArrayType);
     StringRefArray1D* callChain = (StringRefArray1D*)StringRefArray1D::New(itemType);
     GetCallChainArray(callChain);
     for (int i = 0; i < callChain->Length() - 1; i++) {
