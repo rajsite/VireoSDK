@@ -195,7 +195,7 @@
 
         var dispatchVisitCluster = function (typeVisitor, valueRef, data) {
             validateVisitMethod(typeVisitor.visitCluster, 'visitCluster');
-            return typeVisitor.visitCluster(typeVisitor, valueRef, data);
+            return typeVisitor.visitCluster(valueRef, data);
         };
 
         // Exported functions
