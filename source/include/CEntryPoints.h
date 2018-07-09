@@ -23,7 +23,7 @@ typedef enum {
     kEggShellResult_UnableToCreateReturnBuffer = 4,
     kEggShellResult_InvalidTypeRef = 5,
     kEggShellResult_MismatchedArrayRank = 6,
-    kEggSehllResult_UnableToParseData = 7,
+    kEggShellResult_UnableToParseData = 7,
 } EggShellResult;
 //------------------------------------------------------------
 //! TypeManager functions
