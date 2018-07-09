@@ -228,10 +228,10 @@
             return valueRef;
         };
 
-        Module.eggShell.findSubValueRef = publicAPI.eggShell.findSubValueRef = function (valueRef, path) {
+        Module.eggShell.findSubValueRef = publicAPI.eggShell.findSubValueRef = function (valueRef, subPath) {
             var stack = Module.stackSave();
 
-            var pathStackPointer = Module.coreHelpers.writeJSStringToStack(path);
+            var pathStackPointer = Module.coreHelpers.writeJSStringToStack(subPath);
             var typeStackPointer = Module.stackAlloc(POINTER_SIZE);
             var dataStackPointer = Module.stackAlloc(POINTER_SIZE);
 
@@ -240,7 +240,7 @@
                 throw new Error('A ValueRef could not be made for the following reason: ' + eggShellResultEnum[eggShellResult] +
                     ' (error code: ' + eggShellResult + ')' +
                     ' (type name: ' + Module.typeHelpers.typeName(valueRef.typeRef) + ')' +
-                    ' (path: ' + path + ')');
+                    ' (subpath: ' + subPath + ')');
             }
 
             var typeRef = Module.getValue(typeStackPointer, 'i32');
