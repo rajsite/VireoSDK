@@ -2,7 +2,6 @@ describe('The Vireo VTR test suite', function () {
     'use strict';
 
     // Reference aliases
-    var vireoHelpers = window.vireoHelpers;
     var vireoRunner = window.testHelpers.vireoRunner;
     var fixtures = window.testHelpers.fixtures;
     var testListLoader = window.testHelpers.testListLoader;
@@ -10,7 +9,7 @@ describe('The Vireo VTR test suite', function () {
     // Sharing Vireo instances across tests make them run soooo much faster
     var vireo;
     beforeAll(async function () {
-        vireo = await vireoHelpers.createInstance();
+        vireo = await window.vireoHelpers.createInstance();
     });
     var viaTestNames = testListLoader.getTestNamesForEnvironment('browser');
 

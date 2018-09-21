@@ -1,7 +1,6 @@
 describe('A JavaScript function invoke', function () {
     'use strict';
     // Reference aliases
-    var vireoHelpers = window.vireoHelpers;
     var vireoRunner = window.testHelpers.vireoRunner;
     var fixtures = window.testHelpers.fixtures;
 
@@ -17,7 +16,7 @@ describe('A JavaScript function invoke', function () {
 
     beforeEach(async function () {
         // TODO mraj create shared vireo instances to improve test perf https://github.com/ni/VireoSDK/issues/163
-        vireo = await vireoHelpers.createInstance();
+        vireo = await window.vireoHelpers.createInstance();
 
         // Add functions to exercise JavaScriptInvoke behavior
         window.NI_ConcatenateValue = function (fieldName, value) {

@@ -1,7 +1,6 @@
 describe('The Vireo EggShell getNumericArray api', function () {
     'use strict';
     // Reference aliases
-    var vireoHelpers = window.vireoHelpers;
     var vireoRunner = window.testHelpers.vireoRunner;
     var fixtures = window.testHelpers.fixtures;
 
@@ -16,7 +15,7 @@ describe('The Vireo EggShell getNumericArray api', function () {
     });
 
     beforeEach(async function () {
-        vireo = await vireoHelpers.createInstance();
+        vireo = await window.vireoHelpers.createInstance();
     });
 
     it('can read arrays for specific optimized types', function (done) {

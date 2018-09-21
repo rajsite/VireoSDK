@@ -1,7 +1,6 @@
 describe('The Vireo CoreHelpers setFPSyncFunction api', function () {
     'use strict';
     // Reference aliases
-    var vireoHelpers = window.vireoHelpers;
     var vireoRunner = window.testHelpers.vireoRunner;
     var fixtures = window.testHelpers.fixtures;
 
@@ -18,7 +17,7 @@ describe('The Vireo CoreHelpers setFPSyncFunction api', function () {
     });
 
     beforeEach(async function () {
-        vireo = await vireoHelpers.createInstance();
+        vireo = await window.vireoHelpers.createInstance();
     });
 
     it('can perform a simple fpsync', function (done) {

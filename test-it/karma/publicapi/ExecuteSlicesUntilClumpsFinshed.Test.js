@@ -1,7 +1,5 @@
 describe('The Vireo EggShell executeSlicesUntilClumpsFinished api', function () {
     'use strict';
-
-    var vireoHelpers = window.vireoHelpers;
     var fixtures = window.testHelpers.fixtures;
     var publicApiExecuteManyHTTPGetUrl = fixtures.convertToAbsoluteFromFixturesDir('publicapi/ExecuteManyHTTPGet.via');
     var publicApiExecuteLongWaitUrl = fixtures.convertToAbsoluteFromFixturesDir('publicapi/ExecuteLongWait.via');
@@ -45,7 +43,7 @@ describe('The Vireo EggShell executeSlicesUntilClumpsFinished api', function () 
 
     var vireo;
     beforeEach(async function () {
-        vireo = await vireoHelpers.createInstance();
+        vireo = await window.vireoHelpers.createInstance();
     });
 
     it('can run many HTTP requests quickly when HTTP is resolved immediately', function (done) {

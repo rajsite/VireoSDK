@@ -1,7 +1,7 @@
 describe('Performing a DELETE request', function () {
     'use strict';
     // Reference aliases
-    var vireoHelpers = window.vireoHelpers;
+    
     var vireoRunner = window.testHelpers.vireoRunner;
     var fixtures = window.testHelpers.fixtures;
     var httpBinHelpers = window.testHelpers.httpBinHelpers;

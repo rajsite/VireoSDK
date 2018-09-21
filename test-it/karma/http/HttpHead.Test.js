@@ -1,7 +1,7 @@
 describe('Performing a HEAD request', function () {
     'use strict';
     // Reference aliases
-    var vireoHelpers = window.vireoHelpers;
+
     var vireoRunner = window.testHelpers.vireoRunner;
     var fixtures = window.testHelpers.fixtures;
     var httpBinHelpers = window.testHelpers.httpBinHelpers;
@@ -36,7 +36,7 @@ describe('Performing a HEAD request', function () {
     beforeEach(async function () {
         httpBinHelpers.makeTestPendingIfHttpBinOffline();
         // TODO mraj create shared vireo instances to improve test perf https://github.com/ni/VireoSDK/issues/163
-        vireo = await vireoHelpers.createInstance();
+        vireo = await window.vireoHelpers.createInstance();
     });
 
     it('with a simple 200 response', function (done) {

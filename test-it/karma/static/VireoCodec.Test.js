@@ -1,7 +1,10 @@
 describe('Vireo', function () {
     'use strict';
 
-    var staticHelpers = window.vireoHelpers.staticHelpers;
+    var staticHelpers;
+    beforeAll(function () {
+        staticHelpers = window.vireoHelpers.staticHelpers;
+    });
 
     describe('can encode vireo identifiers', function () {
         describe('throws an exception when parameter', function () {

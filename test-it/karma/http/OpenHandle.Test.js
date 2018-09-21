@@ -1,7 +1,6 @@
 describe('Running an Open Handle call', function () {
     'use strict';
     // Reference aliases
-    var vireoHelpers = window.vireoHelpers;
     var vireoRunner = window.testHelpers.vireoRunner;
     var fixtures = window.testHelpers.fixtures;
 
@@ -19,7 +18,7 @@ describe('Running an Open Handle call', function () {
 
     beforeEach(async function () {
         // TODO mraj create shared vireo instances to improve test perf https://github.com/ni/VireoSDK/issues/163
-        vireo = await vireoHelpers.createInstance();
+        vireo = await window.vireoHelpers.createInstance();
     });
 
     it('with simple inputs', function (done) {

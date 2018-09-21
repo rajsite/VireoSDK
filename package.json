@@ -30,7 +30,7 @@
     "test": "karma start --browsers ChromeHeadlessNoSandbox,FirefoxHeadless",
     "test-min": "karma start karma.min.conf.js --browsers ChromeHeadlessNoSandbox,FirefoxHeadless",
     "test-debug": "karma start karma.debug.conf.js --browsers ChromeHeadlessNoSandbox,FirefoxHeadless",
-    "test-dev": "karma start --browsers ChromeHeadlessNoSandbox --skip-tags Slow",
+    "test-dev": "karma start karma.dev.conf.js --browsers Chrome --skip-tags Slow --no-single-run",
     "test-manual": "karma start --no-single-run",
     "test-coverage": "karma start karma.coverage.conf.js",
     "lint": "eslint .",

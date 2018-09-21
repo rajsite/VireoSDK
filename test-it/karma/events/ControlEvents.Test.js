@@ -1,7 +1,6 @@
 describe('The Vireo Control Event', function () {
     'use strict';
 
-    var vireoHelpers = window.vireoHelpers;
     var vireoRunner = window.testHelpers.vireoRunner;
     var fixtures = window.testHelpers.fixtures;
 
@@ -52,7 +51,7 @@ describe('The Vireo Control Event', function () {
     });
 
     beforeEach(async function () {
-        vireo = await vireoHelpers.createInstance();
+        vireo = await window.vireoHelpers.createInstance();
         vireo.eventHelpers.setRegisterForControlEventsFunction(function () {
             // no-op
         });

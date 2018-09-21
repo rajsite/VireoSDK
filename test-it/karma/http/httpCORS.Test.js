@@ -1,7 +1,6 @@
 describe('Performing a CORS request', function () {
     'use strict';
     // Reference aliases
-    var vireoHelpers = window.vireoHelpers;
     var vireoRunner = window.testHelpers.vireoRunner;
     var fixtures = window.testHelpers.fixtures;
     var httpBinHelpers = window.testHelpers.httpBinHelpers;
@@ -22,7 +21,7 @@ describe('Performing a CORS request', function () {
 
     beforeEach(async function () {
         httpBinHelpers.makeTestPendingIfHttpBinOffline();
-        vireo = await vireoHelpers.createInstance();
+        vireo = await window.vireoHelpers.createInstance();
     });
 
     beforeEach(function (done) {
