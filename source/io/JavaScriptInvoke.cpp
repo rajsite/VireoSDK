@@ -58,31 +58,6 @@ VIREO_EXPORT void* JavaScriptInvoke_GetParameterTypeRef(StaticTypeAndData *param
 }
 
 //------------------------------------------------------------
-//! Return parameter pointer for the given element(index) in the parameters array
-VIREO_EXPORT void* JavaScriptInvoke_GetParameterPointer(StaticTypeAndData *parameters, Int32 index)
-{
-    void *pData = parameters[index]._pData;
-    TypeRef parameterType = parameters[index]._paramType;
-    if (parameterType->IsString()) {
-        // We a have pointer to a StringRef, we just need the StringRef.
-        // So we can use functions that already work with StringRef on the JavaScript side.
-        pData = *(StringRef*)pData;
-    } else if (parameterType->IsArray()) {
-        pData = *(TypedArrayCoreRef*)pData;
-    } else if (!(parameterType->IsNumeric()
-        || parameterType->IsString()
-        || parameterType->IsFloat()
-        || parameterType->IsBoolean()
-        || parameterType->IsJavaScriptRefNum())) {
-        return nullptr;
-    } else if (parameterType->IsInteger64()) {
-        return nullptr;
-    }
-
-    return pData;
-}
-
-//------------------------------------------------------------
 // arguments: occurrence, isInternalFunction, errorCluster, functionName, returnValue, then variable number of inputs that can be nullptr or any type
 struct JavaScriptInvokeParamBlock : public VarArgInstruction
 {

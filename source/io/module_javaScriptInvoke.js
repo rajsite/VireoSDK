@@ -38,9 +38,7 @@ var assignJavaScriptInvoke;
         // Disable new-cap for the cwrap functions so the names can be the same in C and JS
         /* eslint 'new-cap': ['error', {'capIsNewExceptions': [
             'JavaScriptInvoke_GetParameterTypeRef',
-            'JavaScriptInvoke_GetParameterDataRef',
-            'Data_ReadJavaScriptRefNum',
-            'Data_WriteJavaScriptRefNum'
+            'JavaScriptInvoke_GetParameterDataRef'
         ]}], */
 
         Module.javaScriptInvoke = {};
@@ -53,12 +51,6 @@ var assignJavaScriptInvoke;
         };
         var JavaScriptInvoke_GetParameterDataRef = function (pointerArray, index) {
             return Module._JavaScriptInvoke_GetParameterDataRef(pointerArray, index);
-        };
-        var Data_ReadJavaScriptRefNum = function (jsRefnumDataRef) {
-            return Module._Data_ReadJavaScriptRefNum(jsRefnumDataRef);
-        };
-        var Data_WriteJavaScriptRefNum = function (jsRefnumDataRef, cookie) {
-            return Module._Data_WriteJavaScriptRefNum(jsRefnumDataRef, cookie);
         };
 
         var mergeNewError = function (errorValueRef, functionName, errorToSet, exception) {
@@ -117,12 +109,12 @@ var assignJavaScriptInvoke;
         };
 
         Module.javaScriptInvoke.readJavaScriptRefNum = function (javaScriptValueRef) {
-            var cookie = Data_ReadJavaScriptRefNum(javaScriptValueRef.dataRef);
+            var cookie = Module.eggShell.readDouble(javaScriptValueRef);
             return jsRefNumToJsValueMap.get(cookie);
         };
 
         Module.javaScriptInvoke.writeJavaScriptRefNum = function (javaScriptValueRef, jsValue) {
-            var cookie = Data_ReadJavaScriptRefNum(javaScriptValueRef.dataRef);
+            var cookie = Module.eggShell.readDouble(javaScriptValueRef);
             if (hasCachedRefNum(cookie)) { // refnum was already set to something
                 if (getCachedJsValue(cookie) !== jsValue) {
                     throw new Error('JavaScriptRefNum[' + cookie + '] already set to ' + getCachedJsValue(cookie) + ' and can not be set to new value' + jsValue);
@@ -132,12 +124,12 @@ var assignJavaScriptInvoke;
 
             var cachedCookie = getCachedRefNum(jsValue);
             if (cachedCookie !== undefined) { // this object already has a refnum, we must share the refnum value for the same object
-                Data_WriteJavaScriptRefNum(javaScriptValueRef.dataRef, cachedCookie); // set the VIA local to be this refnum value
+                Module.eggShell.writeDouble(javaScriptValueRef, cachedCookie); // set the VIA local to be this refnum value
                 return;
             }
 
             var newCookie = generateUniqueRefNumCookie();
-            Data_WriteJavaScriptRefNum(javaScriptValueRef.dataRef, newCookie);
+            Module.eggShell.writeDouble(javaScriptValueRef, newCookie);
             cacheRefNum(newCookie, jsValue);
         };
 
@@ -477,10 +469,12 @@ var assignJavaScriptInvoke;
             }
         };
 
-        Module.javaScriptInvoke.jsIsNotAJavaScriptRefnum = function (returnPointer, javaScriptRefNumPointer) {
-            var cookie = Data_ReadJavaScriptRefNum(javaScriptRefNumPointer);
+        Module.javaScriptInvoke.jsIsNotAJavaScriptRefnum = function (returnTypeRef, returnDataRef, javaScriptRefNumTypeRef, javaScriptRefNumDataRef) {
+            var returnValueRef = Module.eggShell.createValueRef(returnTypeRef, returnDataRef);
+            var javaScriptRefNumValueRef = Module.eggShell.createValueRef(javaScriptRefNumTypeRef, javaScriptRefNumDataRef);
+            var cookie = Module.eggShell.readDouble(javaScriptRefNumValueRef);
             var isNotAJavaScriptRefnum = !hasCachedRefNum(cookie);
-            Module.eggShell.dataWriteBoolean(returnPointer, isNotAJavaScriptRefnum);
+            Module.eggShell.writeDouble(returnValueRef, isNotAJavaScriptRefnum ? 1 : 0);
         };
     };
 }());
