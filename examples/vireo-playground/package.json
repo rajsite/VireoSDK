@@ -1,0 +1,22 @@
+{
+  "name": "vireo-playground",
+  "version": "0.0.1",
+  "description": "A browser playground to experiment with and learn about the Vireo runtime",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Vireo",
+    "WebVI",
+    "LabVIEW",
+    "NXG",
+    "playground"
+  ],
+  "author": "See 'AUTHORS' file",
+  "license": "SEE LICENSE IN 'LICENSE.txt'",
+  "dependencies": {
+    "monaco-editor": "^0.15.6",
+    "vireo": "file:../.."
+  }
+}
