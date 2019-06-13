@@ -89,7 +89,7 @@ ifeq ($(TARGET), asmjs-unknown-emscripten)
 endif
 
 ifeq ($(TARGET), wasm32-unknown-emscripten)
-   TARGET_FLAG = -s WASM=1 -s BINARYEN_TRAP_MODE=js -s ALLOW_MEMORY_GROWTH=1
+   TARGET_FLAG = -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
 endif
 
 # NO_DYNAMIC_EXECUTION=1 Allows Vireo to be used in CSP environments where eval() is forbidden: https://github.com/kripken/emscripten/blob/master/src/settings.js#L563
