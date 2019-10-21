@@ -112,7 +112,7 @@ describe('The Vireo EggShell executeSlicesUntilClumpsFinished api', function () 
         });
     });
 
-    it('reports error when the Vireo runtime stops execution', async function () {
+    xit('reports error when the Vireo runtime stops execution', async function () {
         const runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, publicApiLargeAllocationUrl);
 
         const {rawPrint, rawPrintError} = await runSlicesAsync();
