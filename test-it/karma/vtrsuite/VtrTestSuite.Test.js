@@ -37,7 +37,8 @@ describe('The Vireo VTR test suite', function () {
     // To disable a test add a key for the test name set to empty string or string with skip tag, ie:
     // {'AwesomeDisabledTest': '#FailsFirefox'}
     var focusTests = {};
-    var disabledTests = {
+    var disabledTests = {};
+    var modifiedNameTests = {
         // PrintFormatting_Numeric: '#FailsAsm',
         // Time128: '#FailsAsm',
         // TimestampToDateTimeRecord: '#FailsAsm',
@@ -111,19 +112,16 @@ describe('The Vireo VTR test suite', function () {
                 ], done);
             });
 
-            var metaInfo;
             if (focusTests[testName] !== undefined) {
-                metaInfo = focusTests[testName] === '' ? '' : ` ${focusTests[testName]}`;
-                fit(testDescription + metaInfo, async function () { // eslint-disable-line no-restricted-globals
+                fit(`${testDescription} ${focusTests[testName]}`.trim(), async function () { // eslint-disable-line no-restricted-globals
                     await test();
                 });
             } else if (disabledTests[testName] !== undefined) {
-                metaInfo = disabledTests[testName] === '' ? '' : ` ${disabledTests[testName]}`;
-                xit(testDescription + metaInfo, async function () {
+                xit(`${testDescription} ${disabledTests[testName]}`.trim(), async function () {
                     await test();
                 });
             } else {
-                it(testDescription, async function () {
+                it(`${testDescription} ${modifiedNameTests[testName] || ''}`.trim(), async function () {
                     await test();
                 });
             }

@@ -47,7 +47,7 @@ script:
 - make testnative
 - make testhttpbin
 - npm run test-min
-- npm run test-asmjs -- --skip-tags FailsAsm
+- npm run test-asmjs
 before_deploy:
 - npm run doxygen
 - export ESH_64_RELEASE="esh_"$TRAVIS_TAG"_x86_64-unknown-linux-gnu_release.zip"
