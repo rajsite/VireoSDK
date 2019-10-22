@@ -34,10 +34,24 @@ describe('The Vireo VTR test suite', function () {
         };
     });
 
-    // To disable a test add a key for the test name set to true, ie:
-    // {'AwesomeDisabledTest': true}
+    // To disable a test add a key for the test name set to empty string or string with skip tag, ie:
+    // {'AwesomeDisabledTest': '#FailsFirefox'}
     var focusTests = {};
-    var disabledTests = {};
+    var disabledTests = {
+        PrintFormatting_Numeric: '#FailsAsm',
+        Time128: '#FailsAsm',
+        TimestampToDateTimeRecord: '#FailsAsm',
+        TimingTest2: '#FailsAsm',
+        StringFormatTimeMisc: '#FailsAsm',
+        DateTimeRecordToTimestamp: '#FailsAsm',
+        DateTime: '#FailsAsm',
+        DateFormatString: '#FailsAsm',
+        WaitUntilMultiple: '#FailsAsm',
+        NumberToString: '#FailsAsm',
+        WildcardArguments: '#FailsAsm',
+        StringFormatTime: '#FailsAsm',
+        StringScanTime: '#FailsAsm'
+    };
 
     viaTestConfigs.forEach(function (viaTestConfig) {
         var testName = viaTestConfig.testName;
@@ -97,12 +111,15 @@ describe('The Vireo VTR test suite', function () {
                 ], done);
             });
 
-            if (focusTests[testName] === true) {
-                fit(testDescription, async function () { // eslint-disable-line no-restricted-globals
+            var metaInfo;
+            if (focusTests[testName] !== undefined) {
+                metaInfo = focusTests[testName] === '' ? '' : ` ${focusTests[testName]}`;
+                fit(testDescription + metaInfo, async function () { // eslint-disable-line no-restricted-globals
                     await test();
                 });
-            } else if (disabledTests[testName] === true) {
-                xit(testDescription, async function () {
+            } else if (disabledTests[testName] !== undefined) {
+                metaInfo = disabledTests[testName] === '' ? '' : ` ${disabledTests[testName]}`;
+                xit(testDescription + metaInfo, async function () {
                     await test();
                 });
             } else {
