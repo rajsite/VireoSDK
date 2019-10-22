@@ -39,19 +39,19 @@ describe('The Vireo VTR test suite', function () {
     var focusTests = {};
     var disabledTests = {};
     var modifiedNameTests = {
-        // PrintFormatting_Numeric: '#FailsAsm',
-        // Time128: '#FailsAsm',
-        // TimestampToDateTimeRecord: '#FailsAsm',
-        // TimingTest2: '#FailsAsm',
-        // StringFormatTimeMisc: '#FailsAsm',
-        // DateTimeRecordToTimestamp: '#FailsAsm',
-        // DateTime: '#FailsAsm',
-        // DateFormatString: '#FailsAsm',
-        // WaitUntilMultiple: '#FailsAsm',
-        // NumberToString: '#FailsAsm',
-        // WildcardArguments: '#FailsAsm',
-        // StringFormatTime: '#FailsAsm',
-        // StringScanTime: '#FailsAsm'
+        PrintFormatting_Numeric: '#FailsAsm',
+        Time128: '#FailsAsm',
+        TimestampToDateTimeRecord: '#FailsAsm',
+        TimingTest2: '#FailsAsm',
+        StringFormatTimeMisc: '#FailsAsm',
+        DateTimeRecordToTimestamp: '#FailsAsm',
+        DateTime: '#FailsAsm',
+        DateFormatString: '#FailsAsm',
+        WaitUntilMultiple: '#FailsAsm',
+        NumberToString: '#FailsAsm',
+        WildcardArguments: '#FailsAsm',
+        StringFormatTime: '#FailsAsm',
+        StringScanTime: '#FailsAsm'
     };
 
     viaTestConfigs.forEach(function (viaTestConfig) {
