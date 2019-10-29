@@ -338,6 +338,7 @@ Int32 /*ExecSlicesResult*/ ExecutionContext::ExecuteSlices(Int32 numSlices, Int3
 {
     VIREO_ASSERT((_runningQueueElt == nullptr))
     PlatformTickType currentTime = gPlatform.Timer.TickCount();
+    EM_ASM({console.log('mtotickcall -1')});
     PlatformTickType breakOutTime = currentTime + gPlatform.Timer.MicrosecondsToTickCount(millisecondsToRun * 1000);
 
     _timer.QuickCheckTimers(currentTime);

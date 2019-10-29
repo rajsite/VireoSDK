@@ -516,6 +516,7 @@ void Format(SubString *format, Int32 count, StaticTypeAndData arguments[], Strin
 
             replacementString[0] = '\0';
             while (!parseFinished) {
+                EM_ASM({console.log('loop start')});
                 TypeRef argType = nullptr;
                 void *pData = nullptr;
                 parseFinished = true;
@@ -535,6 +536,7 @@ void Format(SubString *format, Int32 count, StaticTypeAndData arguments[], Strin
                         pData = (void*)((AQBlock1*)pData + argType->ElementOffset());
                     }
                 }
+                EM_ASM({console.log('format char: ' + $0)}, fOptions.FormatChar);
                 switch (fOptions.FormatChar) {
                     case 'g': case 'G':
                     {
@@ -569,6 +571,7 @@ void Format(SubString *format, Int32 count, StaticTypeAndData arguments[], Strin
                     break;
                     case 'f': case 'F':
                     {
+                        EM_ASM({console.log('format ccase F')});
                         Double tempDouble = ReadDoubleFromMemory(argType, pData);
                         Int32 leadingZero = 0;
                         Int32 exponent = 0;
@@ -620,6 +623,7 @@ void Format(SubString *format, Int32 count, StaticTypeAndData arguments[], Strin
                     break;
                     case 'e': case 'E':
                     {
+                        EM_ASM({console.log('format case E')});
                         Double tempDouble = ReadDoubleFromMemory(argType, pData);
                         Int32 precision = fOptions.Precision;
                         if (complexArg == 2) {
@@ -628,6 +632,7 @@ void Format(SubString *format, Int32 count, StaticTypeAndData arguments[], Strin
                             else
                                 strncat(replacementString, " ", sizeof(replacementString) - strlen(replacementString) - 1);
                         }
+                        EM_ASM({console.log('format case E-a')});
                         if (precision >= 0 && fOptions.EngineerNotation) {
                             Int32 exponent = 0;
                             if (tempDouble != 0) {
@@ -641,12 +646,14 @@ void Format(SubString *format, Int32 count, StaticTypeAndData arguments[], Strin
                                 precision = (exponent >= 0)? precision + exponent%3 : precision + 3+exponent%3;
                             }
                         }
+                        EM_ASM({console.log('format case E-b')});
                         if (fOptions.Significant >= 0) {
                             precision =  fOptions.Significant - 1;
                         }
                         sizeOfNumericString = 0;
                         char formatCode[10];
                         skipPrev = Int32(strlen(replacementString));
+                        EM_ASM({console.log('format case E-c')});
                         if (precision >= 0) {
                             snprintf(formatCode, sizeof(formatCode), "%%.*%se", fOptions.NumericLength);
                             // formatCode : %.*he
@@ -656,6 +663,7 @@ void Format(SubString *format, Int32 count, StaticTypeAndData arguments[], Strin
                             // formatCode : %he
                             sizeOfNumericString = snprintf(replacementString+skipPrev, kTempCStringLength-skipPrev, formatCode, tempDouble);
                         }
+                        EM_ASM({console.log('format case E-d')});
                         sizeOfNumericString += skipPrev;
                         intDigits = 0;
                         truncateSignificant = 0;
@@ -731,6 +739,7 @@ void Format(SubString *format, Int32 count, StaticTypeAndData arguments[], Strin
                     case 'o': case 'u':
                     case 'x': case 'X':
                     {
+                        EM_ASM({console.log('format d o x')});
                         // To cover the max range formats like %d need to be turned into %lld
                         SubString percentFormat(fOptions.FmtSubString.Begin()-1, fOptions.FmtSubString.End());
                         TempStackCString tempFormat((Utf8Char*)"%", 1);
@@ -892,12 +901,16 @@ void Format(SubString *format, Int32 count, StaticTypeAndData arguments[], Strin
                         // This is just part of the format specifier, let it become part of the percent format
                     break;
                 }
+                EM_ASM({console.log('after case')});
                 if (sizeOfNumericString > 0) {  // shared code, set by %e and %f above
                     sizeOfNumericString -= skipPrev;
+                    EM_ASM({console.log('after case-a')});
                     RefactorLVNumeric(&fOptions, replacementString + skipPrev, &sizeOfNumericString, intDigits, truncateSignificant, complexArg > 0);
+                    EM_ASM({console.log('after case-b')});
                     UpdateNumericStringWithDecimalSeparator(fOptions, replacementString + skipPrev, sizeOfNumericString);
                     sizeOfNumericString = Int32(strlen(replacementString));
                     if (complexArg == 2) {  // done with both parts of complex number
+                    EM_ASM({console.log('after case-c')});
                         strncat(replacementString, " i", sizeof(replacementString) - sizeOfNumericString - 1);
                         Boolean negative = replacementString[0] == '-';
                         Utf8Char *tempNum = (Utf8Char*)replacementString;
@@ -907,7 +920,9 @@ void Format(SubString *format, Int32 count, StaticTypeAndData arguments[], Strin
                         } else {
                             sizeOfNumericString += 2;  // account for 'i'
                         }
+                        EM_ASM({console.log('after case-d')});
                         TempStackCString numberPart((Utf8Char*)tempNum, sizeOfNumericString);
+                        EM_ASM({console.log('after case-e')});
                         GenerateFinalNumeric(&fOptions, replacementString, &sizeOfNumericString, &numberPart, negative);
                     }
                     if (complexArg != 1)  // arg not complex, or complex but we're done with both parts
@@ -918,14 +933,17 @@ void Format(SubString *format, Int32 count, StaticTypeAndData arguments[], Strin
             buffer->Append(c);
         }
     }
+    EM_ASM({console.log('format --a')});
     // Check if there are unused arguments provided
     if (argumentIndex < count) {
         // make sure at least all of the args are used (even if out of order)
         if (usedArguments != count) {
+            EM_ASM({console.log('format --b')});
             SetFormatError(kFormatTooFewFormatSpecs, count - argumentIndex, fOptions.FormatChar, errPtr, false);
             buffer->Resize1D(0);
         }
     }
+    EM_ASM({console.log('format end')});
 }
 
 static char gSIPrefixesTable[] = {'y', 'z', 'a', 'f', 'p', 'n', 'u', 'm', '0', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
@@ -942,6 +960,7 @@ static char gSIPrefixesTable[] = {'y', 'z', 'a', 'f', 'p', 'n', 'u', 'm', '0', '
  * */
 void RefactorLVNumeric(const FormatOptions* formatOptions, char* bufferBegin, Int32* pSize, Int32 IntDigits, Int32 truncateSignificant, Boolean skipFinal)
 {
+    EM_ASM({console.log('refactorlvnumeric-a')});
     Boolean negative = false;
     char* buffer = bufferBegin;
 
@@ -967,6 +986,7 @@ void RefactorLVNumeric(const FormatOptions* formatOptions, char* bufferBegin, In
         numberStart++;
     }
 
+EM_ASM({console.log('refactorlvnumeric-b')});
     while (!(decimalPoint >= 0 && exponentPos >= 0) && index < size) {
         char digit = *(buffer+index);
         if (digit == '.') {
@@ -982,8 +1002,9 @@ void RefactorLVNumeric(const FormatOptions* formatOptions, char* bufferBegin, In
     if (decimalPoint < 0) {
         decimalPoint = 0;
     }
-
+EM_ASM({console.log('refactorlvnumeric-c')});
     if (isInfNaN || formatOptions->FormatChar == 'f' || formatOptions->FormatChar == 'F') {
+        EM_ASM({console.log('refactorlvnumeric-d')});
         if (truncateSignificant > 0) {
             // .0 in sprintf. no decimal point,
             // but still truncate the integer part which is not handled in sprintf
@@ -998,6 +1019,7 @@ void RefactorLVNumeric(const FormatOptions* formatOptions, char* bufferBegin, In
                 // significant digits midpoints are always rounded down.
                 *(buffer+trailing-1) = *(buffer+trailing-1) + 1;
             }
+            EM_ASM({console.log('refactorlvnumeric-e')});
             for (Int32 i = trailing-1; i >= numberStart; i--) {
                 if (*(buffer+i) > '9') {
                     *(buffer+i) = '0';
@@ -1021,6 +1043,7 @@ void RefactorLVNumeric(const FormatOptions* formatOptions, char* bufferBegin, In
                 }
                 *(buffer+ numberStart) =  '1';
             }
+            EM_ASM({console.log('refactorlvnumeric-f')});
         } else if (IntDigits+1 < decimalPoint - numberStart && formatOptions->Significant >= 0) {
             // generate extra significant digit at MSB.
             // There may be a decimal point in the string and the snprintf may generate another digit when rounding.
@@ -1035,19 +1058,21 @@ void RefactorLVNumeric(const FormatOptions* formatOptions, char* bufferBegin, In
             numberEnd--;
         }
 
+EM_ASM({console.log('refactorlvnumeric-g')});
         if (formatOptions->RemoveTrailing) {
             // only remove up to decimal point, and if just '0' keep that.
             while ((*(buffer + numberEnd) == '0' || *(buffer + numberEnd) == '.') && numberEnd > numberStart && numberEnd >= decimalPoint) {
                 numberEnd--;
             }
         }
-
+EM_ASM({console.log('refactorlvnumeric-h')});
         buffer[1+numberEnd] = 0;
         if (!skipFinal) {
             TempStackCString numberPart((Utf8Char*)buffer+ numberStart, numberEnd + 1 - numberStart);
             GenerateFinalNumeric(formatOptions, bufferBegin, pSize, &numberPart, negative);
         }
     } else if (formatOptions->FormatChar == 'E' || formatOptions->FormatChar == 'e') {
+        EM_ASM({console.log('refactorlvnumeric-i')});
         Int32 numberIndex = numberStart;
         Int32 baseIndex = 0;
         // baseIndex used to traverse the tempNumber char array.
@@ -1056,7 +1081,9 @@ void RefactorLVNumeric(const FormatOptions* formatOptions, char* bufferBegin, In
         ScientificFloat.ReadInt(&exponent);
         Int32 paddingBase = exponent%3;
         char tempNumber[kTempCStringLength];
+        EM_ASM({console.log('formate-a')});
         if (formatOptions->EngineerNotation && (paddingBase%3 != 0)) {
+            EM_ASM({console.log('formate-b')});
             if (paddingBase < 0) {
                 paddingBase += 3;
             }
@@ -1091,6 +1118,7 @@ void RefactorLVNumeric(const FormatOptions* formatOptions, char* bufferBegin, In
                 baseIndex++;
                 numberIndex++;
             }
+            EM_ASM({console.log('refactorlvnumeric-j')});
             if (formatOptions->RemoveTrailing) {
                 while ((tempNumber[baseIndex-1] == '0' || tempNumber[baseIndex-1] == formatOptions->DecimalSeparator) && baseIndex > 1) {
                     baseIndex--;
@@ -1107,10 +1135,12 @@ void RefactorLVNumeric(const FormatOptions* formatOptions, char* bufferBegin, In
 
             } else {
                 // we can use %d safely, because the exponent part is never long than Int32 in double
+                EM_ASM({console.log('formate-c')});
                 Int32 sizeOfExponent = snprintf(tempNumber + baseIndex, kTempCStringLength-baseIndex, "E%+d", (int)exponent);
                 baseIndex += sizeOfExponent;
             }
         } else {
+            EM_ASM({console.log('refactorlvnumeric-k')});
             baseIndex = 0;
             for (Int32 i = numberStart; i < exponentPos; i++) {
                 tempNumber[baseIndex] = *(buffer+i);
@@ -1133,6 +1163,7 @@ void RefactorLVNumeric(const FormatOptions* formatOptions, char* bufferBegin, In
                 baseIndex += sizeOfExponent;
             }
         }
+        EM_ASM({console.log('refactorlvnumeric-l')});
         tempNumber[baseIndex] = 0;
         if (!skipFinal) {
             TempStackCString numberPart((Utf8Char*)tempNumber, baseIndex);
@@ -1141,6 +1172,7 @@ void RefactorLVNumeric(const FormatOptions* formatOptions, char* bufferBegin, In
             memcpy(bufferBegin, tempNumber, baseIndex+1);
         }
     } else if (formatOptions->FormatChar == 'B' || formatOptions->FormatChar == 'b') {
+        EM_ASM({console.log('refactorlvnumeric-m')});
         Utf8Char* tempNumber = (Utf8Char*)bufferBegin + numberStart;
         bufferBegin[*pSize] = 0;
         if (!skipFinal) {
@@ -1148,6 +1180,7 @@ void RefactorLVNumeric(const FormatOptions* formatOptions, char* bufferBegin, In
             GenerateFinalNumeric(formatOptions, bufferBegin, pSize, &numberPart, false);
         }
     } else if (formatOptions->FormatChar == 'd') {
+        EM_ASM({console.log('refactorlvnumeric-o')});
         Boolean extend = false;
         buffer = bufferBegin;
         Int32 significant = formatOptions->Significant;
@@ -1189,6 +1222,7 @@ void RefactorLVNumeric(const FormatOptions* formatOptions, char* bufferBegin, In
             GenerateFinalNumeric(formatOptions, bufferBegin, pSize, &numberPart, negative);
         }
     }
+    EM_ASM({console.log('refactorlvnumeric-p')});
 }
 
 /* This function will calculate the length and fill the numeric string if necessary.

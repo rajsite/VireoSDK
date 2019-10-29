@@ -294,6 +294,7 @@ VIREO_FUNCTION_SIGNATURE2(WaitMillisecondsUInt8, UInt8, UInt8)
 //------------------------------------------------------------
 VIREO_FUNCTION_SIGNATURE1(WaitUntilMicroseconds, Int64)
 {
+    EM_ASM({console.log('mtotickcall -5')});
     return THREAD_CLUMP()->WaitUntilTickCount(gPlatform.Timer.MicrosecondsToTickCount(_Param(0)), _NextInstruction());
 }
 //------------------------------------------------------------
@@ -340,6 +341,7 @@ VIREO_FUNCTION_SIGNATURE WaitUntilMicrosecondsMultipleImplementation(UInt32 usMu
     }
     Int64 nowUS = gPlatform.Timer.TickCountToMicroseconds(gPlatform.Timer.TickCount());
     Int64 nextUS = ((nowUS + usMultiple) / usMultiple) * usMultiple;
+    EM_ASM({console.log('mtotickcall -6')});
     PlatformTickType future = gPlatform.Timer.MicrosecondsToTickCount(nextUS);
     if (!SetTimerValueWithResolution(timerValue, timerValueResolution, nextUS)) {
         THREAD_EXEC()->LogEvent(EventLog::kHardDataError, "Unable to set Timer Value on WaitUntilMicrosecondsMultipleImplementation.");
@@ -367,18 +369,26 @@ VIREO_FUNCTION_SIGNATURE2(WaitUntilMicrosecondsMultipleUInt8, UInt8, UInt8)
 VIREO_FUNCTION_SIGNATURE WaitUntilMillisecondsMultipleImplementation(UInt32 msMultiple, void *timerValue,
     TimerValueResolutionEnum timerValueResolution, InstructionCore* nextInstruction)
 {
+    EM_ASM({console.log('waitmsimple - a')});
     if (msMultiple == 0) {
         // This is supposed to yield immediately, but the unrolling in the execloop defeats this
         THREAD_EXEC()->ClearBreakout();
         return nextInstruction;
     }
+    EM_ASM({console.log('waitmsimple - b')});
     Int64 nowMS = gPlatform.Timer.TickCountToMilliseconds(gPlatform.Timer.TickCount());
+    EM_ASM({console.log('waitmsimple - c')});
     Int64 nextMS = ((nowMS + msMultiple) / msMultiple) * msMultiple;
+    EM_ASM({console.log('waitmsimple - d')});
+    EM_ASM({console.log('mtotickcall -7')});
     PlatformTickType future = gPlatform.Timer.MicrosecondsToTickCount(nextMS * 1000);
+    EM_ASM({console.log('waitmsimple - e')});
     if (!SetTimerValueWithResolution(timerValue, timerValueResolution, nextMS)) {
+        EM_ASM({console.log('waitmsimple - f')});
         THREAD_EXEC()->LogEvent(EventLog::kHardDataError, "Unable to set Timer Value on WaitUntilMillisecondsMultipleImplementation.");
         return THREAD_EXEC()->Stop();
     }
+    EM_ASM({console.log('waitmsimple - z')});
     return THREAD_CLUMP()->WaitUntilTickCount(future, nextInstruction);
 }
 //------------------------------------------------------------

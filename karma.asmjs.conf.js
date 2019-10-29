@@ -10,7 +10,7 @@
         sharedConfig.files = [
             ...sharedConfig.filesPolyfills,
             ...sharedConfig.filesInfrastructure,
-            'dist/asmjs-unknown-emscripten/release/vireo.min.js',
+            'dist/asmjs-unknown-emscripten/release/vireo.js',
             ...sharedConfig.filesSource,
             ...sharedConfig.filesFixtures,
             ...sharedConfig.filesSpecs

@@ -2910,12 +2910,17 @@ void NumberToFloatStringInternal(TypeRef type, void *pData, Int32 minWidth, Int3
 }
 void NumberToExponentialStringInternal(TypeRef type, void *pData, Int32 minWidth, Int32 precision, StringRef str)
 {
+    EM_ASM({console.log('b')});
     StaticTypeAndData arguments[1] = {{ type, pData }};
     SubString format;
     char formatBuffer[32];
+    EM_ASM({console.log('c')});
     snprintf(formatBuffer, sizeof(formatBuffer), "%%%d.%dE", minWidth, precision);
+    EM_ASM({console.log('d')});
     format.AliasAssignCStr(formatBuffer);
+    EM_ASM({console.log('e')});
     Format(&format, 1, arguments, str, nullptr);
+    EM_ASM({console.log('f')});
 }
 void NumberToEngineeringStringInternal(TypeRef type, void *pData, Int32 minWidth, Int32 precision, StringRef str)
 {
@@ -3027,6 +3032,7 @@ Boolean NumberToStringInternal(TypeRef type, AQBlock1 *pData, Int32 minWidth, In
         case kEncoding_IEEE754Binary:
             if (destEncoding == kEncoding_Array && destType->Rank() == 1 && destType->GetSubElement(0)->BitEncoding() == kEncoding_Unicode) {
                 StringRef str = *(StringRef*)pDestData;
+                EM_ASM({console.log('a')});
                 (*formatCallback)(type, pData, minWidth, precision, str);
                 break;
             }  // else fall through...

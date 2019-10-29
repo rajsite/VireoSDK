@@ -437,16 +437,19 @@ PlatformTickType PlatformTimer::TickCount()
 //------------------------------------------------------------
 PlatformTickType PlatformTimer::MicrosecondsFromNowToTickCount(Int64 microsecondCount)
 {
+    EM_ASM({console.log('mtotickcall -2')});
     return TickCount() + MicrosecondsToTickCount(microsecondCount);
 }
 //------------------------------------------------------------
 PlatformTickType PlatformTimer::MillisecondsFromNowToTickCount(Int64 millisecondCount)
 {
+    EM_ASM({console.log('mtotickcall -3')});
     return TickCount() + MicrosecondsToTickCount(millisecondCount * 1000);
 }
 //------------------------------------------------------------
 PlatformTickType PlatformTimer::MicrosecondsToTickCount(Int64 microseconds)
 {
+    EM_ASM({console.log('tickcount - a')});
 #if defined(_WIN32) || defined(_WIN64)
 
     // Windows filetime base tick count is 100ns
@@ -472,7 +475,7 @@ PlatformTickType PlatformTimer::MicrosecondsToTickCount(Int64 microseconds)
     return microseconds * 1000;
 
 #elif defined(kVireoOS_emscripten)
-
+EM_ASM({console.log('tickcount - b')});
     // Tick count is already in microseconds
     return microseconds;
 
@@ -489,6 +492,7 @@ PlatformTickType PlatformTimer::MicrosecondsToTickCount(Int64 microseconds)
     // #error MicroSecondCount not defined
     return 0;
 #endif
+EM_ASM({console.log('tickcount - never')});
 }
 //------------------------------------------------------------
 Int64 PlatformTimer::TickCountToMilliseconds(PlatformTickType ticks)

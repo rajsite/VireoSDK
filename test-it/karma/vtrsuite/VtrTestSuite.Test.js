@@ -36,7 +36,11 @@ describe('The Vireo VTR test suite', function () {
 
     // To disable a test add a key for the test name set to empty string or string with skip tag, ie:
     // {'AwesomeDisabledTest': '#FailsFirefox'}
-    var focusTests = {};
+    var focusTests = {
+        // NumberToString: '#FailsAsm'
+        // Time128: '#FailsAsm'
+        TimingTest2: '#FailsAsm'
+    };
     var disabledTests = {};
     var modifiedNameTests = {
         PrintFormatting_Numeric: '#FailsAsm',

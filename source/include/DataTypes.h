@@ -16,7 +16,7 @@ SDG
 
 #include <stddef.h>
 #include <string.h>     // memcpy()
-
+#include <emscripten.h>
 #include "BuildConfig.h"
 
 typedef bool Boolean;
