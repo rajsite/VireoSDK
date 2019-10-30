@@ -170,11 +170,9 @@ describe('The Vireo EggShell Reflection API', function () {
                     expect(data).toBe(dummyData);
                 };
 
-                for (var visitkey in typeDescriptor) {
-                    if (typeDescriptor.hasOwnProperty(visitkey)) {
-                        visitor[visitkey] = validateVisitArgs;
-                    }
-                }
+                Object.keys(typeDescriptor).forEach(visitkey => {
+                    visitor[visitkey] = validateVisitArgs;
+                });
 
                 var visitorArgsTest = function (path) {
                     vireo.eggShell.reflectOnValueRef(visitor, vireo.eggShell.findValueRef(viName, path), dummyData);

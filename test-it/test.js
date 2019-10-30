@@ -43,7 +43,7 @@
 
         // Check all testsuites for correct properties ('include' and 'tests')
         for (var prop in testMap) {
-            if (testMap.hasOwnProperty(prop)) {
+            if (Object.prototype.hasOwnProperty.call(testMap, prop)) {
                 // Make sure 'include' and 'tests' are arrays
                 var includeCount = 0;
                 if (testMap[prop].include !== undefined) {
@@ -85,7 +85,7 @@
             // Parse through the 'include' dependencies as a DFS
             testsuite.include.forEach(function (include) {
                 // Verify that the testsuite exists in the testMap
-                if (testMap.hasOwnProperty(include)) {
+                if (Object.prototype.hasOwnProperty.call(testMap, include)) {
                     // Make sure not to recurse on a previously processed dependency
                     if (circMap[include] === undefined) {
                         testlist = testlist.concat(getTests(testMap[include], include, testMap, circMap));
@@ -173,7 +173,7 @@
             });
 
             var key = testName.toString();
-            if (!app.testFailures.hasOwnProperty(key)) {
+            if (!Object.prototype.hasOwnProperty.call(app.testFailures, key)) {
                 app.testFailures[key] = new TestFailure(testName, results);
             }
         }
@@ -308,7 +308,7 @@
             console.log('The following tests failed: ' + Object.keys(app.testFailures).length);
             console.log('=============================================\n');
             for (var test in app.testFailures) {
-                if (app.testFailures.hasOwnProperty(test)) {
+                if (Object.prototype.hasOwnProperty.call(app.testFailures, test)) {
                     console.log('===========================');
                     console.log(app.testFailures[test].name);
                     console.log('===========================');
@@ -418,19 +418,17 @@
         }
         // If no tester listed in the arguments, assume vireo.js
         if (!tester) {
-            await setupVJS();
             tester = JSTester;
+            await setupVJS();
         }
 
         // If a test is provide in command line, just run those
         if (!individualTests) {
             if (testCategory === undefined) {
                 var usageMessage = 'Usage: test.js [-l|-t] [';
-                for (var key in testMap) {
-                    if (testMap.hasOwnProperty(key)) {
-                        usageMessage += key + '|';
-                    }
-                }
+                Object.keys(testMap).forEach(key => {
+                    usageMessage += key + '|';
+                });
                 usageMessage = usageMessage.substring(0, usageMessage.length - 1);
                 usageMessage += ']\n';
                 console.log(usageMessage);
@@ -479,12 +477,6 @@
             console.log('\n============================================='.cyan);
             console.log(('Running ' + testCat + 'tests against ' + target).cyan);
             console.log('============================================='.cyan);
-        }
-
-        // If no tester listed in the arguments, assume vireo.js
-        if (!tester) {
-            await setupVJS();
-            tester = JSTester;
         }
 
         if (testFiles.length > 0) {
