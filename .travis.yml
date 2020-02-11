@@ -1,9 +1,5 @@
 dist: xenial
-language: generic
-python:
- - "3.5"
-node_js:
- - "10"
+language: minimal
 branches:
   except:
     - gh-pages
@@ -11,6 +7,9 @@ addons:
   firefox: latest
   apt:
     packages:
+    - python3
+    - nodejs
+    - npm
     - doxygen
 cache:
   directories:
