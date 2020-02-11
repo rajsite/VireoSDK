@@ -16,7 +16,7 @@ cache:
     - node_modules
 before_install:
 - export TZ=CST6CDT
-- npm install npm@latest -g
+- sudo npm install npm@latest -g
 - node -v
 - npm -v
 - python -V
