@@ -370,7 +370,7 @@ describe('Performing a GET request', function () {
         });
     });
 
-    it('validating a response with binary data seeded bytes', function (done) {
+    it('validating a response with binary data seeded bytes #FailsHttpBinLatest', function (done) {
         // Body bytes: '\xCB\xD2\x7C\x42\x00\xA9\x78\xC2';
         var bodyReadAsString = '\uFFFD\uFFFD\x7C\x42\x00\uFFFD\x78\uFFFD';
 
