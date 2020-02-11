@@ -1,4 +1,9 @@
 dist: xenial
+language: minimal
+python:
+ - "3.5"
+node_js:
+ - "10"
 branches:
   except:
     - gh-pages
