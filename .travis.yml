@@ -1,4 +1,6 @@
 dist: xenial
+services:
+ - docker
 branches:
   except:
     - gh-pages
@@ -21,8 +23,8 @@ before_install:
 - doxygen --version
 install:
 - npm install
-- pip install --user tox
-- npm run httpbin &
+- docker pull kennethreitz/httpbin
+- docker run -p 64526:80 kennethreitz/httpbin
 - gcc -v
 - git clone https://github.com/juj/emsdk.git
 - (cd emsdk && git checkout 369013943283939412fb2807bb0d2ded8ebd5a9e)
@@ -85,4 +87,3 @@ deploy:
 after_script:
 - jobs -l
 - kill $!
-- cat ./nohup.out
