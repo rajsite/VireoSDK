@@ -4,7 +4,7 @@
 branches:
   except:
     - gh-pages
-image: Visual Studio 2017
+image: Visual Studio 2019
 init:
 - tzutil /s "Central Standard Time"
 - cmd: node -v
@@ -42,7 +42,7 @@ test_script:
   - make testjs
   - make testnative
   - make testhttpbin
-  - npm run test-min -- --browsers FirefoxHeadless
+  - npm run test-min
 
 # Using the same naming convention as rust https://forge.rust-lang.org/platform-support.html
 after_test:
