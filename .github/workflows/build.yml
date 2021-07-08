@@ -65,9 +65,9 @@ jobs:
     - run: . emsdk/emsdk_env.sh && make vjs
     - run: . emsdk/emsdk_env.sh && make vjs BUILD=debug
     - run: . emsdk/emsdk_env.sh && make vjs BUILD=profile
-    - run: . emsdk/emsdk_env.sh && make vwasm
-    - run: . emsdk/emsdk_env.sh && make vwasm BUILD=debug
-    - run: . emsdk/emsdk_env.sh && make vwasm BUILD=profile
+    - run: . emsdk/emsdk_env.sh && make vwasi
+    - run: . emsdk/emsdk_env.sh && make vwasi BUILD=debug
+    - run: . emsdk/emsdk_env.sh && make vwasi BUILD=profile
     - run: . emsdk/emsdk_env.sh && make vjs BUILD=release TARGET=asmjs-unknown-emscripten
     - run: npm pack
     - uses: actions/upload-artifact@v2

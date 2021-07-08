@@ -204,9 +204,9 @@ $(PREJS) $(POSTJS): $(CORESOURCEDIR)/vireo.wrapper.js
 	node splitVireoWrapper.js $(CORESOURCEDIR)/vireo.wrapper.js $(PREJS) $(POSTJS)
 
 vjs: $(DIST)/vireo.js $(DIST)/vireo.min.js
-vwasi: $(DIST)/vireo.core.wasm
+vwasi: $(DIST)/vireo.wasm
 
-$(DIST)/vireo.core.js $(DIST)/vireo.core.wasm: $(EM_BC_FILES) $(ANALYSIS_LIBRARY) $(PREJS) $(POSTJS) | $(DIST)
+$(DIST)/vireo.core.js $(DIST)/vireo.wasm: $(EM_BC_FILES) $(ANALYSIS_LIBRARY) $(PREJS) $(POSTJS) | $(DIST)
 	$(EMCC) $(EM_OPT) $(EM_WRAP) $(EMLIBRARY) $(EM_BC_FILES) $(ANALYSIS_LIBRARY) $(EM_EXPORTS) $(EM_RUNTIME_EXPORTS) -o $@
 
 $(DIST)/vireo.js: $(DIST)/vireo.core.js $(JS_SOURCE_FILES)
