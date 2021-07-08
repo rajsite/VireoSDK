@@ -547,7 +547,7 @@ void PlatformTimer::SleepMilliseconds(Int64 milliseconds) {
     usleep(UInt32(milliseconds * 1000));
 #elif kVireoOS_wasi
     // Ain't no rest for the wicked
-    // TODO figure out how to use WASI APIs to sleep in emscripten builds
+    // TODO(mraj) figure out how to use WASI APIs to sleep in emscripten builds
 #else
     #error "implement SleepMilliseconds"
 #endif
