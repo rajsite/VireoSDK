@@ -16,6 +16,9 @@ simple v32 v64 help:
 vjs js:
 	cd make-it && make vjs
 
+vwasi:
+	cd make-it && make vwasi TARGET=wasm32-wasi
+
 unittest:
 	cd make-it && make $@
 

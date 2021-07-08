@@ -9,7 +9,7 @@ MKDIR="mkdir"
 
 VIREO_SDK=..
 
-TARGETS_SUPPORTED=asmjs-unknown-emscripten wasm32-unknown-emscripten
+TARGETS_SUPPORTED=asmjs-unknown-emscripten wasm32-unknown-emscripten wasm32-wasi
 TARGET=wasm32-unknown-emscripten
 
 ifeq ($(filter $(TARGET), $(TARGETS_SUPPORTED)),)
@@ -27,6 +27,7 @@ OBJS=$(VIREO_SDK)/objs/$(TARGET)/$(BUILD)
 DIST=$(VIREO_SDK)/dist/$(TARGET)/$(BUILD)
 
 INCDIR=$(VIREO_SDK)/source/include
+COMMANDLINESOURCEDIR=$(VIREO_SDK)/source/CommandLine
 CORESOURCEDIR=$(VIREO_SDK)/source/core
 IOSOURCEDIR=$(VIREO_SDK)/source/io
 UTSOURCEDIR=$(VIREO_SDK)/source/unittest
@@ -88,16 +89,32 @@ EM_OPTFLAGS ?= $(EM_OPTFLAG)
 EM_ANALYSIS_OPT_FLAG = $(EM_OPTFLAG)
 
 ifeq ($(TARGET), asmjs-unknown-emscripten)
-   TARGET_FLAG = -s WASM=0
+   TARGET_FLAG = -DkVireoOS_emscripten -s WASM=0
+   # The main.obj is not included in library builds
+   MAINOBJ =
 endif
 
 ifeq ($(TARGET), wasm32-unknown-emscripten)
-   TARGET_FLAG = -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
+   TARGET_FLAG = -DkVireoOS_emscripten -s WASM=1 -s ALLOW_MEMORY_GROWTH=1
+   # The main.obj is not included in library builds
+   MAINOBJ =
+endif
+
+ifeq ($(TARGET), wasm32-wasi)
+   # ALLOW_MEMORY_GROWTH is avoided to prevent emscripten-specific imports to wasi builds
+   TARGET_FLAG = -DkVireoOS_wasi -s WASM=1 -s STANDALONE_WASM
+   # When emscripten supports WASI file io: https://github.com/emscripten-core/emscripten/issues/12094#issuecomment-685184349
+   # Or add wasi-sdk just for wasi builds, can enable running from via file with -DVIREO_STDIO=1
+   MAINOBJ = $(OBJS)/main.bc
+ifeq ($(BUILD), debug)
+   # Debug builds use a lower assertion level to prevent adding emscripten-specific imports to wasi builds
+   EM_OPTFLAG = -g -s ASSERTIONS=1 -s SAFE_HEAP=0
+endif
 endif
 
 # NO_DYNAMIC_EXECUTION=1 Allows Vireo to be used in CSP environments where eval() is forbidden: https://github.com/kripken/emscripten/blob/master/src/settings.js#L563
 EM_OPT = $(EM_OPTFLAGS) $(TARGET_FLAG) -std=c++14 -fno-exceptions -Werror --memory-init-file 0 -s NO_DYNAMIC_EXECUTION=1 -s MODULARIZE=1 -s EXPORT_NAME=VireoCreateCoreModule -s EXPORT_ES6=1 -s USE_ES6_IMPORT_META=0 --minify 0 -s NO_FILESYSTEM=1 -s ABORTING_MALLOC=0
-EMFLAGS = -I$(INCDIR) -DkVireoOS_emscripten $(EM_OPT)
+EMFLAGS = -I$(INCDIR) $(EM_OPT)
 EMLIBRARY = --js-library $(CORESOURCEDIR)/library_coreHelpers.js \
             --js-library $(CORESOURCEDIR)/library_eventHelpers.js \
             --js-library $(IOSOURCEDIR)/library_httpClient.js \
@@ -121,7 +138,8 @@ EM_RUNTIME_EXPORTS = -s EXPORTED_RUNTIME_METHODS="[\
 	'setValue' \
     ]"
 
-EM_BC_FILES=$(OBJS)/Array.bc\
+EM_BC_FILES=$(MAINOBJ)\
+	$(OBJS)/Array.bc\
 	$(OBJS)/Assert.bc\
 	$(OBJS)/CEntryPoints.bc\
 	$(OBJS)/ControlRef.bc\
@@ -171,6 +189,8 @@ endif
 
 $(OBJS)/%.bc: $(CORESOURCEDIR)/%.cpp
 	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -c -o $@ $<
+$(OBJS)/%.bc: $(COMMANDLINESOURCEDIR)/%.cpp
+	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -c -o $@ $<
 $(OBJS)/%.bc: $(IOSOURCEDIR)/%.cpp
 	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -c -o $@ $<
 $(OBJS)/%.bc: $(UTSOURCEDIR)/%.cpp
@@ -184,8 +204,9 @@ $(PREJS) $(POSTJS): $(CORESOURCEDIR)/vireo.wrapper.js
 	node splitVireoWrapper.js $(CORESOURCEDIR)/vireo.wrapper.js $(PREJS) $(POSTJS)
 
 vjs: $(DIST)/vireo.js $(DIST)/vireo.min.js
+vwasi: $(DIST)/vireo.core.wasm
 
-$(DIST)/vireo.core.js: $(EM_BC_FILES) $(ANALYSIS_LIBRARY) $(PREJS) $(POSTJS) | $(DIST)
+$(DIST)/vireo.core.js $(DIST)/vireo.core.wasm: $(EM_BC_FILES) $(ANALYSIS_LIBRARY) $(PREJS) $(POSTJS) | $(DIST)
 	$(EMCC) $(EM_OPT) $(EM_WRAP) $(EMLIBRARY) $(EM_BC_FILES) $(ANALYSIS_LIBRARY) $(EM_EXPORTS) $(EM_RUNTIME_EXPORTS) -o $@
 
 $(DIST)/vireo.js: $(DIST)/vireo.core.js $(JS_SOURCE_FILES)

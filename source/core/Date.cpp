@@ -41,6 +41,8 @@
     #include <xscutimer.h>
 #elif kVireoOS_emscripten
     #include <emscripten.h>
+#elif kVireoOS_wasi
+    #include <time.h>
 #endif
 
 namespace Vireo {
@@ -214,7 +216,7 @@ namespace Vireo {
 
         // Get timezone abbreviation
         char timeZoneAbbr[kTempCStringLength] = "UnknownTimeZone";
-#if (kVireoOS_linuxU || kVireoOS_macosxU || kVireoOS_emscripten)
+#if (kVireoOS_linuxU || kVireoOS_macosxU || kVireoOS_emscripten || kVireoOS_wasi)
         time_t rawtime = timestamp.Integer() - kStdDT1970re1904;
         struct tm timeinfo;
         localtime_r(&rawtime, &timeinfo);
@@ -225,7 +227,6 @@ namespace Vireo {
             // if timezone name is unabbreviated (True on Windows (both node.js and browser), then abbreviate it
             abbreviateTimeZone(timeinfo.tm_zone, timeZoneAbbr);
         }
-// #elif kVireoOS_emscripten variant deleted (03/2017); localtime_r works correctly
 #elif kVireoOS_windows
         TIME_ZONE_INFORMATION timeZoneInfo;
         int rc = GetTimeZoneInformationForYear(year, nullptr, &timeZoneInfo);
@@ -364,9 +365,7 @@ namespace Vireo {
 
     //------------------------------------------------------------
     Int32 Date::getLocaletimeZone(Int64 utcTime) {
-// #if kVireoOS_emscripten formerly here which was using jsTimestampGetTimeZoneOffset has been deleted (03/2017);
-// the localtime_r emulation works correctly
-#if (kVireoOS_linuxU || kVireoOS_macosxU || kVireoOS_emscripten)
+#if (kVireoOS_linuxU || kVireoOS_macosxU || kVireoOS_emscripten || kVireoOS_wasi)
         struct tm tm;
         time_t timeVal = utcTime - kStdDT1970re1904;
         localtime_r(&timeVal, &tm);

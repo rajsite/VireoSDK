@@ -29,6 +29,9 @@
   #include "xscutimer.h"
 #elif kVireoOS_emscripten
   #include <emscripten.h>
+#elif kVireoOS_wasi
+  #include <time.h>
+  #include <unistd.h>
 #endif
 
 // Enable VIREO_JOURNAL_ALLOCS to use supplementary map to track all mallocs and remember which
@@ -286,7 +289,7 @@ void PlatformIO::ReadStdin(StringRef buffer)
     buffer->Reserve(5000);
     char c = fgetc(stdin);
     while (true) {
-        if ((c == (char)EOF) || (c == '\n')) {
+        if (c == (char)EOF) {
             break;
         }
         buffer->Append(c);
@@ -366,7 +369,7 @@ PlatformTickType PlatformTimer::TickCount()
 
     return micros();
 
-#elif defined(kVireoOS_linuxU)
+#elif defined(kVireoOS_linuxU) || defined(kVireoOS_wasi)
 
     timespec time;
     clock_gettime(CLOCK_MONOTONIC, &time);
@@ -460,7 +463,7 @@ PlatformTickType PlatformTimer::MicrosecondsToTickCount(Int64 microseconds)
     // tick count is microseconds for arduino's wiring
     return ticks;
 
-#elif defined(kVireoOS_linuxU)
+#elif defined(kVireoOS_linuxU) || defined(kVireoOS_wasi)
 
     // tick count is nanoseconds for linux
     return microseconds * 1000;
@@ -511,7 +514,7 @@ Int64 PlatformTimer::TickCountToMicroseconds(PlatformTickType ticks)
     // tick count is microseconds for arduino's wiring
     return ticks;
 
-#elif defined(kVireoOS_linuxU)
+#elif defined(kVireoOS_linuxU) || defined(kVireoOS_wasi)
 
     // tick count is nanoseconds for linux
     return ticks / 1000;
@@ -542,6 +545,9 @@ void PlatformTimer::SleepMilliseconds(Int64 milliseconds) {
     Sleep((DWORD)milliseconds);
 #elif kVireoOS_macosxU || kVireoOS_linuxU
     usleep(UInt32(milliseconds * 1000));
+#elif kVireoOS_wasi
+    // Ain't no rest for the wicked
+    // TODO figure out how to use WASI APIs to sleep in emscripten builds
 #else
     #error "implement SleepMilliseconds"
 #endif

@@ -6,10 +6,6 @@
 #include "UnitTest.h"
 #include "DebuggingToggles.h"
 
-#if kVireoOS_emscripten
-    #include <emscripten.h>
-#endif
-
 namespace Vireo {
 
 static struct {
@@ -72,13 +68,9 @@ int VIREO_MAIN(int argc, const char * argv[])
                 }
 
                 LOG_PLATFORM_MEM("Mem after load")
-#if defined(kVireoOS_emscripten)
-                emscripten_set_main_loop(RunExec, 40, nullptr);
-#else
                 while (gShells._keepRunning) {
                     RunExec();  // deletes TypeManagers on exit
                 }
-#endif
             }
             LOG_PLATFORM_MEM("Mem after execution")
             gShells._pUserShell->Delete();
@@ -89,10 +81,12 @@ int VIREO_MAIN(int argc, const char * argv[])
         // Interactive mode is experimental.
         // the core loop should be processed by by a vireo program
         // once IO primitives are all there.
+        // To signal end of input use CTRL+D on nix and CTRL+Z on windows
+        // To pipe in a file use `cat <filename> | esh` on nix
+        //   and `type <filename> | esh` on windows
         gShells._pRootShell = TypeManager::New(nullptr);
         gShells._pUserShell = TypeManager::New(gShells._pRootShell);
         while (gShells._keepRunning) {
-            gPlatform.IO.Print(">");
             {
                 TypeManagerScope scope(gShells._pUserShell);
                 STACK_VAR(String, buffer);
@@ -125,9 +119,6 @@ void Vireo::RunExec() {
         gPlatform.Timer.SleepMilliseconds(delay);
     if (!gShells._keepRunning) {
         // No more to execute
-#if defined(kVireoOS_emscripten)
-        emscripten_cancel_main_loop();
-#endif
     }
 }
 

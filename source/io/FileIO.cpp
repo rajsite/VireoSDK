@@ -161,7 +161,7 @@ VIREO_FUNCTION_SIGNATURE2(FileSize, FileHandle, Int32)
     _Param(1) = (Int32) fileInfo.st_size;
     return _NextInstruction();
 }
-#endif  // VIREO_POSIX_FILESYSTEM
+
 //------------------------------------------------------------
 VIREO_FUNCTION_SIGNATURE4(StreamRead, FileHandle, TypedArrayCoreRef, Int32, Int32)
 {
@@ -248,7 +248,6 @@ VIREO_FUNCTION_SIGNATURE4(StreamSetPosition, FileHandle, IntIndex, IntIndex, Int
     _Param(3) = (Int32)POSIX_NAME(lseek)(fd, offset, startPosition);
     return _NextInstruction();
 }
-#ifdef VIREO_FILESYSTEM
 //------------------------------------------------------------
 VIREO_FUNCTION_SIGNATURE2(FileDelete, StringRef, Int32)
 {
@@ -258,6 +257,7 @@ VIREO_FUNCTION_SIGNATURE2(FileDelete, StringRef, Int32)
     return _NextInstruction();
 }
 #endif
+
 //------------------------------------------------------------
 #ifdef VIREO_FILESYSTEM_DIRLIST
 // A start at directory listing. This will be a good test case
@@ -432,11 +432,10 @@ DEFINE_VIREO_BEGIN(FileSystem)
     DEFINE_VIREO_FUNCTION(FileSize, "p(i(FileHandle)o(Int32))")
     DEFINE_VIREO_FUNCTION(FileDelete, "p(i(String)o(Int32))")
     DEFINE_VIREO_FUNCTION(StreamClose, "p(i(FileHandle)o(Int32))")
-#endif
-    //--------
     DEFINE_VIREO_FUNCTION(StreamSetPosition, "p(i(FileHandle)i(Int32)i(Int32)o(Int32))")
     DEFINE_VIREO_FUNCTION(StreamRead, "p(i(FileHandle)o(String)o(Int32)o(Int32))")
     DEFINE_VIREO_FUNCTION(StreamWrite, "p(i(FileHandle)i(String)i(Int32)o(Int32))")
+#endif
 
 #ifdef VIREO_FILESYSTEM_DIRLIST
     DEFINE_VIREO_FUNCTION(ListDirectory, "p(i(String)o(a(String *)))")

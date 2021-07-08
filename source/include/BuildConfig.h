@@ -213,7 +213,7 @@
 #elif kVireoOS_linuxU
     #define VIREO_DATE_TIME_STDLIB
 
-#elif defined(kVireoOS_emscripten)
+#elif defined(kVireoOS_emscripten) || defined(kVireoOS_wasi)
     #include <emscripten.h>
     #define VIREO_DATE_TIME_STDLIB
     #undef VIREO_EXPORT
@@ -242,7 +242,7 @@
 #define VIREO_ISR_ENABLE
 
 
-#define VIREO_32_BIT_LONGLONGWORD_ALIGNMENT  (!__amd64__ && !_WIN32 && !_WIN64 && !kVireoOS_emscripten)
+#define VIREO_32_BIT_LONGLONGWORD_ALIGNMENT  (!__amd64__ && !_WIN32 && !_WIN64 && !kVireoOS_emscripten && !kVireoOS_wasi)
 
 #ifndef VIVM_ENABLE_TRACE
     #define VIVM_TRACE(message)
