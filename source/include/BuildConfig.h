@@ -213,11 +213,16 @@
 #elif kVireoOS_linuxU
     #define VIREO_DATE_TIME_STDLIB
 
-#elif defined(kVireoOS_emscripten) || defined(kVireoOS_wasi)
+#elif defined(kVireoOS_emscripten)
     #include <emscripten.h>
     #define VIREO_DATE_TIME_STDLIB
     #undef VIREO_EXPORT
     #define VIREO_EXPORT extern "C" EMSCRIPTEN_KEEPALIVE
+
+#elif defined(kVireoOS_wasi)
+    #define VIREO_DATE_TIME_STDLIB
+    #undef VIREO_EXPORT
+    #define VIREO_EXPORT extern "C"
 
 #elif kVireoOS_vxworks
     #undef VIREO_POSIX_FILEIO

@@ -67,7 +67,11 @@ help:
 #  -03 611k+35k  / -Os 571k+35k / -Oz 527k+35k  (all work)
 #  Vireo has grown as well, so emscripten is getting better if the over all size has shrunk by about 20%
 
-EMCC= emcc
+EMCC=emcc
+WASI_VERSION=16
+WASI_VERSION_FULL=${WASI_VERSION}.0
+WASI_SDK_PATH=$(VIREO_SDK)/wasi-sdk-${WASI_VERSION_FULL}
+WASI_CC=${WASI_SDK_PATH}/bin/clang --sysroot=${WASI_SDK_PATH}/share/wasi-sysroot
 
 # release config
 EM_OPTFLAG = -O3
@@ -101,10 +105,8 @@ ifeq ($(TARGET), wasm32-unknown-emscripten)
 endif
 
 ifeq ($(TARGET), wasm32-wasi)
-   # ALLOW_MEMORY_GROWTH is avoided to prevent emscripten-specific imports to wasi builds
-   TARGET_FLAG = -DkVireoOS_wasi -s WASM=1 -s STANDALONE_WASM
-   # When emscripten supports WASI file io: https://github.com/emscripten-core/emscripten/issues/12094#issuecomment-685184349
-   # Or add wasi-sdk just for wasi builds, can enable running from via file with -DVIREO_STDIO=1
+   EMCC=$(WASI_CC)
+   TARGET_FLAG = -DkVireoOS_wasi
    MAINOBJ = $(OBJS)/main.bc
 ifeq ($(BUILD), debug)
    # Debug builds use a lower assertion level to prevent adding emscripten-specific imports to wasi builds
@@ -114,6 +116,10 @@ endif
 
 # NO_DYNAMIC_EXECUTION=1 Allows Vireo to be used in CSP environments where eval() is forbidden: https://github.com/kripken/emscripten/blob/master/src/settings.js#L563
 EM_OPT = $(EM_OPTFLAGS) $(TARGET_FLAG) -std=c++14 -fno-exceptions -Werror --memory-init-file 0 -s NO_DYNAMIC_EXECUTION=1 -s MODULARIZE=1 -s EXPORT_NAME=VireoCreateCoreModule -s EXPORT_ES6=1 -s USE_ES6_IMPORT_META=0 --minify 0 -s NO_FILESYSTEM=1 -s ABORTING_MALLOC=0
+WASI_OPT = $(EM_OPTFLAGS) $(TARGET_FLAG) -std=c++14 -fno-exceptions -Werror
+ifeq ($(TARGET), wasm32-wasi)
+   EM_OPT=$(WASI_OPT)
+endif
 EMFLAGS = -I$(INCDIR) $(EM_OPT)
 EMLIBRARY = --js-library $(CORESOURCEDIR)/library_coreHelpers.js \
             --js-library $(CORESOURCEDIR)/library_eventHelpers.js \
@@ -188,13 +194,13 @@ AAL_ONLY = 1
 endif
 
 $(OBJS)/%.bc: $(CORESOURCEDIR)/%.cpp
-	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -c -o $@ $<
+	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -v -emit-llvm -fvisibility=default -c -o $@ $<
 $(OBJS)/%.bc: $(COMMANDLINESOURCEDIR)/%.cpp
-	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -c -o $@ $<
+	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -v -emit-llvm -fvisibility=default -c -o $@ $<
 $(OBJS)/%.bc: $(IOSOURCEDIR)/%.cpp
-	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -c -o $@ $<
+	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -v -emit-llvm -fvisibility=default -c -o $@ $<
 $(OBJS)/%.bc: $(UTSOURCEDIR)/%.cpp
-	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -c -o $@ $<
+	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -v -emit-llvm -fvisibility=default -c -o $@ $<
 
 $(EM_BC_FILES): | $(OBJS)
 $(OBJS):
@@ -206,8 +212,11 @@ $(PREJS) $(POSTJS): $(CORESOURCEDIR)/vireo.wrapper.js
 vjs: $(DIST)/vireo.js $(DIST)/vireo.min.js
 vwasi: $(DIST)/vireo.wasm
 
-$(DIST)/vireo.core.js $(DIST)/vireo.wasm: $(EM_BC_FILES) $(ANALYSIS_LIBRARY) $(PREJS) $(POSTJS) | $(DIST)
+$(DIST)/vireo.core.js: $(EM_BC_FILES) $(ANALYSIS_LIBRARY) $(PREJS) $(POSTJS) | $(DIST)
 	$(EMCC) $(EM_OPT) $(EM_WRAP) $(EMLIBRARY) $(EM_BC_FILES) $(ANALYSIS_LIBRARY) $(EM_EXPORTS) $(EM_RUNTIME_EXPORTS) -o $@
+
+$(DIST)/vireo.wasm: $(EM_BC_FILES) | $(DIST)
+	$(EMCC) $(EM_OPT) $(EM_BC_FILES) -v -o $@
 
 $(DIST)/vireo.js: $(DIST)/vireo.core.js $(JS_SOURCE_FILES)
 	npm run rollup -- $(CORESOURCEDIR)/vireo.loader.$(TARGET).$(BUILD).js --format umd --name vireoHelpers --amd.id vireoHelpers --file $@
@@ -217,3 +226,6 @@ $(DIST)/vireo.min.js: $(DIST)/vireo.js
 
 $(DIST):
 	@$(MKDIR) -p $(DIST)
+
+# ..\wasi-sdk-16.0\bin\clang --sysroot=..\wasi-sdk-16.0\share\wasi-sysroot -O3 -DkVireoOS_wasi -std=c++14 -fno-exceptions -Werror ..\source\CommandLine\main.cpp ..\source\core\Array.cpp ..\source\core\Assert.cpp ..\source\core\CEntryPoints.cpp ..\source\core\ControlRef.cpp ..\source\core\EventLog.cpp ..\source\core\Events.cpp ..\source\core\ExecutionContext.cpp ..\source\core\GenericFunctions.cpp ..\source\core\JavaScriptStaticRef.cpp ..\source\core\JavaScriptDynamicRef.cpp ..\source\core\MatchPat.cpp ..\source\core\Math.cpp ..\source\core\NumericString.cpp ..\source\core\Platform.cpp ..\source\core\RefNum.cpp ..\source\core\Queue.cpp ..\source\core\String.cpp ..\source\core\StringUtilities.cpp ..\source\core\Synchronization.cpp ..\source\core\TDCodecLVFlat.cpp ..\source\core\TDCodecVia.cpp ..\source\core\Thread.cpp ..\source\core\Date.cpp ..\source\core\Timestamp.cpp ..\source\core\TimeFunctions.cpp ..\source\core\TypeAndDataManager.cpp ..\source\core\TypeAndDataReflection.cpp ..\source\core\TypeDefiner.cpp ..\source\core\TypeTemplates.cpp ..\source\core\UnitTest.cpp ..\source\core\Variants.cpp ..\source\core\VirtualInstrument.cpp ..\source\unittest\RefNumTest.cpp ..\source\io\FileIO.cpp ..\source\io\HttpClient.cpp ..\source\core\Waveform.cpp ..\source\io\JavaScriptInvoke.cpp ..\source\core\DualTypeOperation.cpp ..\source\core\DualTypeConversion.cpp ..\source\core\DualTypeVisitor.cpp ..\source\core\DualTypeEqual.cpp ..\source\core\CloseReference.cpp -I..\source\include -v -o ..\dist\wasm32-wasi\release\vireo.wasm
+# make -f EmMakefile vwasi TARGET=wasm32-wasi

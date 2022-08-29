@@ -119,6 +119,7 @@ env/
 coverage/
 emscripten-sdk/
 emsdk/
+wasi-sdk-*/
 nohup.out
 emsdk-tools/
 *.nupkg
