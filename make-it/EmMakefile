@@ -71,7 +71,7 @@ EMCC=emcc
 WASI_VERSION=16
 WASI_VERSION_FULL=${WASI_VERSION}.0
 WASI_SDK_PATH=$(VIREO_SDK)/wasi-sdk-${WASI_VERSION_FULL}
-WASI_CC=${WASI_SDK_PATH}/bin/clang --sysroot=${WASI_SDK_PATH}/share/wasi-sysroot
+WASI_CC=${WASI_SDK_PATH}/bin/clang++ --sysroot=${WASI_SDK_PATH}/share/wasi-sysroot
 
 # release config
 EM_OPTFLAG = -O3
