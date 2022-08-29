@@ -197,7 +197,7 @@ vjs: $(OUTPUT_DIR)
 	emmake make -f EmMakefile vjs
 
 vwasi: $(OUTPUT_DIR)
-	emmake make -f EmMakefile vwasi
+	make -f EmMakefile vwasi
 
 #========= node.js native module
 node_js:
