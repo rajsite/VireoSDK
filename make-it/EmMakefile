@@ -106,7 +106,7 @@ endif
 
 ifeq ($(TARGET), wasm32-wasi)
    EMCC=$(WASI_CC)
-   TARGET_FLAG = -DkVireoOS_wasi
+   TARGET_FLAG = -DkVireoOS_wasi -DVIREO_STDIO -DVIREO_FILESYSTEM -DVIREO_FILESYSTEM_DIRLIST
    MAINOBJ = $(OBJS)/main.bc
 ifeq ($(BUILD), debug)
    # Debug builds use a lower assertion level to prevent adding emscripten-specific imports to wasi builds
@@ -227,5 +227,8 @@ $(DIST)/vireo.min.js: $(DIST)/vireo.js
 $(DIST):
 	@$(MKDIR) -p $(DIST)
 
-# ..\wasi-sdk-16.0\bin\clang --sysroot=..\wasi-sdk-16.0\share\wasi-sysroot -O3 -DkVireoOS_wasi -std=c++14 -fno-exceptions -Werror ..\source\CommandLine\main.cpp ..\source\core\Array.cpp ..\source\core\Assert.cpp ..\source\core\CEntryPoints.cpp ..\source\core\ControlRef.cpp ..\source\core\EventLog.cpp ..\source\core\Events.cpp ..\source\core\ExecutionContext.cpp ..\source\core\GenericFunctions.cpp ..\source\core\JavaScriptStaticRef.cpp ..\source\core\JavaScriptDynamicRef.cpp ..\source\core\MatchPat.cpp ..\source\core\Math.cpp ..\source\core\NumericString.cpp ..\source\core\Platform.cpp ..\source\core\RefNum.cpp ..\source\core\Queue.cpp ..\source\core\String.cpp ..\source\core\StringUtilities.cpp ..\source\core\Synchronization.cpp ..\source\core\TDCodecLVFlat.cpp ..\source\core\TDCodecVia.cpp ..\source\core\Thread.cpp ..\source\core\Date.cpp ..\source\core\Timestamp.cpp ..\source\core\TimeFunctions.cpp ..\source\core\TypeAndDataManager.cpp ..\source\core\TypeAndDataReflection.cpp ..\source\core\TypeDefiner.cpp ..\source\core\TypeTemplates.cpp ..\source\core\UnitTest.cpp ..\source\core\Variants.cpp ..\source\core\VirtualInstrument.cpp ..\source\unittest\RefNumTest.cpp ..\source\io\FileIO.cpp ..\source\io\HttpClient.cpp ..\source\core\Waveform.cpp ..\source\io\JavaScriptInvoke.cpp ..\source\core\DualTypeOperation.cpp ..\source\core\DualTypeConversion.cpp ..\source\core\DualTypeVisitor.cpp ..\source\core\DualTypeEqual.cpp ..\source\core\CloseReference.cpp -I..\source\include -v -o ..\dist\wasm32-wasi\release\vireo.wasm
-# make -f EmMakefile vwasi TARGET=wasm32-wasi
+# make vwasi
+# wasmtime --dir=. .\dist\wasm32-wasi\release\vireo.wasm test-it\ViaTests\HelloWorld.via
+# wasmtime --dir=C:/dev/GitHub/VireoSDK/test-it/ViaTests .\dist\wasm32-wasi\release\vireo.wasm -- C:/dev/GitHub/VireoSDK/test-it/ViaTests/Pi.via
+# wasmtime --mapdir=/ViaTests::C:/dev/GitHub/VireoSDK/test-it/ViaTests .\dist\wasm32-wasi\release\vireo.wasm -- /ViaTests/Pi.via
+# wasmtime --mapdir=.::C:/dev/GitHub/VireoSDK/test-it/ViaTests .\dist\wasm32-wasi\release\vireo.wasm -- Pi.via
