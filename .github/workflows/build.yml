@@ -53,6 +53,12 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
     - run: npm ci
     - run: |
+        export WASI_VERSION=16
+        export WASI_VERSION_FULL=${WASI_VERSION}.0
+        wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-linux.tar.gz
+        tar xvf wasi-sdk-${WASI_VERSION_FULL}-linux.tar.gz
+    - run: make vwasi
+    - run: |
         git clone https://github.com/juj/emsdk.git
         cd emsdk
         git checkout tags/2.0.23
@@ -65,9 +71,6 @@ jobs:
     - run: . emsdk/emsdk_env.sh && make vjs
     - run: . emsdk/emsdk_env.sh && make vjs BUILD=debug
     - run: . emsdk/emsdk_env.sh && make vjs BUILD=profile
-    - run: . emsdk/emsdk_env.sh && make vwasi
-    - run: . emsdk/emsdk_env.sh && make vwasi BUILD=debug
-    - run: . emsdk/emsdk_env.sh && make vwasi BUILD=profile
     - run: . emsdk/emsdk_env.sh && make vjs BUILD=release TARGET=asmjs-unknown-emscripten
     - run: npm pack
     - uses: actions/upload-artifact@v2
