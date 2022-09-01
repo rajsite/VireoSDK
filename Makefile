@@ -19,6 +19,15 @@ vjs js:
 vwasi:
 	cd make-it && make vwasi TARGET=wasm32-wasi
 
+install-wasi-sdk-linux:
+	cd make-it && make install-wasi-sdk-linux
+
+install-wasi-sdk-windows:
+	cd make-it && make install-wasi-sdk-windows
+
+install-wasi-sdk-mac:
+	cd make-it && make install-wasi-sdk-mac
+
 unittest:
 	cd make-it && make $@
 

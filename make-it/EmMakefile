@@ -195,13 +195,13 @@ AAL_ONLY = 1
 endif
 
 $(OBJS)/%.bc: $(CORESOURCEDIR)/%.cpp
-	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -v -emit-llvm -fvisibility=default -c -o $@ $<
+	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -emit-llvm -c -o $@ $<
 $(OBJS)/%.bc: $(COMMANDLINESOURCEDIR)/%.cpp
-	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -v -emit-llvm -fvisibility=default -c -o $@ $<
+	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -emit-llvm -c -o $@ $<
 $(OBJS)/%.bc: $(IOSOURCEDIR)/%.cpp
-	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -v -emit-llvm -fvisibility=default -c -o $@ $<
+	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -emit-llvm -c -o $@ $<
 $(OBJS)/%.bc: $(UTSOURCEDIR)/%.cpp
-	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -v -emit-llvm -fvisibility=default -c -o $@ $<
+	$(EMCC) $(EMFLAGS) -MD -MF $(patsubst %.bc,%.bc.d,$@) -emit-llvm -c -o $@ $<
 
 $(EM_BC_FILES): | $(OBJS)
 $(OBJS):
@@ -217,7 +217,7 @@ $(DIST)/vireo.core.js: $(EM_BC_FILES) $(ANALYSIS_LIBRARY) $(PREJS) $(POSTJS) | $
 	$(EMCC) $(EM_OPT) $(EM_WRAP) $(EMLIBRARY) $(EM_BC_FILES) $(ANALYSIS_LIBRARY) $(EM_EXPORTS) $(EM_RUNTIME_EXPORTS) -o $@
 
 $(DIST)/vireo.wasm: $(EM_BC_FILES) | $(DIST)
-	$(EMCC) $(EM_OPT) $(EM_BC_FILES) -Wl,-error-limit=0 -v -o $@
+	$(EMCC) $(EM_OPT) $(EM_BC_FILES) -o $@
 
 $(DIST)/vireo.js: $(DIST)/vireo.core.js $(JS_SOURCE_FILES)
 	npm run rollup -- $(CORESOURCEDIR)/vireo.loader.$(TARGET).$(BUILD).js --format umd --name vireoHelpers --amd.id vireoHelpers --file $@
@@ -228,7 +228,18 @@ $(DIST)/vireo.min.js: $(DIST)/vireo.js
 $(DIST):
 	@$(MKDIR) -p $(DIST)
 
-# make vwasi
+install-wasi-sdk-linux:
+	cd .. && curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-linux.tar.gz --output wasi-sdk-${WASI_VERSION_FULL}-linux.tar.gz
+	cd .. && tar xvf wasi-sdk-${WASI_VERSION_FULL}-linux.tar.gz
+
+install-wasi-sdk-windows:
+	cd .. && curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-mingw.tar.gz --output wasi-sdk-${WASI_VERSION_FULL}-mingw.tar.gz
+	cd .. && tar xvf wasi-sdk-${WASI_VERSION_FULL}-mingw.tar.gz
+
+install-wasi-sdk-mac:
+	cd .. && curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-macos.tar.gz --output wasi-sdk-${WASI_VERSION_FULL}-macos.tar.gz
+	cd .. && tar xvf wasi-sdk-${WASI_VERSION_FULL}-macos.tar.gz
+
 # wasmtime --dir=. .\dist\wasm32-wasi\release\vireo.wasm test-it\ViaTests\HelloWorld.via
 # wasmtime --dir=C:/dev/GitHub/VireoSDK/test-it/ViaTests .\dist\wasm32-wasi\release\vireo.wasm -- C:/dev/GitHub/VireoSDK/test-it/ViaTests/Pi.via
 # wasmtime --mapdir=/ViaTests::C:/dev/GitHub/VireoSDK/test-it/ViaTests .\dist\wasm32-wasi\release\vireo.wasm -- /ViaTests/Pi.via

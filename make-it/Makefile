@@ -193,11 +193,20 @@ lARMv5:
 	arm-none-linux-gnueabi-strip libvireo.so
 
 #========= Use makefile designed for emscripten builds
-vjs: $(OUTPUT_DIR)
+vjs:
 	emmake make -f EmMakefile vjs
 
-vwasi: $(OUTPUT_DIR)
+vwasi:
 	make -f EmMakefile vwasi
+
+install-wasi-sdk-linux:
+	make -f EmMakefile install-wasi-sdk-linux
+
+install-wasi-sdk-windows:
+	make -f EmMakefile install-wasi-sdk-windows
+
+install-wasi-sdk-mac:
+	make -f EmMakefile install-wasi-sdk-mac
 
 #========= node.js native module
 node_js:

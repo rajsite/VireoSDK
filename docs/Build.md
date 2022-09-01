@@ -86,6 +86,18 @@ make js BUILD=profile
 
 Notice that vireo.js is created in the `dist` folder based on the `BUILD` type. For example, a default vireo.js build equivalent to `BUILD=release` will be located at: `dist/wasm32-unknown-emscripten/release/vireo.js`
 
+## Installing the WASI toolchain
+
+Make sure you have `curl` and `tar` available on your CLI. On windows, make sure you are using a [Windows version that includes the commands](https://docs.microsoft.com/en-us/virtualization/community/team-blog/2017/20171219-tar-and-curl-come-to-windows).
+
+From a console window (an **admin console** on windows) run the command relevant to your platform:
+
+```
+make install-wasi-sdk-linux
+make install-wasi-sdk-windows
+make install-wasi-sdk-mac
+```
+
 ## Vireo Windows Native target
 
 ### Software requirements
