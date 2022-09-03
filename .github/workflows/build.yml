@@ -23,7 +23,7 @@ jobs:
         python-version: '3.7'
     - uses: actions/setup-node@v1
       with:
-        node-version: '12'
+        node-version: '16'
         registry-url: 'https://registry.npmjs.org'
     - run: npm ci
 
@@ -49,7 +49,7 @@ jobs:
     - run: nohup python -m httpbin.core --port 64526 --host 0.0.0.0 &
     - uses: actions/setup-node@v1
       with:
-        node-version: '12'
+        node-version: '16'
         registry-url: 'https://registry.npmjs.org'
     - run: npm ci
     - run: make install-wasi-sdk-linux
@@ -106,7 +106,7 @@ jobs:
     # Install web-windows dependencies
     - uses: actions/setup-node@v1
       with:
-        node-version: '12'
+        node-version: '16'
         registry-url: 'https://registry.npmjs.org'
     - run: npm ci
     - run: make install-wasi-sdk-windows
@@ -174,7 +174,7 @@ jobs:
     - uses: microsoft/setup-msbuild@v1
     - uses: actions/setup-node@v1
       with:
-        node-version: '12'
+        node-version: '16'
         registry-url: 'https://registry.npmjs.org'
     - run: npm ci
 
@@ -233,7 +233,7 @@ jobs:
     # Install linux dependencies
     - uses: actions/setup-node@v1
       with:
-        node-version: '12'
+        node-version: '16'
         registry-url: 'https://registry.npmjs.org'
     - run: npm ci
     - run: echo gcc -v
