@@ -45,7 +45,7 @@
     "prehttpbin": "python -V && pip -V && virtualenv --version && tox --version",
     "httpbin": "tox",
     "httpbin-start": "start cmd /c npm run httpbin",
-    "wasi": "node --experimental-wasi-unstable-preview1 test-it/wasi.js",
+    "wasi": "node --no-warnings --experimental-wasi-unstable-preview1 test-it/wasi.js",
     "wasi-helloworld": "npm run wasi -- HelloWorld.via"
   },
   "repository": {

@@ -1,7 +1,7 @@
 {
     "tests": {
         "native": {
-            "include": ["common"],
+            "include": ["common", "time"],
             "tests": [
                 "HelloRequire.via",
                 "DateFormatStringLocaleSpecific.via",
@@ -15,18 +15,8 @@
                 "StringFormatComplex.via"
             ]
         },
-        "jsReference": {
-            "include": [],
-            "tests": [
-                "JSReferenceArraySearch.via",
-                "JSReferenceInvalidParameter.via",
-                "JSReferenceCloseDynamic.via",
-                "JSReferenceCloseStatic.via",
-                "JSReferenceCloseArray.via"
-            ]
-        },
         "js": {
-            "include": ["common", "jsReference"],
+            "include": ["common", "time", "jsReference"],
             "tests": [
                 "DateFormatStringLocaleSpecific.via",
                 "HttpHeadersTest.via",
@@ -38,16 +28,44 @@
             ]
         },
         "browser": {
-            "include": ["common", "jsReference"],
+            "include": ["common", "time", "jsReference"],
             "tests": [
                 "HttpHeadersTest.via",
                 "HttpHandles.via"
+            ]
+        },
+        "wasi": {
+            "include": ["common"],
+            "tests": []
+        },
+        "jsReference": {
+            "tests": [
+                "JSReferenceArraySearch.via",
+                "JSReferenceInvalidParameter.via",
+                "JSReferenceCloseDynamic.via",
+                "JSReferenceCloseStatic.via",
+                "JSReferenceCloseArray.via"
             ]
         },
         "httpbin": {
             "tests": [
                 "HttpBinGet.via",
                 "HttpBinPost.via"
+            ]
+        },
+        "manual": {
+            "tests": [
+                "TestVI_LargeBDTest.via"
+            ]
+        },
+        "time": {
+            "tests": [
+                "DateFormatString.via",
+                "DateTime.via",
+                "StringFormatTime.via",
+                "StringFormatTimeMisc.via",
+                "StringScanTime.via",
+                "TimestampToDateTimeRecord.via"
             ]
         },
         "queue": {
@@ -84,11 +102,6 @@
                 "UserEventsThroughput.via",
                 "UserEventsPoly.via",
                 "ValueChangeStaticControlEvent1.via"
-            ]
-        },
-        "manual": {
-            "tests": [
-                "TestVI_LargeBDTest.via"
             ]
         },
         "common": {
@@ -179,8 +192,6 @@
                 "CoreTypes.via",
                 "DataItemAvoidsAliasing.via",
                 "DataItemBasicCases.via",
-                "DateFormatString.via",
-                "DateTime.via",
                 "DateTimeRecordToTimestamp.via",
                 "DecodeViaString.via",
                 "DeeplyNestedInitializer.via",
@@ -337,15 +348,12 @@
                 "StringFormatDecimal.via",
                 "StringFormatDefaultFormat.via",
                 "StringFormatFloat.via",
-                "StringFormatTime.via",
-                "StringFormatTimeMisc.via",
                 "StringFormatTimeRelative.via",
                 "StringFunctions.via",
                 "StringLength.via",
                 "StringPickLine.via",
                 "StringReverse.via",
                 "StringRotate.via",
-                "StringScanTime.via",
                 "Strings.via",
                 "StringToLowercase.via",
                 "StringTrim.via",
@@ -431,7 +439,6 @@
                 "TicTock.via",
                 "Time128.via",
                 "TimerCount.via",
-                "TimestampToDateTimeRecord.via",
                 "TimingTest1.via",
                 "TimingTest2.via",
                 "TooManyDimensions.via",

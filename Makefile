@@ -31,7 +31,7 @@ install-wasi-sdk-mac:
 unittest:
 	cd make-it && make $@
 
-test: testnative testjs
+test: testnative testjs testwasi
 
 testhttpbin:
 	cd test-it && node test.js -j -t httpbin --dots
@@ -41,6 +41,9 @@ testjs:
 
 testnative:
 	cd test-it && node test.js -n --dots
+
+testwasi:
+	cd test-it && node test.js --wasi --once --dots -t wasi
 
 clean:
 	cd make-it && make clean && make -f EmMakefile clean

@@ -280,6 +280,24 @@
         testFinishedCB(newResults);
     };
 
+    // Setup the esh binary for via execution
+    var RunWasiTest = function (testName, testFinishedCB) {
+        var newResults = '';
+        try {
+            newResults = cp.execFileSync('node', [
+                '--no-warnings',
+                '--experimental-wasi-unstable-preview1',
+                'wasi.js',
+                testName
+            ]).toString();
+        } catch (e) {
+            // If Vireo detects an error it will return non zero
+            // and exec will throw an exception, so catch the results.
+            newResults = e.stdout.toString() + e.stderr.toString();
+        }
+        testFinishedCB(newResults);
+    };
+
     // Setup the vireo.js runtime for instruction execution
     var setupVJS = async function () {
         var vireoHelpers = require('../');
@@ -295,6 +313,11 @@
     var NativeTester = function (testName, testFinishedCB, execOnly) {
         runTestCore(testName, RunNativeTest, testFinishedCB, execOnly);
     };
+
+    var WasiTester = function (testName, testFinishedCB, execOnly) {
+        runTestCore(testName, RunWasiTest, testFinishedCB, execOnly);
+    };
+
     var errorCode = 0;
 
     var report = function () {
@@ -363,6 +386,8 @@
             } else if (arg === '-n') {
                 tester = NativeTester;
                 testNative = true;
+            } else if (arg === '--wasi') {
+                tester = WasiTester;
             } else if (arg === '--dots') {
                 dots = true;
             } else if (arg === '-e') {

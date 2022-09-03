@@ -82,6 +82,7 @@ jobs:
     - run: make testhttpbin
       env:
         TZ: CST6CDT
+    - run: make testwasi
     - run: npm run test-min
       env:
         TZ: CST6CDT
@@ -140,6 +141,7 @@ jobs:
     # Test web-windows
     - run: tzutil /s "Central Standard Time"
     - run: make testjs
+    - run: make testwasi
     - run: npm run test-min
 
   setup:
