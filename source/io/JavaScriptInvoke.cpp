@@ -136,10 +136,9 @@ VIREO_FUNCTION_SIGNATUREV(JavaScriptInvoke, JavaScriptInvokeParamBlock)
             //     typeRefErrorCluster,
             //     errorClusterPtr);
 
-            STACK_VAR(String, printName);
-            printName.Value->AppendCStr("WASI_PRINT");
-            if (functionName->IsEqual(printName.Value)) {
-                gPlatform.IO.Print("js print helloworld!\n");         
+            SubString ssFuntionName = functionName->MakeSubStringAlias();
+            if (ssFuntionName.CompareCStr("WASI_PRINT")) {
+                gPlatform.IO.Print("js print helloworld!\n");
                 pOcc->SetOccurrence();
             }
 
