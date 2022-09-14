@@ -56,7 +56,6 @@ extern void GenerateNotSupportedOnPlatformError(ErrorCluster *errorCluster, Cons
 // Function for calling user defined JavaScript functions
 VIREO_FUNCTION_SIGNATUREV(JavaScriptInvoke, JavaScriptInvokeParamBlock)
 {
-    gPlatform.IO.Print("jsinvoke start\n");
     ErrorCluster *errorClusterPtr = _ParamPointer(errorCluster);
 #if kVireoOS_emscripten
     TypeRef typeRefErrorCluster = TypeManagerScope::Current()->FindType("ErrorCluster");
