@@ -240,6 +240,9 @@ install-wasi-sdk-mac:
 	cd .. && curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-macos.tar.gz --output wasi-sdk-${WASI_VERSION_FULL}-macos.tar.gz
 	cd .. && tar xvf wasi-sdk-${WASI_VERSION_FULL}-macos.tar.gz
 
+list-variables:
+	$(foreach v, $(.VARIABLES), $(info $(v) = $($(v))))
+
 # wasmtime --dir=. .\dist\wasm32-wasi\release\vireo.wasm test-it\ViaTests\HelloWorld.via
 # wasmtime --dir=C:/dev/GitHub/VireoSDK/test-it/ViaTests .\dist\wasm32-wasi\release\vireo.wasm -- C:/dev/GitHub/VireoSDK/test-it/ViaTests/Pi.via
 # wasmtime --mapdir=/ViaTests::C:/dev/GitHub/VireoSDK/test-it/ViaTests .\dist\wasm32-wasi\release\vireo.wasm -- /ViaTests/Pi.via

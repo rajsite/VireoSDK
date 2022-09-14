@@ -56,6 +56,7 @@ extern void GenerateNotSupportedOnPlatformError(ErrorCluster *errorCluster, Cons
 // Function for calling user defined JavaScript functions
 VIREO_FUNCTION_SIGNATUREV(JavaScriptInvoke, JavaScriptInvokeParamBlock)
 {
+    gPlatform.IO.Print("jsinvoke start\n");
     ErrorCluster *errorClusterPtr = _ParamPointer(errorCluster);
 #if kVireoOS_emscripten
     TypeRef typeRefErrorCluster = TypeManagerScope::Current()->FindType("ErrorCluster");
@@ -86,6 +87,61 @@ VIREO_FUNCTION_SIGNATUREV(JavaScriptInvoke, JavaScriptInvokeParamBlock)
                 isInternalFunction,
                 typeRefErrorCluster,
                 errorClusterPtr);
+
+            if (isInternalFunction) {
+                AddCallChainToSourceIfErrorPresent(errorClusterPtr, (const char*)functionName->Begin());
+            } else {
+                AddCallChainToSourceIfErrorPresent(errorClusterPtr, "JavaScriptInvoke");
+            }
+
+            InstructionCore* instructionCorePtr = clump->WaitOnObservableObject(_this);
+            return instructionCorePtr;
+        }
+    } else {
+        // re-entering the instruction and the operation is done or it timed out.
+        // the clump should continue.
+        clump->ClearObservationStates();
+        return _NextInstruction();
+    }
+#elif kVireoOS_wasi
+    gPlatform.IO.Print("jsinvoke wasi start\n");
+    TypeRef typeRefErrorCluster = TypeManagerScope::Current()->FindType("ErrorCluster");
+
+    OccurrenceCore *pOcc = _Param(occurrence)->ObjBegin();
+    VIClump* clump = THREAD_CLUMP();
+    Observer* pObserver = clump->GetObservationStates(2);
+    if (!pObserver) {
+        gPlatform.IO.Print("jsinvoke observer start\n");
+        StringRef functionName = _Param(FunctionName);
+        Boolean isInternalFunction = _Param(isInternalFunction);
+        const Int32 configurationParameters = 4;  // occurrence, isInternalFunction, errorCluster and functionName
+        const Int32 staticTypeAndDataParameters = 2;  // Two parameters are inserted, one for type another for data. See StaticTypeAndData definition.
+        Int32 userParametersCount = (_ParamVarArgCount() - configurationParameters - staticTypeAndDataParameters) / staticTypeAndDataParameters;
+        StaticTypeAndData *returnValuePtr = _ParamImmediate(returnValue);
+        StaticTypeAndData *parametersPtr = _ParamImmediate(parameters);
+        bool shouldInvoke = errorClusterPtr == nullptr ? true : !errorClusterPtr->status;
+
+        if (shouldInvoke) {
+            gPlatform.IO.Print("jsinvoke should invoke start\n");
+            pObserver = clump->ReserveObservationStatesWithTimeout(2, 0);
+            pOcc->InsertObserver(pObserver + 1, pOcc->Count() + 1);
+            // jsJavaScriptInvoke(
+            //     _Param(occurrence),
+            //     _Param(FunctionName)->Type(),
+            //     _ParamPointer(FunctionName),
+            //     returnValuePtr,
+            //     parametersPtr,
+            //     userParametersCount,
+            //     isInternalFunction,
+            //     typeRefErrorCluster,
+            //     errorClusterPtr);
+
+            STACK_VAR(String, printName);
+            printName.Value->AppendCStr("WASI_PRINT");
+            if (functionName->IsEqual(printName.Value)) {
+                gPlatform.IO.Print("js print helloworld!\n");         
+                pOcc->SetOccurrence();
+            }
 
             if (isInternalFunction) {
                 AddCallChainToSourceIfErrorPresent(errorClusterPtr, (const char*)functionName->Begin());

@@ -336,6 +336,33 @@ The esh.exe build is packaged as a nuget package to make it consumeable in .NET 
         "cStandard": "c11",
         "cppStandard": "c++14",
         "intelliSenseMode": "clang-x64"
+    },
+    {
+        "name": "WASI",
+        "browse": {
+            "path": [
+                "${workspaceFolder}"
+            ],
+            "limitSymbolsToIncludedHeaders": true
+        },
+        "includePath": [
+            "${workspaceFolder}/wasi-sdk-16.0/share/wasi-sysroot/include/**",
+            "${workspaceFolder}/source/include/**"
+        ],
+        "defines": [
+            "kVireoOS_wasi",
+            "VIREO_STDIO",
+            "VIREO_FILESYSTEM",
+            "VIREO_FILESYSTEM_DIRLIST"
+        ],
+        "cStandard": "c11",
+        "cppStandard": "c++14",
+        "intelliSenseMode": "macos-clang-x86",
+        "configurationProvider": "ms-vscode.makefile-tools",
+        "forcedInclude": [
+            "${workspaceFolder}/.vscode/preinclude.h"
+        ],
+        "compilerPath": "/Users/milan/Documents/GitHub/VireoSDK/wasi-sdk-16.0/bin/clang++"
     }
     ```
 
