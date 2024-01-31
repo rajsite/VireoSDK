@@ -111,8 +111,8 @@ jobs:
     - run: npm ci
     - run: make install-wasi-sdk-windows
     - run: make vwasi
-    - run: chocolatey install make -y
-    - run: chocolatey install gnuwin32-coreutils.portable -y
+    - run: choco install make -y
+    - run: choco install gnuwin32-coreutils.portable -y
     - uses: actions/setup-python@v2
       with:
         python-version: '3.7'
