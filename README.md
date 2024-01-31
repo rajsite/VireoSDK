@@ -45,6 +45,6 @@ The Vireo project provides a subset of LabVIEW runtime functionality for small t
 
 # License and copyright
 
-Copyright (c) 2020 National Instruments
+Copyright (c) 2024 National Instruments
 
 Licensed under the [MIT License](LICENSE.txt).
