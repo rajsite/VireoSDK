@@ -106,8 +106,8 @@ jobs:
         node-version: '20'
         registry-url: 'https://registry.npmjs.org'
     - run: npm ci
-    - run: chocolatey install make -y
-    - run: chocolatey install gnuwin32-coreutils.portable -y
+    - run: choco install make -y
+    - run: choco install gnuwin32-coreutils.portable -y
     - uses: actions/setup-python@v5
       with:
         python-version: '3.12'
