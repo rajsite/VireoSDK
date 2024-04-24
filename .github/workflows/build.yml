@@ -53,7 +53,7 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
     - run: |
         npm ci
-        npm config set unsafe-perm true
+        chmod -R a+x node_modules
     - run: |
         git clone https://github.com/juj/emsdk.git
         cd emsdk
