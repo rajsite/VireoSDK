@@ -59,7 +59,8 @@ jobs:
     - run: |
         emsdk/emsdk install 2.0.23
         emsdk/emsdk activate 2.0.23
-    - run: . emsdk/emsdk_env.sh && emcc -v
+    - run: . emsdk/emsdk_env.sh && sudo chmod +rx $(which node)
+    - run: . emsdk/emsdk_env.sh && emcc -v && node --version
 
     # Build web
     - run: . emsdk/emsdk_env.sh && make vjs
