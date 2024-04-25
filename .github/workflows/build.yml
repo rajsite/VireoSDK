@@ -59,7 +59,6 @@ jobs:
     - run: |
         emsdk/emsdk install 2.0.23
         emsdk/emsdk activate 2.0.23
-        chmod +rx $(which node)
 
     # Build web
     - run: . emsdk/emsdk_env.sh && make vjs
