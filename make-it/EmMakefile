@@ -182,8 +182,7 @@ $(OBJS):
 	@$(MKDIR) -p $(OBJS)
 
 $(PREJS) $(POSTJS): $(CORESOURCEDIR)/vireo.wrapper.js
-	npm run lint
-	node splitVireoWrapper.js $(CORESOURCEDIR)/vireo.wrapper.js $(PREJS) $(POSTJS)
+	npm run split-wrapper -- $(PREJS) $(POSTJS)
 
 vjs: $(DIST)/vireo.js $(DIST)/vireo.min.js
 

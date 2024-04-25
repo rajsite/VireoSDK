@@ -44,7 +44,8 @@
     "lint-markdown-style": "markdownlint {./*.md,./docs/*.md}",
     "prehttpbin": "python -V && pip -V && virtualenv --version && tox --version",
     "httpbin": "tox",
-    "httpbin-start": "start cmd /c npm run httpbin"
+    "httpbin-start": "start cmd /c npm run httpbin",
+    "split-wrapper": "node make-it/splitVireoWrapper.js source/core/vireo.wrapper.js"
   },
   "repository": {
     "type": "git",
