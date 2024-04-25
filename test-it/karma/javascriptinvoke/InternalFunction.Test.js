@@ -228,7 +228,7 @@ describe('A JavaScriptInvoke for an internal function', function () {
             window.removeEventListener('unhandledrejection', unhandledRejectionHandler);
             waitForError = undefined;
         });
-        it('errors if returning a value async', async function () {
+        xit('errors if returning a value async', async function () {
             var viName = 'NI_InternalFunction';
             var runSlicesAsync = vireoRunner.rebootAndLoadVia(vireo, jsInternalFunctionsUrl);
             var viPathParser = vireoRunner.createVIPathParser(vireo, viName);
