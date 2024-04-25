@@ -183,6 +183,7 @@ $(OBJS):
 
 $(PREJS) $(POSTJS): $(CORESOURCEDIR)/vireo.wrapper.js
 	echo $$(which node)
+	echo $$(which npm)
 	sudo node --version
 	sudo node splitVireoWrapper.js $(CORESOURCEDIR)/vireo.wrapper.js $(PREJS) $(POSTJS)
 
