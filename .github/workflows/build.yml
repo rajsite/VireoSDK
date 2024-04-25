@@ -60,6 +60,9 @@ jobs:
         emsdk/emsdk install 2.0.23
         emsdk/emsdk activate 2.0.23
     - run: . emsdk/emsdk_env.sh && echo $(which node)
+    - run: . emsdk/emsdk_env.sh && echo $(which npm)
+    - run: . emsdk/emsdk_env.sh && npm config set user 0
+    - run: . emsdk/emsdk_env.sh && npm config set unsafe-perm true
     - run: . emsdk/emsdk_env.sh && sudo chmod +rx $(which node)
     - run: . emsdk/emsdk_env.sh && emcc -v && node --version
 
