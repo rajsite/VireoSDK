@@ -166,7 +166,7 @@ jobs:
     # Install windows dependencies
     - uses: microsoft/setup-msbuild@v2
       with:
-        msbuild-architecture: x64
+        msbuild-architecture: x86
     - uses: actions/setup-node@v4
       with:
         node-version: '20'
