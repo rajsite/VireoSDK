@@ -61,10 +61,10 @@ jobs:
         emsdk/emsdk activate 2.0.23
 
     # Build web
-    - run: . emsdk/emsdk_env.sh && sudo make vjs
-    - run: . emsdk/emsdk_env.sh && sudo make vjs BUILD=debug
-    - run: . emsdk/emsdk_env.sh && sudo make vjs BUILD=profile
-    - run: . emsdk/emsdk_env.sh && sudo make vjs BUILD=release TARGET=asmjs-unknown-emscripten
+    - run: sudo . emsdk/emsdk_env.sh && make vjs
+    - run: sudo . emsdk/emsdk_env.sh && make vjs BUILD=debug
+    - run: sudo . emsdk/emsdk_env.sh && make vjs BUILD=profile
+    - run: sudo . emsdk/emsdk_env.sh && make vjs BUILD=release TARGET=asmjs-unknown-emscripten
     - run: npm pack
     - uses: actions/upload-artifact@v2
       with:
