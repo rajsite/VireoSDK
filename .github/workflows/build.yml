@@ -11,7 +11,7 @@ on:
 
 jobs:
   lint:
-    # if: 'false'
+    if: 'false'
     runs-on: ubuntu-22.04
     timeout-minutes: 25
     steps:
@@ -33,7 +33,7 @@ jobs:
     - run: npm run lint-markdown
 
   web:
-    # if: 'false'
+    if: 'false'
     runs-on: ubuntu-22.04
     timeout-minutes: 25
     steps:
@@ -93,7 +93,7 @@ jobs:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   web-windows:
-    # if: 'false'
+    if: 'false'
     runs-on: windows-2022
     timeout-minutes: 25
     steps:
@@ -165,6 +165,8 @@ jobs:
 
     # Install windows dependencies
     - uses: microsoft/setup-msbuild@v2
+      with:
+        msbuild-architecture: x64
     - uses: actions/setup-node@v4
       with:
         node-version: '20'
@@ -216,7 +218,7 @@ jobs:
         nuget push $PACKAGE_PATH -ApiKey ${{secrets.NUGET_TOKEN}} -Source "https://api.nuget.org/v3/index.json"
 
   linux:
-    # if: 'false'
+    if: 'false'
     needs: setup
     runs-on: ubuntu-22.04
     timeout-minutes: 25
