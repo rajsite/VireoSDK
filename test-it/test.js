@@ -7,6 +7,9 @@
     // Node Test runner for *.via files against Vireo Targets
     // Config file: testList.json
 
+    // Disable fetch in node 20
+    global.fetch = undefined;
+
     require('colors');
     var fs = require('fs'),
         jsdiff = require('diff'),
