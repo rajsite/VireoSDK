@@ -5,9 +5,12 @@
     'use strict';
 
     var fs = require('fs');
+    var path = require('path');
     var wrapperFile = process.argv[2];
-    var prejsFile = process.argv[3];
-    var postjsFile = process.argv[4];
+    var prejsFileIn = process.argv[3];
+    var postjsFileIn = process.argv[4];
+    var prejsFile = path.resolve(__dirname + 'make-it', prejsFileIn);
+    var postjsFile = path.resolve(__dirname + 'make-it', postjsFileIn);
     console.log('Splitting wrapper file ', wrapperFile, 'into prejs file', prejsFile, 'and postjs file', postjsFile);
 
     var wrapper = fs.readFileSync(wrapperFile, {
