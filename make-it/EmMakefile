@@ -68,7 +68,7 @@ help:
 #  Vireo has grown as well, so emscripten is getting better if the over all size has shrunk by about 20%
 
 EMCC=emcc
-WASI_VERSION=16
+WASI_VERSION=24
 WASI_VERSION_FULL=${WASI_VERSION}.0
 WASI_SDK_PATH=$(VIREO_SDK)/wasi-sdk-${WASI_VERSION_FULL}
 WASI_CC=${WASI_SDK_PATH}/bin/clang++ --sysroot=${WASI_SDK_PATH}/share/wasi-sysroot
@@ -229,12 +229,14 @@ $(DIST):
 	@$(MKDIR) -p $(DIST)
 
 install-wasi-sdk-linux:
-	cd .. && curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-linux.tar.gz --output wasi-sdk-${WASI_VERSION_FULL}-linux.tar.gz
+	cd .. && curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-x86_64-linux.tar.gz --output wasi-sdk-${WASI_VERSION_FULL}-linux.tar.gz
 	cd .. && tar xvf wasi-sdk-${WASI_VERSION_FULL}-linux.tar.gz
+	cd .. && mv wasi-sdk-${WASI_VERSION_FULL}-x86_64-linux wasi-sdk-${WASI_VERSION_FULL}
 
 install-wasi-sdk-windows:
-	cd .. && curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-mingw.tar.gz --output wasi-sdk-${WASI_VERSION_FULL}-mingw.tar.gz
-	cd .. && tar xvf wasi-sdk-${WASI_VERSION_FULL}-mingw.tar.gz
+	cd .. && curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-x86_64-windows.tar.gz --output wasi-sdk-${WASI_VERSION_FULL}-windows.tar.gz
+	cd .. && tar xvf wasi-sdk-${WASI_VERSION_FULL}-windows.tar.gz
+	cd .. && mv wasi-sdk-${WASI_VERSION_FULL}-x86_64-windows wasi-sdk-${WASI_VERSION_FULL}
 
 install-wasi-sdk-mac:
 	cd .. && curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-macos.tar.gz --output wasi-sdk-${WASI_VERSION_FULL}-macos.tar.gz
