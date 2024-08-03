@@ -11,7 +11,8 @@
         args: argv.slice(1),
         preopens: {
             '/': path.join(__dirname, 'ViaTests')
-        }
+        },
+        version: 'preview1'
     });
     const importObject = {wasi_snapshot_preview1: wasi.wasiImport};
     const instance = await WebAssembly.instantiate(wasm, importObject);
