@@ -5,7 +5,7 @@
     const path = require('node:path');
     const {argv} = require('node:process');
     const wasm = await WebAssembly.compile(
-        await readFile(path.join(__dirname, '../dist/wasm32-wasi/release/vireo.wasm'))
+        await readFile(path.join(__dirname, '../dist/wasm32-wasip1/release/vireo.wasm'))
     );
     const wasi = new WASI({
         args: argv.slice(1),

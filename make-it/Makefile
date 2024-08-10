@@ -196,8 +196,11 @@ lARMv5:
 vjs:
 	emmake make -f EmMakefile vjs
 
-vwasi:
-	make -f EmMakefile vwasi
+vwasip1:
+	make -f EmMakefile TARGET=wasm32-wasip1 vwasi
+
+vwasip2:
+	make -f EmMakefile TARGET=wasm32-wasip2 vwasi
 
 install-wasi-sdk:
 	make -f EmMakefile install-wasi-sdk

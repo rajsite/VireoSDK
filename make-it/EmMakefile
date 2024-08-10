@@ -9,7 +9,7 @@ MKDIR="mkdir"
 
 VIREO_SDK=..
 
-TARGETS_SUPPORTED=asmjs-unknown-emscripten wasm32-unknown-emscripten wasm32-wasip2
+TARGETS_SUPPORTED=asmjs-unknown-emscripten wasm32-unknown-emscripten wasm32-wasip1 wasm32-wasip2
 TARGET=wasm32-unknown-emscripten
 
 ifeq ($(filter $(TARGET), $(TARGETS_SUPPORTED)),)
@@ -88,7 +88,7 @@ else
     endif
 endif
 WASI_SDK_PATH=$(VIREO_SDK)/wasi-sdk-${WASI_VERSION_FULL}-${WASI_SDK_TARGET}
-WASI_CC=${WASI_SDK_PATH}/bin/clang++ --sysroot=${WASI_SDK_PATH}/share/wasi-sysroot --target=wasm32-wasip2
+WASI_CC=${WASI_SDK_PATH}/bin/clang++ --sysroot=${WASI_SDK_PATH}/share/wasi-sysroot --target=${TARGET}
 
 # release config
 EM_OPTFLAG = -O3
@@ -121,7 +121,7 @@ ifeq ($(TARGET), wasm32-unknown-emscripten)
    MAINOBJ =
 endif
 
-ifeq ($(TARGET), wasm32-wasip2)
+ifeq ($(filter wasm32-wasi, $(TARGET)),)
    EMCC=$(WASI_CC)
    TARGET_FLAG = -DkVireoOS_wasi -DVIREO_STDIO -DVIREO_FILESYSTEM -DVIREO_FILESYSTEM_DIRLIST
    MAINOBJ = $(OBJS)/main.bc
@@ -134,7 +134,7 @@ endif
 # NO_DYNAMIC_EXECUTION=1 Allows Vireo to be used in CSP environments where eval() is forbidden: https://github.com/kripken/emscripten/blob/master/src/settings.js#L563
 EM_OPT = $(EM_OPTFLAGS) $(TARGET_FLAG) -std=c++14 -fno-exceptions -Werror --memory-init-file 0 -s NO_DYNAMIC_EXECUTION=1 -s MODULARIZE=1 -s EXPORT_NAME=VireoCreateCoreModule -s EXPORT_ES6=1 -s USE_ES6_IMPORT_META=0 --minify 0 -s NO_FILESYSTEM=1 -s ABORTING_MALLOC=0
 WASI_OPT = $(EM_OPTFLAGS) $(TARGET_FLAG) -std=c++14 -fno-exceptions -Werror
-ifeq ($(TARGET), wasm32-wasip2)
+ifeq ($(filter wasm32-wasi, $(TARGET)),)
    EM_OPT=$(WASI_OPT)
 endif
 EMFLAGS = -I$(INCDIR) $(EM_OPT)

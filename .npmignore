@@ -11,9 +11,7 @@
 !/dist/wasm32-unknown-emscripten/release/*.*
 !/dist/wasm32-unknown-emscripten/debug/*.*
 !/dist/wasm32-unknown-emscripten/profile/*.*
-!/dist/wasm32-wasi/release/*.*
-!/dist/wasm32-wasi/debug/*.*
-!/dist/wasm32-wasi/profile/*.*
+!/dist/wasm32-wasi*/**
 
 !/source/core/*.js
 /source/core/library_*.js

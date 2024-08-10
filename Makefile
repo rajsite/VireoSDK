@@ -16,8 +16,8 @@ simple v32 v64 help:
 vjs js:
 	cd make-it && make vjs
 
-vwasi:
-	cd make-it && make vwasi TARGET=wasm32-wasip2
+vwasip1 vwasip2:
+	cd make-it && make $@
 
 install-wasi-sdk:
 	cd make-it && make install-wasi-sdk
