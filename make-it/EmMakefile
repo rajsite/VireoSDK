@@ -16,6 +16,13 @@ ifeq ($(filter $(TARGET), $(TARGETS_SUPPORTED)),)
 $(error invalid TARGET value, TARGET=$(TARGET) not supported, supported targets are $(TARGETS_SUPPORTED))
 endif 
 
+ifeq ($(TARGET), wasm32-wasip1)
+USING_WASI_TOOLCHAIN=1
+endif
+ifeq ($(TARGET), wasm32-wasip2)
+USING_WASI_TOOLCHAIN=1
+endif
+
 BUILDS_SUPPORTED=debug release profile
 BUILD=release
 
@@ -120,8 +127,7 @@ ifeq ($(TARGET), wasm32-unknown-emscripten)
    # The main.obj is not included in library builds
    MAINOBJ =
 endif
-
-ifeq ($(filter wasm32-wasi, $(TARGET)),)
+ifdef USING_WASI_TOOLCHAIN
    EMCC=$(WASI_CC)
    TARGET_FLAG = -DkVireoOS_wasi -DVIREO_STDIO -DVIREO_FILESYSTEM -DVIREO_FILESYSTEM_DIRLIST
    MAINOBJ = $(OBJS)/main.bc
@@ -134,7 +140,7 @@ endif
 # NO_DYNAMIC_EXECUTION=1 Allows Vireo to be used in CSP environments where eval() is forbidden: https://github.com/kripken/emscripten/blob/master/src/settings.js#L563
 EM_OPT = $(EM_OPTFLAGS) $(TARGET_FLAG) -std=c++14 -fno-exceptions -Werror --memory-init-file 0 -s NO_DYNAMIC_EXECUTION=1 -s MODULARIZE=1 -s EXPORT_NAME=VireoCreateCoreModule -s EXPORT_ES6=1 -s USE_ES6_IMPORT_META=0 --minify 0 -s NO_FILESYSTEM=1 -s ABORTING_MALLOC=0
 WASI_OPT = $(EM_OPTFLAGS) $(TARGET_FLAG) -std=c++14 -fno-exceptions -Werror
-ifeq ($(filter wasm32-wasi, $(TARGET)),)
+ifdef USING_WASI_TOOLCHAIN
    EM_OPT=$(WASI_OPT)
 endif
 EMFLAGS = -I$(INCDIR) $(EM_OPT)
