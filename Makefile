@@ -17,7 +17,7 @@ vjs js:
 	cd make-it && make vjs
 
 vwasi:
-	cd make-it && make vwasi TARGET=wasm32-wasi
+	cd make-it && make vwasi TARGET=wasm32-wasip2
 
 install-wasi-sdk-linux:
 	cd make-it && make install-wasi-sdk-linux

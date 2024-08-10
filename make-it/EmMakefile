@@ -9,7 +9,7 @@ MKDIR="mkdir"
 
 VIREO_SDK=..
 
-TARGETS_SUPPORTED=asmjs-unknown-emscripten wasm32-unknown-emscripten wasm32-wasi
+TARGETS_SUPPORTED=asmjs-unknown-emscripten wasm32-unknown-emscripten wasm32-wasip2
 TARGET=wasm32-unknown-emscripten
 
 ifeq ($(filter $(TARGET), $(TARGETS_SUPPORTED)),)
@@ -71,7 +71,7 @@ EMCC=emcc
 WASI_VERSION=24
 WASI_VERSION_FULL=${WASI_VERSION}.0
 WASI_SDK_PATH=$(VIREO_SDK)/wasi-sdk-${WASI_VERSION_FULL}
-WASI_CC=${WASI_SDK_PATH}/bin/clang++ --sysroot=${WASI_SDK_PATH}/share/wasi-sysroot
+WASI_CC=${WASI_SDK_PATH}/bin/clang++ --sysroot=${WASI_SDK_PATH}/share/wasi-sysroot --target=wasm32-wasip2
 
 # release config
 EM_OPTFLAG = -O3
@@ -104,7 +104,7 @@ ifeq ($(TARGET), wasm32-unknown-emscripten)
    MAINOBJ =
 endif
 
-ifeq ($(TARGET), wasm32-wasi)
+ifeq ($(TARGET), wasm32-wasip2)
    EMCC=$(WASI_CC)
    TARGET_FLAG = -DkVireoOS_wasi -DVIREO_STDIO -DVIREO_FILESYSTEM -DVIREO_FILESYSTEM_DIRLIST
    MAINOBJ = $(OBJS)/main.bc
@@ -117,7 +117,7 @@ endif
 # NO_DYNAMIC_EXECUTION=1 Allows Vireo to be used in CSP environments where eval() is forbidden: https://github.com/kripken/emscripten/blob/master/src/settings.js#L563
 EM_OPT = $(EM_OPTFLAGS) $(TARGET_FLAG) -std=c++14 -fno-exceptions -Werror --memory-init-file 0 -s NO_DYNAMIC_EXECUTION=1 -s MODULARIZE=1 -s EXPORT_NAME=VireoCreateCoreModule -s EXPORT_ES6=1 -s USE_ES6_IMPORT_META=0 --minify 0 -s NO_FILESYSTEM=1 -s ABORTING_MALLOC=0
 WASI_OPT = $(EM_OPTFLAGS) $(TARGET_FLAG) -std=c++14 -fno-exceptions -Werror
-ifeq ($(TARGET), wasm32-wasi)
+ifeq ($(TARGET), wasm32-wasip2)
    EM_OPT=$(WASI_OPT)
 endif
 EMFLAGS = -I$(INCDIR) $(EM_OPT)
@@ -245,7 +245,22 @@ install-wasi-sdk-mac:
 list-variables:
 	$(foreach v, $(.VARIABLES), $(info $(v) = $($(v))))
 
-# wasmtime --dir=. .\dist\wasm32-wasi\release\vireo.wasm test-it\ViaTests\HelloWorld.via
-# wasmtime --dir=C:/dev/GitHub/VireoSDK/test-it/ViaTests .\dist\wasm32-wasi\release\vireo.wasm -- C:/dev/GitHub/VireoSDK/test-it/ViaTests/Pi.via
-# wasmtime --mapdir=/ViaTests::C:/dev/GitHub/VireoSDK/test-it/ViaTests .\dist\wasm32-wasi\release\vireo.wasm -- /ViaTests/Pi.via
-# wasmtime --mapdir=.::C:/dev/GitHub/VireoSDK/test-it/ViaTests .\dist\wasm32-wasi\release\vireo.wasm -- Pi.via
+# wasmtime --dir=. .\dist\wasm32-wasip2\release\vireo.wasm test-it\ViaTests\HelloWorld.via
+# wasmtime --dir=C:/dev/GitHub/VireoSDK/test-it/ViaTests .\dist\wasm32-wasip2\release\vireo.wasm -- C:/dev/GitHub/VireoSDK/test-it/ViaTests/Pi.via
+# wasmtime --mapdir=/ViaTests::C:/dev/GitHub/VireoSDK/test-it/ViaTests .\dist\wasm32-wasip2\release\vireo.wasm -- /ViaTests/Pi.via
+# wasmtime --mapdir=.::C:/dev/GitHub/VireoSDK/test-it/ViaTests .\dist\wasm32-wasip2\release\vireo.wasm -- Pi.via
+
+# adapter
+# https://github.com/bytecodealliance/wasmtime/releases/tag/v23.0.1
+
+# wasm-tools
+# https://github.com/bytecodealliance/wasm-tools/releases
+
+# use p2 sockets
+# https://github.com/WebAssembly/wasi-libc/issues/447#issuecomment-2091504421
+
+# trying to adapt
+# ..\wasm-tools\wasm-tools.exe component new ..\dist\wasm32-wasip2\release\vireo.wasm -o ..\dist\wasm32-wasip2\release\vireo.out.wasm --adapt ..\wasm-adapter\wasi_snapshot_preview1.command.wasm
+
+# run command component
+# wasmtime run --dir .\::/ .\dist\wasm32-wasip2\release\vireo.wasm test-it/ViaTests/HelloWorld.via
