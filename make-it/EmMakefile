@@ -70,7 +70,24 @@ help:
 EMCC=emcc
 WASI_VERSION=24
 WASI_VERSION_FULL=${WASI_VERSION}.0
-WASI_SDK_PATH=$(VIREO_SDK)/wasi-sdk-${WASI_VERSION_FULL}
+ifeq ($(OS),Windows_NT)
+    WASI_SDK_TARGET=x86_64-windows
+else
+    UNAME_S := $(shell uname -s)
+    ifeq ($(UNAME_S),Linux)
+        WASI_SDK_TARGET=x86_64-linux
+    endif
+    ifeq ($(UNAME_S),Darwin)
+        UNAME_P := $(shell uname -p)
+        ifeq ($(UNAME_P),x86_64)
+            WASI_SDK_TARGET=x86_64-macos
+        endif
+        ifneq ($(filter arm%,$(UNAME_P)),)
+            WASI_SDK_TARGET=arm64-macos
+        endif
+    endif
+endif
+WASI_SDK_PATH=$(VIREO_SDK)/wasi-sdk-${WASI_VERSION_FULL}-${WASI_SDK_TARGET}
 WASI_CC=${WASI_SDK_PATH}/bin/clang++ --sysroot=${WASI_SDK_PATH}/share/wasi-sysroot --target=wasm32-wasip2
 
 # release config
@@ -228,19 +245,9 @@ $(DIST)/vireo.min.js: $(DIST)/vireo.js
 $(DIST):
 	@$(MKDIR) -p $(DIST)
 
-install-wasi-sdk-linux:
-	cd .. && curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-x86_64-linux.tar.gz --output wasi-sdk-${WASI_VERSION_FULL}-linux.tar.gz
-	cd .. && tar xvf wasi-sdk-${WASI_VERSION_FULL}-linux.tar.gz
-	cd .. && mv wasi-sdk-${WASI_VERSION_FULL}-x86_64-linux wasi-sdk-${WASI_VERSION_FULL}
-
-install-wasi-sdk-windows:
-	cd .. && curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-x86_64-windows.tar.gz --output wasi-sdk-${WASI_VERSION_FULL}-windows.tar.gz
-	cd .. && tar xvf wasi-sdk-${WASI_VERSION_FULL}-windows.tar.gz
-	cd .. && mv wasi-sdk-${WASI_VERSION_FULL}-x86_64-windows wasi-sdk-${WASI_VERSION_FULL}
-
-install-wasi-sdk-mac:
-	cd .. && curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-macos.tar.gz --output wasi-sdk-${WASI_VERSION_FULL}-macos.tar.gz
-	cd .. && tar xvf wasi-sdk-${WASI_VERSION_FULL}-macos.tar.gz
+install-wasi-sdk:
+	cd .. && curl -L https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION_FULL}-${WASI_SDK_TARGET}.tar.gz -O
+	cd .. && tar xvf wasi-sdk-${WASI_VERSION_FULL}-${WASI_SDK_TARGET}.tar.gz
 
 list-variables:
 	$(foreach v, $(.VARIABLES), $(info $(v) = $($(v))))

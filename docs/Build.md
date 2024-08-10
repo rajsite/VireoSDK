@@ -93,9 +93,7 @@ Make sure you have `curl` and `tar` available on your CLI. On windows, make sure
 From a console window (an **admin console** on windows) run the command relevant to your platform:
 
 ```console
-make install-wasi-sdk-linux
-make install-wasi-sdk-windows
-make install-wasi-sdk-mac
+make install-wasi-sdk
 ```
 
 ## Vireo Windows Native target

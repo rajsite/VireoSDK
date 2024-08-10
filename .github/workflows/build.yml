@@ -52,7 +52,7 @@ jobs:
         node-version: '20'
         registry-url: 'https://registry.npmjs.org'
     - run: npm ci
-    - run: make install-wasi-sdk-linux
+    - run: make install-wasi-sdk
     - run: make vwasi
     - run: |
         git clone https://github.com/juj/emsdk.git
@@ -109,7 +109,7 @@ jobs:
         node-version: '16'
         registry-url: 'https://registry.npmjs.org'
     - run: npm ci
-    - run: make install-wasi-sdk-windows
+    - run: make install-wasi-sdk
     - run: make vwasi
     - run: choco install make -y
     - run: choco install gnuwin32-coreutils.portable -y

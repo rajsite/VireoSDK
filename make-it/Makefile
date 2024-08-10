@@ -199,14 +199,8 @@ vjs:
 vwasi:
 	make -f EmMakefile vwasi
 
-install-wasi-sdk-linux:
-	make -f EmMakefile install-wasi-sdk-linux
-
-install-wasi-sdk-windows:
-	make -f EmMakefile install-wasi-sdk-windows
-
-install-wasi-sdk-mac:
-	make -f EmMakefile install-wasi-sdk-mac
+install-wasi-sdk:
+	make -f EmMakefile install-wasi-sdk
 
 #========= node.js native module
 node_js:
