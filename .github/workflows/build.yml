@@ -106,7 +106,7 @@ jobs:
     # Install web-windows dependencies
     - uses: actions/setup-node@v4
       with:
-        node-version: '16'
+        node-version: '20'
         registry-url: 'https://registry.npmjs.org'
     - run: npm ci
     - run: make install-wasi-sdk
