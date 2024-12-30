@@ -8,6 +8,7 @@ on:
     - 'gh-pages'
     tags:
     - 'v*'
+  workflow_dispatch:
 
 jobs:
   lint:
