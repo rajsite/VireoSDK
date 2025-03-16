@@ -75,7 +75,7 @@ help:
 #  Vireo has grown as well, so emscripten is getting better if the over all size has shrunk by about 20%
 
 EMCC=emcc
-WASI_VERSION=24
+WASI_VERSION=25
 WASI_VERSION_FULL=${WASI_VERSION}.0
 ifeq ($(OS),Windows_NT)
     WASI_SDK_TARGET=x86_64-windows
